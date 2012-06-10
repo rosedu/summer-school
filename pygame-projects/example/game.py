@@ -1,5 +1,13 @@
 import pygame
 
+from pygame.locals import *
+
+class GameException(Exception):
+    """
+    Exception raised during game logic
+    """
+    pass
+
 class Settings(object):
     """
     Game Settings class
@@ -49,5 +57,28 @@ class Game(object):
         self.background.fill(settings.background)
 
     def run(self):
+        """
+        Run the game
+        """
         while True:
-            self.clock.tick(60)
+            try:
+                self.game_tick()
+            except GameException:
+                return
+
+    def game_tick(self):
+        self.clock.tick(60)
+
+        # Check events.
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                raise GameException
+            elif event.type == KEYDOWN:
+                # Key Down events
+                continue
+            elif event.type == MOUSEBUTTONDOWN:
+                # Mouse Button down event
+                continue
+            elif event.type == MOUSEBUTTONUP:
+                continue
+
