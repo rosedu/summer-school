@@ -21,7 +21,7 @@ class Food(gameobject.GameObject):
                 self.rect.midtop = (x,y)
 
         def update(self):
-                print self.x+self.y
+		pass
               #  self.rect.midtop = (self.x, self.y)
 
         def collide(self, main, other):
