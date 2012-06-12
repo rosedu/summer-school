@@ -23,12 +23,12 @@ class Game(object):
         self.loadSettings(settings)
         self.clock = pygame.time.Clock()
         self.snakeParts = [snake.SnakePart(400,300, self.background)]
-        self.gameObjects = [self.snakeParts[0], wall.Wall(0,-10,  self.background)]
+        self.gameObjects = [self.snakeParts[0]]
 	
-	for i in range(20,800,20):
+	for i in range(0,820,20):
 	    self.gameObjects.append(wall.Wall(i,-10, self.background)) 
 	
-	for i in range(20,800,20):
+	for i in range(0,820,20):
 	    self.gameObjects.append(wall.Wall(i,590, self.background)) 
 
         self.sprites = pygame.sprite.RenderPlain(self.gameObjects)

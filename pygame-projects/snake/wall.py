@@ -13,8 +13,8 @@ class Wall(gameobject.GameObject):
 				flags = SRCALPHA)
 		self.image.convert()
 
-		self.rect = pygame.draw.circle(self.image,pygame.Color("brown"),(self.SIZE,self.SIZE),
-				self.SIZE)
+		self.rect = pygame.draw.polygon(self.image,pygame.Color("brown"),[(self.SIZE-10,self.SIZE-10),
+				(self.SIZE-10,self.SIZE+10),(self.SIZE+10,self.SIZE+10),(self.SIZE+10,self.SIZE-10)])
 
 		self.rect.midtop = (x,y)
 
