@@ -3,6 +3,17 @@ import pygame, tetris, random, os
 from pygame.locals import *
 from piece import *
 
+#Initializations
+pygame.font.init()
+pygame.mixer.init()
+
+my_font50 = pygame.font.SysFont(None,50)
+my_font40 = pygame.font.SysFont(None,40)
+my_font30 = pygame.font.SysFont(None,30)
+my_font25 = pygame.font.SysFont(None,25)
+my_font20 = pygame.font.SysFont(None,20)
+my_font15 = pygame.font.SysFont(None,15)
+
 class Settings(object):
 	"""
 	Game Settings class
@@ -20,7 +31,7 @@ class Settings(object):
 		#Size of the main window
 		self.resolution = (315, 310)
 		# Background color
-		self.background(0, 153, 153)
+		self.background = (0, 153, 153)
 		# Mouse enabled
 		self.mouse_enabled = True
 		# Title
@@ -33,9 +44,8 @@ class Settings(object):
 		     		   (  0,   0, 255), 	# GREEN
 					   (  0, 153, 153),		# TURQUOISE
 		     		   (  0,   0,   0)]		# BLACK
-		
-		#Initialize font
-        pygame.font.init()
+		     		   
+		colors = self.colors
 		
 		self.my_font40 = pygame.font.SysFont(None, 40)
 		self.my_font30 = pygame.font.SysFont(None, 30)
@@ -48,12 +58,12 @@ class Settings(object):
 		self.help_text5 = my_font30.render('RESET GAME', True, colors[6], colors[5])
 		self.help_text6 = my_font40.render('PAUSE FOR BEER', True, colors[6], colors[5])
 		self.my_font30.set_bold(True)
-		self.game_over = my_font30.render('NO BEER FOR YOU TODAY', True, color[6], color[5])
+		self.game_over = my_font30.render('NO BEER FOR YOU TODAY', True, colors[6], colors[5])
 
-		self.click_sound = pygame.mixer.Sound(os.path.join('sounds', 'click.wav')
-		self.move_sound = pygame.mixer.Sound(os.path.join('sounds', 'move.wav')
-		self.rotate_sound = pygame.mixer.Sound(os.path.join('sounds', 'rotate.wav')
-		self.tetris_sound = pygame.mixer.Sound(os.path.join('sounds', 'tetris.wav')
+		self.click_sound = pygame.mixer.Sound(os.path.join('sounds', 'click.wav'))
+		self.move_sound = pygame.mixer.Sound(os.path.join('sounds', 'move.wav'))
+		self.rotate_sound = pygame.mixer.Sound(os.path.join('sounds', 'rotate.wav'))
+		self.tetris_sound = pygame.mixer.Sound(os.path.join('sounds', 'tetris.wav'))
 
 		# List of all bricks
 		grid = []
