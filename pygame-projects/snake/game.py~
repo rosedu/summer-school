@@ -19,7 +19,6 @@ class Game(object):
 
     def __init__(self, settings = Settings()):
         pygame.init()
-        self.score = 0
         self.loadSettings(settings)
         self.clock = pygame.time.Clock()
         self.snakeParts = [snake.SnakePart(400,300, self.background)]
