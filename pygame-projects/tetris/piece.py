@@ -17,7 +17,7 @@ class Piece(pygame.sprite.Sprite):
     def __init__(self, type_of_piece):
         ''' (x, y) = initialpos
             image = image from file'''
-        super(Brick, self).__init__()
+        super(Piece, self).__init__()
         self.ID = current_id
         current_id += 1
         
