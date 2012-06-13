@@ -79,8 +79,8 @@ class Game(object):
             except GameException:
                 return
 
-    #p = Piece(randint(1, 10))
-    #next_piece = Piece(randint(1, 10))    
+    p = Piece(randint(1, 10))
+    next_piece = Piece(randint(1, 10))    
 	
     def game_tick(self):
         """

@@ -1,7 +1,7 @@
 import pygame, os
 from pygame.locals import *
 
-current_id = 0
+#current_id = 0
 
 class Piece(pygame.sprite.Sprite):
     """
@@ -15,8 +15,8 @@ class Piece(pygame.sprite.Sprite):
         ''' (x, y) = initialpos
             image = image from file'''
         super(Piece, self).__init__()
-        self.ID = current_id
-        current_id += 1
+        #self.ID = current_id
+        #current_id += 1
         
         self.type = None
         self.falling = True
@@ -41,7 +41,7 @@ class Piece(pygame.sprite.Sprite):
             self.display_pos = [Rect(245,95,L,L), Rect(230,95,L,L), Rect(230,110,L,L), Rect(215,110,L,L)]
             self.type = 'S'
         if type_of_piece == 3: #Z
-            self.image = pygame.image.load(os.path.join('dat', 'greenbrick.png')).convert()
+            self.image = pygame.image.load(os.path.join('data', 'greenbrick.png')).convert()
             self.starting_pos = [Rect(65,-10,L,L), Rect(80,-10,L,L), Rect(80,5,L,L), Rect(95,5,L,L)]
             self.display_pos = [Rect(215,95,L,L), Rect(230,95,L,L), Rect(230,110,L,L), Rect(245,110,L,L)]
             self.type = 'Z'
