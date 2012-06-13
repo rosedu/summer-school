@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import pygame, tetris, random, os
 
 from pygame.locals import *
@@ -34,7 +33,10 @@ class Settings(object):
 		     		   (  0,   0, 255), 	# GREEN
 					   (  0, 153, 153),		# TURQUOISE
 		     		   (  0,   0,   0)]		# BLACK
-
+		
+		#Initialize font
+        pygame.font.init()
+		
 		self.my_font40 = pygame.font.SysFont(None, 40)
 		self.my_font30 = pygame.font.SysFont(None, 30)
 		self.my_font20 = pygame.font.SysFont(None, 20)
@@ -99,45 +101,3 @@ class Settings(object):
 				bricks[k] = 0
 				grid = [g for g in grid if len(g.starting_pos) > 0]
 				move_down(k, grid, bricks)
-	
-=======
-import pygame
-
-from pygame.locals import *
-
-class Settings(object):
-   """
-   Game Settings class
-   """
-
-   def __init__(self):
-       """        
-       Initialize with default settings
-       """
-
-       #Size of the main window
-       self.resolution = (600, 400)
-       # Background color
-       self.background = (0, 153, 153)
-       # Mouse enabled
-       self.mouse_enabled = True
-       # Title
-       self.title = "Tetris"
-       self.game_area = Rect(5, 5, 300, 400)
-       self.game_info = Rect(150, 5, 300, 400)
-       self.box_display = Rect(180, 70, 200, 100)
-       
-       self.colors = [(255, 255, 255),		# WHITE
-		      (100, 100, 100), 		# GRAY
-		      (255,   0,   0), 		# RED
-		      (  0, 255,   0), 		# BLUE
-		      (  0,   0, 255), 		# GREEN
-		      (  0,   0,   0)]		# BLACK
-
-       #Initialize font
-       pygame.font.init()
-       
-       self.my_font40 = pygame.font.SysFont(None, 40)
-       self.my_font30 = pygame.font.SysFont(None, 30)
-       self.my_font20 = pygame.font.SysFont(None, 20)
->>>>>>> 25264575aea7680a9a697a85e148811a3f5f26b6
