@@ -33,6 +33,52 @@ class Settings(object):
         # Title
         self.title = "PacMan"
 
+class Background(pygame.sprite.Sprite):
+    SIZE = 10
+
+    def __init__(self, surface, resolution):
+        super(Background, self).__init__()
+        self.x = 0
+        self.y = 0
+        self.surface = surface
+
+        self.image = pygame.Surface(resolution, flags = SRCALPHA)
+        self.image.convert()
+
+        self.matrix = [ [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
+                        [0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                        [0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                        [0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                        [0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                        [0, 1, 0, 1, 0, 1, 0, 1, 0, 1] ]
+
+        res = resolution[0]
+
+        self.blockSize = res / Background.SIZE
+        self.generateBlocks()
+        self.rect.topleft = (0, 0)
+
+    def generateBlocks(self): 
+        self.blocks = []
+        r = 0
+        for row in self.matrix:
+            c = 0
+            for pos in row:
+                ver = [ (r*self.blockSize, c*self.blockSize), 
+                        (r*self.blockSize + self.blockSize, c*self.blockSize), 
+                        (r*self.blockSize + self.blockSize, c*self.blockSize + self.blockSize), 
+                        (r*self.blockSize, c*self.blockSize + self.blockSize)]
+                if pos == 1:
+                    self.rect = pygame.draw.polygon(self.image, pygame.Color(200, 200, 200), ver)
+                else:
+                    self.rect = pygame.draw.polygon(self.image, pygame.Color(100, 100, 100), ver, 1)
+                c = c+1
+            r = r+1
+
 class Person(pygame.sprite.Sprite):
     SIZE = 10
 
@@ -116,13 +162,12 @@ class Game(object):
 
     def __init__(self, settings = Settings()):
         pygame.init()
+        self.sprites = []
+
         self.init_from_settings(settings)
         self.clock = pygame.time.Clock()
-        self.persons = [Person(10, 10, self.background)]
-        self.selected = None
 
-        # Render Group
-        self.allsprites = pygame.sprite.RenderPlain(self.persons)
+        self.allsprites = pygame.sprite.RenderPlain(self.sprites)
 
     def init_from_settings(self, settings):
         """
@@ -140,7 +185,10 @@ class Game(object):
         self.background.fill(settings.background)
 
         #Init table
-        table = Background(settings.resolution)
+        table = Background(background, settings.resolution)
+        self.sprites.append(table)
+
+        
 
     def run(self):
         """
