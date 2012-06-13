@@ -25,7 +25,7 @@ class Settings(object):
         Initialize with default settings
         """
         # Size of the main window.
-        self.resolution = (500, 500)
+        self.resolution = (600, 600)
         # Backround color in Red Blue Green channels
         self.background = (0, 0, 0)
         # Mouse enabled
@@ -34,7 +34,7 @@ class Settings(object):
         self.title = "PacMan"
 
 class Background(pygame.sprite.Sprite):
-    SIZE = 10
+    SIZE = 30
 
     def __init__(self, surface, resolution):
         super(Background, self).__init__()
@@ -45,16 +45,36 @@ class Background(pygame.sprite.Sprite):
         self.image = pygame.Surface(resolution, flags = SRCALPHA)
         self.image.convert()
 
-        self.matrix = [ [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
-                        [0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
-                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                        [0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
-                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                        [0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
-                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                        [0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
-                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                        [0, 1, 0, 1, 0, 1, 0, 1, 0, 1] ]
+        self.matrix = [ [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
+                        [0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
+                        [0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
+                        [0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
+                        [0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
+                        [0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
+                        [0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
+                        [0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
+                        [0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
+                        [0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
+                        [0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
+                        [0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
+                        [0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
+                        [0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
+                        [0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
+                        [0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1] ]
 
         res = resolution[0]
 
@@ -86,14 +106,36 @@ class Background(pygame.sprite.Sprite):
         new_x = rel_x + d[0]
         new_y = rel_y + d[1] 
 
+        if(new_x == Background.SIZE):
+            new_x = 0
+        if(new_x < 0):
+            new_x = Background.SIZE-1
+        if(new_y == Background.SIZE):
+            new_y = 0
+        if(new_y < 0):
+            new_y = Background.SIZE-1
+
         if self.matrix[new_y][new_x] == 0:
             return True
         return False
 
     def getActualXY(self, (x, y), d):
-        new_x = x + d[0]*self.blockSize
-        new_y = y + d[1]*self.blockSize
-        return (new_x, new_y)
+        rel_x = x / self.blockSize
+        rel_y = y / self.blockSize
+
+        new_x = rel_x + d[0]
+        new_y = rel_y + d[1] 
+
+        if(new_x == Background.SIZE):
+            new_x = 0
+        if(new_x < 0):
+            new_x = Background.SIZE-1
+        if(new_y == Background.SIZE):
+            new_y = 0
+        if(new_y < 0):
+            new_y = Background.SIZE-1
+
+        return (new_x*self.blockSize, new_y*self.blockSize)
 
 
 
@@ -114,7 +156,7 @@ class Person(pygame.sprite.Sprite):
         self.image.convert()
 
         self.selected = False
-        self.set_color("red")
+        self.set_color("yellow")
 
         self.rect.midtop = (x, y)
         self.new_x = 0
@@ -126,29 +168,6 @@ class Person(pygame.sprite.Sprite):
         """
         radius = Person.SIZE
         self.rect = pygame.draw.circle(self.image, pygame.Color(color), (radius, radius), radius)
-
-    def select(self):
-        """
-        Selects person
-        """
-        self.set_color("blue")
-        self.selected = True
-
-    def deselect(self):
-        """
-        Deselects person
-        """
-        self.set_color("red")
-        self.selected = False
-
-    def toggle_select(self):
-        """
-        Toggles selectation of person
-        """
-        if self.selected:
-            self.deselect()
-        else:
-            self.select()
 
     def move(self, next_move):
         """
@@ -253,6 +272,9 @@ class Game(object):
 
         self.allsprites = pygame.sprite.RenderPlain(self.sprites)
 
+        self.direction = directions['start']
+        self.temp_direction = directions['start']
+
     def init_from_settings(self, settings):
         """
         Init game from Settings object
@@ -301,40 +323,34 @@ class Game(object):
         """
         Handle events and redraw scene
         """
-        self.clock.tick(60)
+        self.clock.tick(5)
 
         # Check events.
         for event in pygame.event.get():
             if event.type == QUIT:
                 raise GameException
-            elif event.type == KEYDOWN:
-                continue
             elif event.type == KEYUP:
+                #self.direction = directions['start']
+                continue
+            elif event.type == KEYDOWN:
                 if event.key == K_DOWN:
-                    direction = directions['down']
-                    if self.table.isValid((self.pacman.x, self.pacman.y), direction):
-                        x, y = self.table.getActualXY((self.pacman.x, self.pacman.y), direction)
-                        self.pacman.move((x, y))
+                    self.temp_direction = directions["down"]
                 elif event.key == K_UP:
-                    direction = directions["up"]
-                    if self.table.isValid((self.pacman.x, self.pacman.y), direction):
-                        x, y = self.table.getActualXY((self.pacman.x, self.pacman.y), direction)
-                        self.pacman.move((x, y))
+                    self.temp_direction = directions["up"]
                 elif event.key == K_LEFT:
-                    direction = directions["left"]
-                    if self.table.isValid((self.pacman.x, self.pacman.y), direction):
-                        x, y = self.table.getActualXY((self.pacman.x, self.pacman.y), direction)
-                        self.pacman.move((x, y))
+                    self.temp_direction = directions["left"]
                 elif event.key == K_RIGHT:
-                    direction = directions["right"]
-                    if self.table.isValid((self.pacman.x, self.pacman.y), direction):
-                        x, y = self.table.getActualXY((self.pacman.x, self.pacman.y), direction)
-                        self.pacman.move((x, y))
+                    self.temp_direction = directions["right"]
                 continue
-            elif event.type == MOUSEBUTTONUP:
-                continue
-            elif event.type == MOUSEBUTTONDOWN:
-                continue
+
+        if self.table.isValid((self.pacman.x, self.pacman.y), self.temp_direction):
+            self.direction = self.temp_direction
+        else:
+            self.temp_direction = self.direction
+
+        x, y = self.table.getActualXY((self.pacman.x, self.pacman.y), self.direction)
+        self.pacman.move((x, y))
+
         # Update all sprites.
         # Calls update method for the sprites defined.
 
@@ -344,4 +360,5 @@ class Game(object):
         self.screen.blit(self.background, (0, 0))
         self.allsprites.draw(self.screen)
         pygame.display.flip()
+
 
