@@ -57,6 +57,14 @@ class Game(object):
         self.gameObjects.remove(obj)
         self.sprites.remove(obj)
     
+    def scoreshow(self):
+	font=pygame.font.SysFont("Times New Roman",50)
+	s=font.render(str(self.score),True,(0,0,0))
+	s.get_flags()
+	self.screen.blit(s,(20,20))
+	pygame.display.flip()
+	pygame.event.pump()
+    
     def run(self):
         isRunning = True
         while True:
@@ -69,6 +77,7 @@ class Game(object):
 
     def tick(self):
         self.clock.tick(60)
+	self.scoreshow()
         moved = False
         for event in pygame.event.get():
             if event.type == QUIT:

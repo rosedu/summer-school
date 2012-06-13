@@ -41,7 +41,7 @@ class SnakePart(gameobject.GameObject):
                 x = x-2*self.SIZE
             if dire == 4:
                 x = x+2*self.SIZE
-            if x <= 0:
+            if x <= -2:
                 x = 800
             if x > 800:
                 x = 0
