@@ -31,6 +31,7 @@ class Game(object):
         pygame.init()
         self.init_from_settings(settings)
         self.clock = pygame.time.Clock()
+        self.start_flag = 0
         #self.bricks = []
         #self.allsprites = pygame.sprite.RenderPlain(self.bricks)
 
@@ -110,22 +111,22 @@ class Game(object):
                 if pygame.mouse.get_pressed()[0]:
 				 if start_rect.collidepoint(event.pos):
 					settings.click_sound.play()
-					if start_flag == 1:
-						start_flag = 0
-						screen.set_clip(settings.game_info)
-						screen.blit(settings.pause_text, (171, 188))
+					if self.start_flag == 1:
+						self.start_flag = 0
+						self.screen.set_clip(settings.game_info)
+						self.screen.blit(settings.pause_text, (171, 188))
 					else:
-						start_flag = 1
-						screen.set_clip(settings.game_info)
-						screen.blit(settings.pause_text, (171, 188))
+						self.start_flag = 1
+						self.screen.set_clip(settings.game_info)
+						self.screen.blit(settings.pause_text, (171, 188))
 				 if reset_rect.collidepoint(event.pos):
 					settings.click_sound.play()
-					start_flag = 0
-					screen.set_clip(settings.game_area)
-					screen.fill(colors[6])
-					screen.set_clip(settings.game_info)
-					screen.blit(settings.start_text, (171, 188))
-					screen.display.update()
+					self.start_flag = 0
+					self.screen.set_clip(settings.game_area)
+					self.screen.fill(colors[6])
+					self.screen.set_clip(settings.game_info)
+					self.screen.blit(settings.start_text, (171, 188))
+					self.screen.display.update()
 					settings.lines = 0
 					settings.grid = []
 
