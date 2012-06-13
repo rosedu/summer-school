@@ -10,6 +10,7 @@ from pygame.locals import *
 #Constants
 start_rect = Rect(165,180,60,30)
 reset_rect = Rect(245,180,60,30)
+start_flag = 0
 
 #Class definitions
 class GameException(Exception):
@@ -79,7 +80,7 @@ class Game(object):
 
     #p = Piece(randint(1, 10))
     #next_piece = Piece(randint(1, 10))    
-
+	
     def game_tick(self):
         """
         Handle events and redraw scene
