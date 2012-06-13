@@ -82,6 +82,22 @@ class Frame(pygame.sprite.Sprite):
 	      horizontal_border.get_height()))
       self.rect = self.image.get_rect()
       self.rect.center = rect.center
+ 
+class Pieces(pygame.sprite.Sprite):
+   """
+   Displays falling pieces that go straight down
+   """
+   def __init__(self, piece_map, area):
+      pygame.sprite.Sprite.__init__(self)
+      self.end = area[1]
 
+      # Image
+      piece_map = piece.fix_piece_map(piece_map)
+      rows = list(piece_map.splitln())
+      Ox = len(rows[0] * TILE_SIZE[0])
+      Oy = len(rows) * TILE_SIZE[1]
+      self.image = pygame.Surface((Ox, Oy))
+      self.image.fill((0, 0, 0))
+      self.image.convert()
 
 
