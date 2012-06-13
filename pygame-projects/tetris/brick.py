@@ -35,13 +35,13 @@ class Brick(pygame.sprite.Sprite):
 
         def update(self):
             ''' TODO: fading '''
-        if self.mode == 'falling':
-            self.fallrate *= FALL_RATE_MULTIPLIER
+            if self.mode == 'falling':
+                self.fallrate *= FALL_RATE_MULTIPLIER
                 self.move(0, round(self.fallrate, 0))
                 if self.rect.top >= self.fallto:
                     self.rect.top = self.fallto
-                        self.mode = 'neither'
-                        self.falling = False
+                    self.mode = 'neither'
+                    self.falling = False
 
 
     def set_fall(self, distace):
