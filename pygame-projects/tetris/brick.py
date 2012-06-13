@@ -52,10 +52,10 @@ class Brick(pygame.sprite.Sprite):
             moveright(self)
     
     def moveleft(self):
-        self.y = self.y - self.rect.width
+        self.x = self.y - self.rect.width
             
     def moveright(self):
-        self.y = self.x + self.rect.width
+        self.x = self.x + self.rect.width
 
     def set_fall(self, distace):
         ''' the falling distance '''
