@@ -21,6 +21,9 @@ class Game(object):
         pygame.init()
         self.init_from_settings(settings)
         self.clock = pygame.time.Clock()
+	   self.start_flag = 0
+	   self.start_rect = Rect(165, 180, 60, 30)
+	   self.reset_rect = Rect(245, 180, 60, 30)
         self.bricks = []
         self.allsprites = pygame.sprite.RenderPlain(self.bricks)
 
@@ -31,8 +34,20 @@ class Game(object):
 
         # Initializes screen.
         self.screen = pygame.display.set_mode(settings.resolution)
+	   self.screen.set_clip(settings.game_info)
+	   self.screen.fill(settings.colors[5])
+	   self.blit(settings.help_text1, (165, 250))
+	   self.blit(settings.help_text2, (165, 270))
+	   self.blit(settings.help_text3, (165, 290))
+	   pygame.draw.rect(self.screen, settings.colors[6], start_rect, 0)
+	   pygame.draw.rect(self.screen, settings.colors[6], reset_rect, 0)
+	   pygame.draw.rect(self.screen, settings.colors[6], settings.box_display, 2)
+	   screen.blit(settings.start_text, (171, 188))
+	   screen.blit(settings.reset_text, (251, 188))
+	   screen.set_clip(settings.game_area)
         pygame.display.set_caption(settings.title)
         pygame.mouse.set_visible(settings.mouse_enabled)
+	   pygame.display.update()
 
         # Initializes background.
         background = pygame.Surface(self.screen.get_size())
