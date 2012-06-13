@@ -23,13 +23,14 @@ class Settings(object):
         Initialize with default settings
         """
         # Size of the main window.
-        self.resolution = (300, 300)
+        self.resolution = (500, 500)
         # Backround color in Red Blue Green channels
-        self.background = (0, 255, 0)
+        self.background = (0, 0, 0)
         # Mouse enabled
         self.mouse_enabled = True
         # Title
-        self.title = "Sample Game"
+        self.title = "PacMan"
+
 
 class Person(pygame.sprite.Sprite):
     SIZE = 10
@@ -129,6 +130,9 @@ class Game(object):
         background = pygame.Surface(self.screen.get_size())
         self.background = background.convert()
         self.background.fill(settings.background)
+
+        #Init table
+        #table = Background(settings.resolution)
 
     def run(self):
         """
