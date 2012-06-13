@@ -130,6 +130,33 @@ class Game(object):
 					settings.lines = 0
 					settings.grid = []
 
+		# New brick falling		
+		time_passed = pygame.time.get_ticks()
+		if (p.going_down):
+			screen.set_clip(187, 67, 97, 67)
+			screen.fill(colors[5])
+			for pos in next_piece.display_pos:
+				screen.blit(next_piece.image, pos)
+			p.update(time_passed, grid, speed)
+			screen.set_clip(settings.game_area)
+			screen.fill(colors[5])
+			for pos in p.starting_pos:
+				screen.blit(p.image, pos)
+		else:
+			grid.append(p)
+			for pos in p.starting_pos:
+				bricks[pos.top] += 1
+			game(grid, bricks)
+			p = next_piece
+			#	next_piece = Piece(randint(1, 10))
+			for g in grid:
+				for pos in g.starting_pos:
+					if pos.left == 65 and pos.top <= 5:
+						start_flag = 0
+						screen.blit(settings.game_over, (30, 50))
+						pygame.display.update()
+		update()
+
         #Update all sprites
         #self.allsprites.update()
 
