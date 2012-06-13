@@ -8,7 +8,7 @@ class Settings(object):
     The board representing the tetris playing area
     """
     
-    def __init__(self):
+    def __init__(self, scale = 20, max_x = 10, max_y = 20):
             """
             Init and config the tetris board
             """
@@ -23,8 +23,10 @@ class Settings(object):
             self.title = "Tetris"
 
             self.landed = {}
+            self.scale = scale
+            self.max_x = max_x
+            self.max_y = max_y
 
-class Board(object):
     def check_for_complete_row(self, brick):
             """
             Look for a complete row of blocks
@@ -38,5 +40,53 @@ class Board(object):
 
             empty_row = 0
 
-            #find the first empty row
-            for y in xrange(self.x, 
+            # Find the first empty row
+            for y in xrange(self.max_y - 1, -1, -1):
+                    row_is_empty = True
+                    for x in xrange(self.max_x):
+                            if self.landed.get((x, y), None):
+                                    row_is_empty = False
+                                    break
+                    if row_is_empty:
+                            empty_row = y
+                            break
+
+            # Scan up until an empty row is found
+            y = self.max_y - 1
+            while y > empty_row:
+                    complete_row = True
+                    
+                    for x in xrange(self.max_x):
+                            if self.landed.get((x, y), None) is None:
+                                    complete_row = False
+                                    break
+
+                    if complete_row:
+                            rows_deleted += 1
+
+                            # Delete the completed row
+                            for x in xrange(self.max_x):
+                                    brick = self.landed.pop((x, y))
+                                    self.delete_brick(brick)
+                                    del brick
+
+                            # Move all the rows above it down
+                            for ay in xrange(y - 1, empty_row, -1):
+                                    for x in xrange(self.max_x):
+                                            brick = self.landed.get((x,
+                                                    ay), None)
+                                            if brick:
+                                                    brick =
+                                                    self.landed.pop((x,
+                                                            ay))
+                                                    self.move(self, x,
+                                                                    y) = 
+                                                    self.landed[(x, y)]
+                                                    = brick
+
+                            # move the empty row down
+                            empty_row += 1
+
+                    else:
+                            y -= 1
+
