@@ -1,6 +1,8 @@
 import pygame
 import random
 
+directions  = { "start": (0, 0), "left": (-1, 0), "right": (1, 0), "down": (0, -1), "up": (0, 1) }
+
 from pygame.locals import *
 
 class GameException(Exception):
@@ -30,7 +32,6 @@ class Settings(object):
         self.mouse_enabled = True
         # Title
         self.title = "PacMan"
-
 
 class Person(pygame.sprite.Sprite):
     SIZE = 10
@@ -81,12 +82,19 @@ class Person(pygame.sprite.Sprite):
         else:
             self.select()
 
+    def move(self, next_move):
+        """
+        Compute the next move
+        """
+        self.new_x, self.new_x = next_move
+    
     def update(self):
         """
         Updates graphical logic
         """
-        if self.selected:
-            self.x, self.y = pygame.mouse.get_pos()
+               
+        self.x = self.new_x
+        self.y = self.new_y
 
         self.rect.midtop = (self.x, self.y)
 
@@ -132,7 +140,7 @@ class Game(object):
         self.background.fill(settings.background)
 
         #Init table
-        #table = Background(settings.resolution)
+        table = Background(settings.resolution)
 
     def run(self):
         """
@@ -164,7 +172,23 @@ class Game(object):
             if event.type == QUIT:
                 raise GameException
             elif event.type == KEYDOWN:
-                # Key Down events
+                continue
+            elif event.type == KEYUP:
+                if event.key == K_DOWN:
+                    direction = directions['down']
+                    if table.isValid((pacman.x, pacman.y), direction):
+                        x, y = table.getActualXY((pacman.x, pacman.y), direction)
+                        person.move((x, y))
+                    print direction
+                elif event.key == K_UP:
+                    direction = directions["up"]
+                    print direction
+                elif event.key == K_LEFT:
+                    direction = directions["left"]
+                    print direction
+                elif event.key == K_RIGHT:
+                    direction = directions["right"]
+                    print direction
                 continue
             elif event.type == MOUSEBUTTONUP:
                 # Check if selection
