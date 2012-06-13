@@ -33,6 +33,69 @@ class Settings(object):
         # Title
         self.title = "PacMan"
 
+
+class Fantoma(pygame.sprite.Sprite):
+    SIZE = 15;
+    #random.seed()
+    def __init__(self,x,y,surface):
+        super(Fantoma,self).__init__()
+        self.x = x
+        self.y = y
+        self.surface = surface
+        self.direction = random.choice([1,2,3,4]);
+
+        # Surface of the person object.
+        # Has flags for alpha chanels
+        self.image = pygame.Surface((2 * Person.SIZE, 2 * Person.SIZE), flags = SRCALPHA)
+        self.image.convert()
+
+        self.selected = False
+        self.set_color("white")
+
+        self.rect.midtop = (x, y)
+
+    def set_color(self, color):
+        """
+        Sets person's color
+        """
+        radius = Person.SIZE
+        self.rect = pygame.draw.circle(self.image, pygame.Color(color), (radius, radius), radius)
+
+    def update(self):
+        """
+        Updates graphical logic
+        """
+        while True:
+            if self.direction == 1 and self.y-1 > 0 : 
+                self.x=self.x 
+                self.y=self.y - 1
+                break
+            else :
+                self.direction = 2
+
+            if self.direction == 2 and self.x+1 < 480 : 
+                self.x=self.x + 1
+                self.y=self.y  
+                break
+            else :
+                self.direction = 3
+
+            if self.direction == 3 and self.y+1 < 480: 
+                self.x=self.x 
+                self.y=self.y + 1
+                break
+            else :
+                self.direction = 4
+
+            if self.direction == 4 and self.x-1 >0 : 
+                self.x=self.x - 1
+                self.y=self.y
+                break
+            else :
+                self.direction = 1
+        self.rect.midtop = (self.x, self.y)
+
+
 class Background(pygame.sprite.Sprite):
     SIZE = 10
 
