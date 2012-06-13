@@ -43,7 +43,7 @@ class Hero(pygame.sprite.Sprite):
         self.area = pygame.display.get_surface().get_rect()
         self.rect.bottomleft = 50,240
         self.running = 0
-        self.runspeed = 1/2
+        self.runspeed = 1
         self.jumping = 0
         self.airtime = 100
         self.airtick = 0
@@ -55,20 +55,32 @@ class Hero(pygame.sprite.Sprite):
     def update(self):
 
         ## animation:
-        self.tick +=1
-        if self.tick == 10:
-            self.image, self.other = self.other, self.image
-            self.tick = 0
-
+        
         ## movement and scrolling:
         if self.running:
             self.rect = self.rect.move((self.runspeed * self.facing,0))
+	    
+
+
             if self.rect.right > 600:
-                self.rect.right = 600
-                self.world.scroll(LEFT * self.runspeed)
+                self.rect.right = 600                
+		# modificare animatie
+		self.tick +=1
+		if self.tick == 10:
+		    self.image, self.other = self.other, self.image
+		    self.tick = 0
+		self.world.scroll(LEFT * self.runspeed)
+
             if self.rect.left < 50:
                 self.rect.left = 50
                 self.world.scroll(RIGHT * self.runspeed)
+	        # modificare animatie
+	        self.tick +=1
+                if self.tick == 10:
+            	    self.image, self.other = self.other, self.image
+            	    self.tick = 0
+
+
 
         ## jumping:
         if self.jumping:
@@ -94,7 +106,10 @@ class Hero(pygame.sprite.Sprite):
 
     def start(self, direction):
         self.running = 1
-        self.face(direction)
+	self.face(direction)
+	#self.image = pygame.transform.flip(self.image, 1, 0)
+	#self.other = pygame.transform.flip(self.other, 1, 0)
+        #self.face(direction)
 
     def stop(self):
         self.running = 0
@@ -136,7 +151,7 @@ def main():
             elif e.type==KEYDOWN:
                 if   e.key==  K_RIGHT: hero.start(RIGHT)
                 elif e.key==  K_LEFT:  hero.start(LEFT)
-                elif e.key==  K_SPACE: hero.jump()
+                elif e.key==  K_UP: hero.jump()
             elif e.type==KEYUP:
                 if   e.key== K_ESCAPE: done = 1
                 elif e.key== K_RIGHT: hero.stop()
