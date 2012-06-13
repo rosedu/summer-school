@@ -34,7 +34,7 @@ class Game(object):
 
         self.move_timer = 0
         self.score = 0
-        self.food_timer = 200
+        self.food_timer = random.randint(100,200)
 
 
     def loadSettings(self, settings):
@@ -47,6 +47,8 @@ class Game(object):
         self.background.fill(settings.background)
 
     def addObject(self, obj):
+        if len(self.gameObjects) > 100:
+            return
         self.gameObjects.append(obj)
         self.sprites.add(obj)
     
@@ -90,16 +92,23 @@ class Game(object):
             
         self.food_timer = self.food_timer - 1
         if self.food_timer == 0:
-	    self.addObject(food.Food(random.randint(0,100)*8,random.randint(0,75)*8, self.background)) 
-            self.food_timer = 200
+	        self.addObject(food.Food(random.randint(0,100)*8,random.randint(0,75)*8, self.background)) 
+	        self.food_timer = random.randint(100,200)
         
         for obj in self.gameObjects:
                 for obj2 in self.gameObjects:
                         if obj != obj2 and obj.rect.colliderect(obj2):
                             obj.collide(self, obj2)
                             obj2.collide(self, obj)
-                            print self.score
         
+        toRemove = []
+        for obj in self.gameObjects:
+                if hasattr(obj, "dead"):
+                    if obj.dead:
+                        toRemove.append(obj)
+        for obj in toRemove:
+            self.removeObject(obj)            
+                                     
         self.sprites.update()
         self.screen.blit(self.background,(0,0))
         self.sprites.draw(self.screen)

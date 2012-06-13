@@ -8,7 +8,6 @@ class Food(gameobject.GameObject):
 
         def __init__(self, x, y, surface, time = random.randint(0, 50)):
                 super(Food, self).__init__(x,y,surface)
-                self.dead = False
                 self.SIZE = gameobject.GameObject.SIZE
                 self.image = pygame.Surface((2*self.SIZE, 2*self.SIZE),
                                 flags = SRCALPHA)
@@ -22,9 +21,9 @@ class Food(gameobject.GameObject):
                 self.rect.midtop = (x,y)
 
         def update(self):
-		    pass
-            #  self.rect.midtop = (self.x, self.y)
+		pass
+              #  self.rect.midtop = (self.x, self.y)
 
         def collide(self, main, other):
-            if not other == self and not self.dead: 
-                self.dead = True
+		if not main == self: 
+                	main.removeObject(self)
