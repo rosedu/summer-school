@@ -33,7 +33,6 @@ class Settings(object):
         # Title
         self.title = "PacMan"
 
-<<<<<<< HEAD
 
 class Fantoma(pygame.sprite.Sprite):
     SIZE = 15;
@@ -97,7 +96,6 @@ class Fantoma(pygame.sprite.Sprite):
         self.rect.midtop = (self.x, self.y)
 
 
-=======
 class Background(pygame.sprite.Sprite):
     SIZE = 10
 
@@ -143,7 +141,6 @@ class Background(pygame.sprite.Sprite):
                     self.rect = pygame.draw.polygon(self.image, pygame.Color(100, 100, 100), ver, 1)
                 c = c+1
             r = r+1
->>>>>>> df70f8409b39f3097fe754b3fbf27965ef0425f0
 
 class Person(pygame.sprite.Sprite):
     SIZE = 10
