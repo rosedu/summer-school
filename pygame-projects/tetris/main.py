@@ -89,6 +89,12 @@ class Game(object):
         """
         self.clock.tick(60)
         
+        def game_tick(self):
+        """
+        Handle events and redraw scene
+        """
+        self.clock.tick(60)
+        
         #Check events.
         for event in pygame.event.get():
             if event.type == QUIT:
@@ -96,15 +102,38 @@ class Game(object):
             elif event.type == KEYDOWN:
                 #Keyboard events
                 if event.key == pygame.K_UP:
-                    continue
+                    p.rotate()
+				settings.rotate_sound.play()
                 elif event.key == pygame.K_DOWN:
-                    continue
+                    pass
                 elif event.key == pygame.K_LEFT:
-                    continue
+                    p.move_left(settings.grid)
+				settings.move_sound.play()
                 elif event.key == pygame.K_RIGHT:
-                    continue
+                    p.move_right(settings.grid)
+				settings.move_sound.play()
             elif event.type == MOUSEBUTTONDOWN:
-                self.random_spawn()
+                if pygame.mouse.get_pressed()[0]:
+				if start_rect.collidepoint(event.pos):
+					settings.click_sound.play()
+					if start_flag == 1:
+						start_flag = 0
+						screen.set_clip(settings.game_info)
+						screen.blit(settings.pause_text, (171, 188))
+					else:
+						start_flag = 1
+						screen.set_clip(settings.game_info)
+						screen.blit(settings.pause_text, (171, 188))
+				if reset_rect.collidepoint(event.pos):
+					settings.click_sound.play()
+					start_flag = 0
+					screen.set_clip(settings.game_area)
+					screen.fill(colors[6])
+					screen.set_clip(settings.game_info)
+					screen.blit(settings.start_text, (171, 188))
+					screen.display.update()
+					settings.lines = 0
+					settings.grid = []
 
         #Update all sprites
         self.allsprites.update()
