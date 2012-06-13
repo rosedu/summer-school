@@ -1,7 +1,6 @@
-mport pygame
+import pygame
 
 from pygame.locals import *
-from constants import *
 
 class Settings(object):
    """
@@ -16,7 +15,7 @@ class Settings(object):
        #Size of the main window
        self.resolution = (600, 400)
        # Background color
-       self.background(0, 153, 153)
+       self.background = (0, 153, 153)
        # Mouse enabled
        self.mouse_enabled = True
        # Title
@@ -32,6 +31,9 @@ class Settings(object):
 		      (  0,   0, 255), 		# GREEN
 		      (  0,   0,   0)]		# BLACK
 
+       #Initialize font
+       pygame.font.init()
+       
        self.my_font40 = pygame.font.SysFont(None, 40)
        self.my_font30 = pygame.font.SysFont(None, 30)
        self.my_font20 = pygame.font.SysFont(None, 20)
