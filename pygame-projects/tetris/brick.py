@@ -10,11 +10,11 @@ class Brick(pygame.sprite.Sprite):
     Movable brick with arrows
     Return: brick object
     Methods: """
-    def __init__(self, image, x, y):
+    def __init__(self, image, x, y, surface):
         ''' (x, y) = initialpos
             image = image from file'''
         super(Brick, self).__init__()
-        self. surface = surface
+        self.surface = surface
         self.image = copy.copy(image)
         self.image.covert()
 
@@ -35,15 +35,21 @@ class Brick(pygame.sprite.Sprite):
         self.rect.topleft = (self.rect.topleft[0] + x,
                 self.rect.topleft[1] + y)
 
-        def update(self):
-            ''' TODO: fading '''
-            if self.mode == 'falling':
-                self.fallrate *= FALL_RATE_MULTIPLIER
-                self.move(0, round(self.fallrate, 0))
-                if self.rect.top >= self.fallto:
-                    self.rect.top = self.fallto
-                    self.mode = 'neither'
-                    self.falling = False
+    def update(self):
+        ''' TODO: fading '''
+        if self.mode == 'falling':
+            self.fallrate *= FALL_RATE_MULTIPLIER
+            self.move(0, round(self.fallrate, 0))
+            if self.rect.top >= self.fallto:
+                self.rect.top = self.fallto
+                self.mode = 'neither'
+                self.falling = False
+        
+        if self.direction == 'l':
+            moveleft(self)
+        
+        if self.direction == 'r':
+            moveright(self)
     
     def moveleft(self):
         self.y = self.y - self.rect.width
@@ -60,13 +66,13 @@ class Brick(pygame.sprite.Sprite):
 
 class Redbrick(Brick):
     def ___init__(self, x, y):
-        Brick.__init__(self, resources.images.redbrick, x, y)
+        Brick.__init__(self, resources.images.redbrick, x, y, surface)
 
 class Greenbrick(Brick):
     def __init__(self, x, y):
-        Brick.__init__(self, resources.images.greenbrick, x, y)
+        Brick.__init__(self, resources.images.greenbrick, x, y, surface)
 
 class Bluebrick(Brick):
     def __init__(self, x, y):
-        Brick.__init__(self, resources.images.bluebrick, x, y)
+        Brick.__init__(self, resources.images.bluebrick, x, y, surface)
 
