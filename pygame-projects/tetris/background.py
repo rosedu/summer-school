@@ -71,6 +71,10 @@ class Settings(object):
 		bricks = {290:0, 275:0, 260:0, 245:0, 230:0, 215:0, 200:0, 185:0, 170:0, 155:0, 
                   140:0, 125:0, 110:0, 95:0, 80:0, 65:0, 50:0, 35:0, 20:0, 5:0}
 
+		self.start_text = my_font20.render('START', True, colors[1], colors[0])
+		self.reset_text = my_font20.render('RESET', True, colors[1], colors[0])
+		self.pause_text = my_font20.render('PAUSE', True, colors[1], colors[0])
+
 	def update():
 		screen.set_clip(game_info)
 		line_text = my_font30.render('Lines Number:' + str(lines), True, colors[6], colors[5])

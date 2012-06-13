@@ -2,10 +2,16 @@ import pygame
 import random
 import tetris
 
+from random import *
 from background import *
 from piece import *
 from pygame.locals import *
 
+#Constants
+start_rect = Rect(165,180,60,30)
+reset_rect = Rect(245,180,60,30)
+
+#Class definitions
 class GameException(Exception):
     """
     Useful for exiting
@@ -24,8 +30,8 @@ class Game(object):
         pygame.init()
         self.init_from_settings(settings)
         self.clock = pygame.time.Clock()
-        self.bricks = []
-        self.allsprites = pygame.sprite.RenderPlain(self.bricks)
+        #self.bricks = []
+        #self.allsprites = pygame.sprite.RenderPlain(self.bricks)
 
     def init_from_settings(self, settings):
         """
@@ -37,18 +43,18 @@ class Game(object):
         self.screen.set_clip(settings.game_info)
         self.screen.fill(settings.colors[5])
         
-        self.blit(settings.help_text1, (165, 250))
-        self.blit(settings.help_text2, (165, 270))
-        self.blit(settings.help_text3, (165, 290))
+        self.screen.blit(settings.help_text1, (165, 250))
+        self.screen.blit(settings.help_text2, (165, 270))
+        self.screen.blit(settings.help_text3, (165, 290))
         
         pygame.draw.rect(self.screen, settings.colors[6], start_rect, 0)
         pygame.draw.rect(self.screen, settings.colors[6], reset_rect, 0)
         pygame.draw.rect(self.screen, settings.colors[6], settings.box_display, 2)
         
-        screen.blit(settings.start_text, (171, 188))
-        screen.blit(settings.reset_text, (251, 188))
+        self.screen.blit(settings.start_text, (171, 188))
+        self.screen.blit(settings.reset_text, (251, 188))
         
-        screen.set_clip(settings.game_area)
+        self.screen.set_clip(settings.game_area)
         
         pygame.display.set_caption(settings.title)
         pygame.mouse.set_visible(settings.mouse_enabled)
@@ -70,26 +76,11 @@ class Game(object):
                 self.game_tick()
             except GameException:
                 return
-    
-    def random_spawn(self):
-        w, h = self.screen.get_size()
-        x = random.randint(0, w)
-        y = random.randint(0, h)
-        self.bricks.append(Bluebrick(x, y, self.background))
 
-        #Add new persons to rendered group
-        self.allsprites = pygame.sprite.RenderPlain(self.bricks)
-
-    p = Piece(randint(1, 10))
-    next_piece = Piece(randint(1, 10))    
+    #p = Piece(randint(1, 10))
+    #next_piece = Piece(randint(1, 10))    
 
     def game_tick(self):
-        """
-        Handle events and redraw scene
-        """
-        self.clock.tick(60)
-        
-        def game_tick(self):
         """
         Handle events and redraw scene
         """
@@ -103,18 +94,18 @@ class Game(object):
                 #Keyboard events
                 if event.key == pygame.K_UP:
                     p.rotate()
-				settings.rotate_sound.play()
+                    settings.rotate_sound.play()
                 elif event.key == pygame.K_DOWN:
                     pass
                 elif event.key == pygame.K_LEFT:
                     p.move_left(settings.grid)
-				settings.move_sound.play()
+                    settings.move_sound.play()
                 elif event.key == pygame.K_RIGHT:
                     p.move_right(settings.grid)
-				settings.move_sound.play()
+                    settings.move_sound.play()
             elif event.type == MOUSEBUTTONDOWN:
                 if pygame.mouse.get_pressed()[0]:
-				if start_rect.collidepoint(event.pos):
+				 if start_rect.collidepoint(event.pos):
 					settings.click_sound.play()
 					if start_flag == 1:
 						start_flag = 0
@@ -124,7 +115,7 @@ class Game(object):
 						start_flag = 1
 						screen.set_clip(settings.game_info)
 						screen.blit(settings.pause_text, (171, 188))
-				if reset_rect.collidepoint(event.pos):
+				 if reset_rect.collidepoint(event.pos):
 					settings.click_sound.play()
 					start_flag = 0
 					screen.set_clip(settings.game_area)
@@ -136,9 +127,9 @@ class Game(object):
 					settings.grid = []
 
         #Update all sprites
-        self.allsprites.update()
+        #self.allsprites.update()
 
         #Redraw.
         self.screen.blit(self.background, (0,0))
-        self.allsprites.draw(self.screen)
+        #self.allsprites.draw(self.screen)
         pygame.display.flip()

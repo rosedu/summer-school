@@ -1,9 +1,6 @@
 import pygame, os
 from pygame.locals import *
 
-BASE_FALL_RATE = 2
-FALL_RATE_MULTIPLIER = 10
-
 current_id = 0
 
 class Piece(pygame.sprite.Sprite):
@@ -23,7 +20,6 @@ class Piece(pygame.sprite.Sprite):
         
         self.type = None
         self.falling = True
-        self.fallrate = BASE_FALL_RATE
         self.state = 1
 
         self.mode = 1  
@@ -102,7 +98,7 @@ class Piece(pygame.sprite.Sprite):
     def rotate(self):
         old_pos = self.starting_pos[:]
         # type 'I' can rotate in 2 ways
-        if self.type == 'I'
+        if self.type == 'I':
             if self.state == 1:
                 self.starting_pos[0] = Rect(self.starting_pos[2].left, self.starting_pos[2].top-2*L,L,L)
                 self.starting_pos[1] = Rect(self.starting_pos[2].left, self.starting_pos[2].top-L,L,L)
@@ -122,7 +118,7 @@ class Piece(pygame.sprite.Sprite):
                 self.state = 1
                 return
         # type 'S' rotations
-        if self.type == 'S'
+        if self.type == 'S':
             if self.state == 1:
                 self.starting_pos[0] = Rect(self.starting_pos[1].left, self.starting_pos[1].top-L,L,L)
                 self.starting_pos[2] = Rect(self.starting_pos[1].left+L, self.starting_pos[1].top,L,L)
@@ -141,4 +137,3 @@ class Piece(pygame.sprite.Sprite):
                         return
                 self.state = 1
                 return
-                
