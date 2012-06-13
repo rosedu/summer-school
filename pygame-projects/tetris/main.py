@@ -2,6 +2,8 @@ import pygame
 import random
 import tetris
 
+from background import *
+from brick import *
 from pygame.locals import *
 
 class GameException(Exception):
@@ -14,11 +16,13 @@ class Game(object):
     """
     Main class
     """
-
+    
     def __init__(self, settings = Settings()):
         pygame.init()
         self.init_from_settings(settings)
         self.clock = pygame.time.Clock()
+        self.bricks = []
+        self.allsprites = pygame.sprite.RenderPlain(self.bricks)
 
     def init_from_settings(self, settings):
         """
@@ -45,7 +49,16 @@ class Game(object):
                 self.game_tick()
             except GameException:
                 return
+    
+    def random_spawn(self):
+        w, h = self.screen.get_size()
+        x = random.randint(0, w)
+        y = random.randint(0, h)
+        self.bricks.append(Bluebrick(x, y, self.background))
 
+        #Add new persons to rendered group
+        self.allsprites = pygame.sprite.RenderPlain(self.bricks)
+    
     def game_tick(self):
         """
         Handle events and redraw scene
@@ -66,6 +79,8 @@ class Game(object):
                     continue
                 elif event.key == pygame.K_RIGHT:
                     continue
+            elif event.type == MOUSEBUTTONDOWN:
+                self.random_spawn()
 
         #Update all sprites
         self.allsprites.update()

@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 
-import main
+from main import Game
 
 def main():
-	main.Game.run()
+	Game().run()
 
 if __name__ == "__main__":
 	main()
