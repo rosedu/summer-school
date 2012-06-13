@@ -67,14 +67,14 @@ class Brick(pygame.sprite.Sprite):
         self.falling = True
 
 class Redbrick(Brick):
-    def ___init__(self, x, y):
+    def ___init__(self, x, y, surface):
         Brick.__init__(self, resources.images.redbrick, x, y, surface)
 
 class Greenbrick(Brick):
-    def __init__(self, x, y):
+    def __init__(self, x, y, surface):
         Brick.__init__(self, resources.images.greenbrick, x, y, surface)
 
 class Bluebrick(Brick):
-    def __init__(self, x, y):
+    def __init__(self, x, y, surface):
         Brick.__init__(self, resources.images.bluebrick, x, y, surface)
 
