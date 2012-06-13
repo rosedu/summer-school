@@ -34,6 +34,9 @@ class Brick(pygame.sprite.Sprite):
         ''' moves the brick by the amount provided '''
         self.rect.topleft = (self.rect.topleft[0] + x,
                 self.rect.topleft[1] + y)
+    def coord(self):
+        l = [x, y]
+        return l
 
     def update(self):
         ''' TODO: fading '''
@@ -49,8 +52,7 @@ class Brick(pygame.sprite.Sprite):
             moveleft(self)
         
         if self.direction == 'r':
-            moveright(self)
-    
+
     def moveleft(self):
         self.x = self.y - self.rect.width
             
