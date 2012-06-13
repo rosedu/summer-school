@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 
-import tetris.py
+import main
 
 def main():
-        tetris.Game().run()
+	main.Game.run()
 
 if __name__ == "__main__":
-        main()
+	main()
