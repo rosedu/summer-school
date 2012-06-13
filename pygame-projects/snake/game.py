@@ -2,6 +2,7 @@ import pygame
 import random
 import snake
 import food
+import wall
 
 from pygame.locals import *
 
@@ -21,7 +22,8 @@ class Game(object):
         self.loadSettings(settings)
         self.clock = pygame.time.Clock()
         self.snakeParts = [snake.SnakePart(400,300, self.background)]
-        self.gameObjects = [self.snakeParts[0], food.Food(350,350,  self.background)]
+        self.gameObjects = [self.snakeParts[0], food.Food(350,350,
+		self.background), wall.Wall(110,250,  self.background)]
         self.sprites = pygame.sprite.RenderPlain(self.gameObjects)
 
         self.move_timer = 0
