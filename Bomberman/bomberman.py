@@ -16,6 +16,8 @@ class Game(object):
             pygame.init()
             self.init_from_settings(settings)
             self.clock = pygame.time.Clock()
+            self.persons = [Person(75,55, self.background)]
+            self.allsprites = pygame.sprite.RenderPlain(self.persons)
 
     def init_from_settings(self,settings):
             self.screen = pygame.display.set_mode(settings.resolution)
@@ -55,7 +57,27 @@ class Game(object):
                         (x, 950, y, 1000), 0)
             pygame.draw.rect(self.background, pygame.color.Color("black"),
                         (x, 950, y, 1000), 3)
+        
+        self.allsprites.update()    
         self.screen.blit(self.background, (0,0))
-     #  self.allsprites.draw(self.screen)
+        self.allsprites.draw(self.screen)
         pygame.display.flip()
+class Person(pygame.sprite.Sprite):
+        SIZE = 20
+        def __init__(self, x, y, surface):
+                super(Person, self).__init__()
+                self.x = x
+                self.y = y
+                self.surface = surface
 
+                self.image = pygame.Surface((2 * Person.SIZE, 2 *
+                        Person.SIZE), flags = SRCALPHA)
+                self.image.convert()
+                self.set_color("red")
+                self.rect.midtop = (x, y)
+        def set_color(self, color):
+            radius = Person.SIZE
+            self.rect = pygame.draw.circle(self.image, pygame.Color(color),
+                        (radius, radius), radius)
+        def update(self):
+            self.rect.midtop = (self.x, self.y)
