@@ -97,6 +97,8 @@ class Person(pygame.sprite.Sprite):
         self.set_color("red")
 
         self.rect.midtop = (x, y)
+        self.new_x = 0
+        self.new_y = 0
 
     def set_color(self, color):
         """
@@ -132,7 +134,7 @@ class Person(pygame.sprite.Sprite):
         """
         Compute the next move
         """
-        self.new_x, self.new_x = next_move
+        self.new_x, self.new_y = next_move
     
     def update(self):
         """
@@ -142,7 +144,7 @@ class Person(pygame.sprite.Sprite):
         self.x = self.new_x
         self.y = self.new_y
 
-        self.rect.midtop = (self.x, self.y)
+        self.rect.topleft = (self.x, self.y)
 
     def clicked(self, pos):
         """
@@ -178,11 +180,15 @@ class Game(object):
         self.screen = pygame.display.set_mode(settings.resolution)
         pygame.display.set_caption(settings.title)
         pygame.mouse.set_visible(settings.mouse_enabled)
-
+        
         # Init background.
         background = pygame.Surface(self.screen.get_size())
         self.background = background.convert()
         self.background.fill(settings.background)
+        
+        #Init pacman        
+        self.pacman = Person(0, 0, self.background)
+        self.sprites.append(self.pacman)
 
         #Init table
         table = Background(background, settings.resolution)
@@ -230,28 +236,27 @@ class Game(object):
                     print direction
                 elif event.key == K_UP:
                     direction = directions["up"]
+                    if table.isValid((pacman.x, pacman.y), direction):
+                        x, y = table.getActualXY((pacman.x, pacman.y), direction)
+                        person.move((x, y))
                     print direction
                 elif event.key == K_LEFT:
                     direction = directions["left"]
+                    if table.isValid((pacman.x, pacman.y), direction):
+                        x, y = table.getActualXY((pacman.x, pacman.y), direction)
+                        person.move((x, y))
                     print direction
                 elif event.key == K_RIGHT:
                     direction = directions["right"]
+                    if table.isValid((pacman.x, pacman.y), direction):
+                        x, y = table.getActualXY((pacman.x, pacman.y), direction)
+                        person.move((x, y))
                     print direction
                 continue
             elif event.type == MOUSEBUTTONUP:
-                # Check if selection
-                if self.selected is not None and event.button == 1:
-                    self.selected.deselect()
-                    self.selected = None
-                elif event.button == 3:
-                    self.spawn_random_person()
+                continue
             elif event.type == MOUSEBUTTONDOWN:
-                if event.button == 1:
-                    for person in self.persons:
-                        if person.clicked(event.pos):
-                            person.select()
-                            self.selected = person
-
+                continue
         # Update all sprites.
         # Calls update method for the sprites defined.
 
