@@ -47,19 +47,22 @@ class Settings(object):
 		     		   
 		colors = self.colors
 		
+		# Font size
 		self.my_font40 = pygame.font.SysFont(None, 40)
 		self.my_font30 = pygame.font.SysFont(None, 30)
 		self.my_font20 = pygame.font.SysFont(None, 20)
 		
+		# Text in the right side of the board 
 		self.help_text1 = my_font20.render('Rules:', True, colors[6], colors[5])
 		self.help_text2 = my_font20.render('Left and Right keys to move.', True, colors[6], colors[5])
 		self.help_text3 = my_font20.render('Up key to rotate blocks.', True, colors[6], colors[5])
-		self.help_text4 = my_font30.render('START GAME', True, colors[6], colors[5])
-		self.help_text5 = my_font30.render('RESET GAME', True, colors[6], colors[5])
-		self.help_text6 = my_font40.render('PAUSE FOR BEER', True, colors[6], colors[5])
+		self.start_text = my_font30.render('START GAME', True, colors[6], colors[5])
+		self.reset_text = my_font30.render('RESET GAME', True, colors[6], colors[5])
+		self.pause_text = my_font40.render('PAUSE FOR BEER', True, colors[6], colors[5])
 		self.my_font30.set_bold(True)
 		self.game_over = my_font30.render('NO BEER FOR YOU TODAY', True, colors[6], colors[5])
 
+		# Setting sounds
 		self.click_sound = pygame.mixer.Sound(os.path.join('sounds', 'click.wav'))
 		self.move_sound = pygame.mixer.Sound(os.path.join('sounds', 'move.wav'))
 		self.rotate_sound = pygame.mixer.Sound(os.path.join('sounds', 'rotate.wav'))
