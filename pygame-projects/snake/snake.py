@@ -3,18 +3,43 @@ import gameobject
 
 from pygame.locals import *
 
-class Snake(GameObject):
+class SnakePart(gameobject.GameObject):
     
-    def __init__self(self, x, y, surface):
-        super(self, x, y, surface).__init__self()
+    def __init__(self, x, y, surface):
+        super(SnakePart, self).__init__(x, y, surface)
 
-        self.image = pygame.Surface((20, 20), flags = SRCALPHA)
+        self.SIZE = gameobject.GameObject.SIZE
+        self.image = pygame.Surface((2*self.SIZE, 2*self.SIZE), flags = SRCALPHA)
         self.image.convert()
 
-        self.set_color("green")
-
-        self.rect.midtop = (x, y)
-
-    def update():
+       
+        self.rect = pygame.draw.circle(self.image,
+                pygame.Color("green"),
+                (self.SIZE,self.SIZE), self.SIZE)
+        self.rect.midtop  = (x, y)
+    
+    def update(self):
         pass
+
+    def moveTo(direction):
+            if dir == 1:
+                y--
+            if dir == 2:
+                y++
+            if dir == 3:
+
+    def handle_key(self, key):
+            
+        if key == 273: #key up
+            print "UP!"
+            pass
+        if key == 274: #key down
+            print "DOWN!"
+            pass
+        if key == 276: #key left
+            print "LEFT!"
+            pass
+        if key == 275: #key right
+            print "RIGHT!"
+            pass
          

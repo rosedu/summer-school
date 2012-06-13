@@ -20,7 +20,7 @@ class Game(object):
         self.loadSettings(settings)
         self.clock = pygame.time.Clock()
         self.mainSnake = snake.SnakePart(400,300, self.background)
-        self.gameObjects = [self.mainSnake]
+        self.gameObjects = [mainSnake]
         self.sprites = pygame.sprite.RenderPlain(self.gameObjects)
 
     def loadSettings(self, settings):
@@ -48,8 +48,7 @@ class Game(object):
             if event.type == QUIT:
                 raise GameException
             elif event.type == KEYDOWN:
-                print(event.key)
-                self.mainSnake.handle_key(event.key)
+                self.mainSnake.handle_key(event.key.name)
         self.sprites.update()
         self.screen.blit(self.background,(0,0))
         self.sprites.draw(self.screen)
