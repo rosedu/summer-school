@@ -21,7 +21,6 @@ class SnakePart(gameobject.GameObject):
     
     def update(self):
         self.rect.midtop = (self.x, self.y)
-        pass
 
     def moveTo(self,dire):
             y = self.y
@@ -46,4 +45,5 @@ class SnakePart(gameobject.GameObject):
             self.x = x
             self.lastDirection = dire
             return True
+
 

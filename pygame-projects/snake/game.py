@@ -25,6 +25,7 @@ class Game(object):
         self.sprites = pygame.sprite.RenderPlain(self.gameObjects)
 
         self.move_timer = 0
+        self.score = 0
 
     def loadSettings(self, settings):
         self.screen = pygame.display.set_mode(settings.resolution)
@@ -78,6 +79,8 @@ class Game(object):
                         if obj != obj2 and obj.rect.colliderect(obj2):
                             obj.collide(self, obj2)
                             obj2.collide(self, obj)
+                            self.score=self.score + 1
+                            print self.score
         
         self.sprites.update()
         self.screen.blit(self.background,(0,0))

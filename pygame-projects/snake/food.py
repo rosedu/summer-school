@@ -25,5 +25,4 @@ class Food(gameobject.GameObject):
               #  self.rect.midtop = (self.x, self.y)
 
         def collide(self, main, other):
-                print "GOOOOT HIAR N00W!"
                 main.removeObject(self)
