@@ -139,7 +139,20 @@ class Background(pygame.sprite.Sprite):
 
     def getNext(self, (x, y), (px, py)):
         return (x, y)
-
+    
+    def find(self, x, y, px, py):
+        t1 = x - px
+        t2 = y - py
+        if abs(t1) > abs(t2):
+            if t1 > 0 :
+              return 'right'
+            else :
+              return 'left'
+        else :
+            if t2 > 0 :
+              return 'up'
+            else :
+              return 'down'
 
 class Person(pygame.sprite.Sprite):
     SIZE = 10
@@ -219,24 +232,34 @@ class Person(pygame.sprite.Sprite):
         return False
 
 class Fantoma(pygame.sprite.Sprite):
-    SIZE = 15;
+    
     #random.seed()
-    def __init__(self,x,y,surface):
+    def __init__(self,x,y,surface,size):
         super(Fantoma,self).__init__()
         self.x = x
         self.y = y
+        self.size = size
         self.surface = surface
         self.direction = random.choice([1,2,3,4]);
+        self.image = pygame.Surface((size, size), flags = SRCALPHA)
+        self.image.convert()
 
+        self.new_x = 0
+        self.new_y = 0
+        self.delta_x = -self.size
+        self.delta_y = 0
+
+
+     
         # Surface of the person object.
         # Has flags for alpha chanels
         self.image = pygame.Surface((2 * Person.SIZE, 2 * Person.SIZE), flags = SRCALPHA)
         self.image.convert()
 
         self.selected = False
-        self.set_color("white")
+        self.set_color("blue")
 
-        self.rect.midtop = (x, y)
+        self.rect.topleft = (x, y)
 
     def set_color(self, color):
         """
@@ -245,39 +268,18 @@ class Fantoma(pygame.sprite.Sprite):
         radius = Person.SIZE
         self.rect = pygame.draw.circle(self.image, pygame.Color(color), (radius, radius), radius)
 
+    def move(self, next_move):
+        """
+        Compute the next move
+        """
+        self.new_x, self.new_y = next_move
+ 
     def update(self):
         """
-        Updates graphical logic
-        """
-        while True:
-            if self.direction == 1 and self.y-1 > 0 : 
-                self.x=self.x 
-                self.y=self.y - 1
-                break
-            else :
-                self.direction = 2
-
-            if self.direction == 2 and self.x+1 < 480 : 
-                self.x=self.x + 1
-                self.y=self.y  
-                break
-            else :
-                self.direction = 3
-
-            if self.direction == 3 and self.y+1 < 480: 
-                self.x=self.x 
-                self.y=self.y + 1
-                break
-            else :
-                self.direction = 4
-
-            if self.direction == 4 and self.x-1 >0 : 
-                self.x=self.x - 1
-                self.y=self.y
-                break
-            else :
-                self.direction = 1
-        self.rect.midtop = (self.x, self.y)
+        Updates graphical logic"""
+        self.x=self.new_x
+        self.y=self.new_y
+        self.rect.topleft = (self.x, self.y)
 
 
 class Game(object):
@@ -296,6 +298,9 @@ class Game(object):
 
         self.direction = directions['start']
         self.temp_direction = directions['start']
+
+        self.dirg = directions['down']
+        self.temp_dirg = directions['right']
 
     def init_from_settings(self, settings):
         """
@@ -320,7 +325,9 @@ class Game(object):
         self.pacman = Person(0, 0, self.background, self.table.blockSize)
         self.sprites.append(self.pacman)
 
-        
+        #Init ghost
+        self.ghost = Fantoma(0,0,self.background,self.table.blockSize)
+        self.sprites.append(self.ghost)
 
     def run(self):
         """
@@ -372,10 +379,24 @@ class Game(object):
                 self.direction = directions['start']
             self.temp_direction = self.direction
 
-        
+       #Ghost Movement
+#self.temp_dirg=directions[random.choice(('left','right','up'))]
+        self.temp_dirg=directions[self.table.find(self.pacman.x, self.pacman.y,
+                                                  self.ghost.x, self.ghost.y)]
+        if self.table.isValid((self.ghost.x, self.ghost.y), self.temp_dirg):
+            self.dirg = self.temp_dirg
+        else:
+            if not(self.table.isValid((self.ghost.x, self.ghost.y), self.dirg)):
+                self.dirg = directions['up']
+            self.temp_dirg = self.dirg
+
 
         x, y = self.table.getActualXY((self.pacman.x, self.pacman.y), self.direction)
         self.pacman.move((x, y))
+        
+        x, y = self.table.getActualXY((self.ghost.x, self.ghost.y), self.dirg)
+        self.ghost.move((x, y))
+
 
         # Update all sprites.
         # Calls update method for the sprites defined.
