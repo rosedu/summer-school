@@ -24,7 +24,9 @@ class Brick(pygame.sprite.Sprite):
         self.mode = 'falling or fading'
         self.falling = False
         self.fallrate = BASE_FALL_RATE
-
+        
+        self.x = x
+        self.y = y
         self.rect.topleftt = (x, y)
         self.direction = 'none' # l, r, none
 
@@ -42,7 +44,12 @@ class Brick(pygame.sprite.Sprite):
                     self.rect.top = self.fallto
                     self.mode = 'neither'
                     self.falling = False
-
+    
+    def moveleft(self):
+        self.y = self.y - self.rect.width
+            
+    def moveright(self):
+        self.y = self.x + self.rect.width
 
     def set_fall(self, distace):
         ''' the falling distance '''
