@@ -34,17 +34,22 @@ class Game(object):
 
         # Initializes screen.
         self.screen = pygame.display.set_mode(settings.resolution)
-	   self.screen.set_clip(settings.game_info)
-	   self.screen.fill(settings.colors[5])
-	   self.blit(settings.help_text1, (165, 250))
-	   self.blit(settings.help_text2, (165, 270))
-	   self.blit(settings.help_text3, (165, 290))
-	   pygame.draw.rect(self.screen, settings.colors[6], start_rect, 0)
-	   pygame.draw.rect(self.screen, settings.colors[6], reset_rect, 0)
-	   pygame.draw.rect(self.screen, settings.colors[6], settings.box_display, 2)
-	   screen.blit(settings.start_text, (171, 188))
-	   screen.blit(settings.reset_text, (251, 188))
-	   screen.set_clip(settings.game_area)
+        self.screen.set_clip(settings.game_info)
+        self.screen.fill(settings.colors[5])
+        
+        self.blit(settings.help_text1, (165, 250))
+        self.blit(settings.help_text2, (165, 270))
+        self.blit(settings.help_text3, (165, 290))
+        
+        pygame.draw.rect(self.screen, settings.colors[6], start_rect, 0)
+        pygame.draw.rect(self.screen, settings.colors[6], reset_rect, 0)
+        pygame.draw.rect(self.screen, settings.colors[6], settings.box_display, 2)
+        
+        screen.blit(settings.start_text, (171, 188))
+        screen.blit(settings.reset_text, (251, 188))
+        
+        screen.set_clip(settings.game_area)
+        
         pygame.display.set_caption(settings.title)
         pygame.mouse.set_visible(settings.mouse_enabled)
 
@@ -53,7 +58,7 @@ class Game(object):
         self.background = background.convert()
         self.background.fill(settings.background)
 
-	   pygame.display.update()
+        pygame.display.update()
 
     def run(self):
         """
