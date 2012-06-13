@@ -1,8 +1,8 @@
 import pygame
 import random
 import tetris
-import brick
-from pygame.locals import.*
+
+from pygame.locals import *
 
 class GameException(Exception):
     """
@@ -53,6 +53,22 @@ class Game(object):
         self.clock.tick(60)
         
         #Check events.
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                raise GameException
+            elif event.type == KEYDOWN:
+                #Keyboard events
+                if event.key == pygame.K_UP:
+                    continue
+                elif event.key == pygame.K_DOWN:
+                    continue
+                elif event.key == pygame.K_LEFT:
+                    continue
+                elif event.key == pygame.K_RIGHT:
+                    continue
+
+        #Update all sprites
+        self.allsprites.update()
 
         #Redraw.
         self.screen.blit(self.background, (0,0))
