@@ -3,7 +3,7 @@ import pygame
 from pygame.locals import *
 
 class GameObject(pygame.sprite.Sprite):
-    SIZE = 10
+    SIZE = 8
     def __init__(self, x, y, surface):
         super(GameObject, self).__init__()
         self.x = x
