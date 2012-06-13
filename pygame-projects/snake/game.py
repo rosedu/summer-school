@@ -30,7 +30,6 @@ class Game(object):
 	
 	for i in range(0,820,20):
 	    self.gameObjects.append(wall.Wall(i,590, self.background)) 
-
         self.sprites = pygame.sprite.RenderPlain(self.gameObjects)
 
         self.move_timer = 0
@@ -91,7 +90,7 @@ class Game(object):
             
         self.food_timer = self.food_timer - 1
         if self.food_timer == 0:
-            self.addObject(food.Food(random.randint(0,100)*8,random.randint(0,75)*8, self.background))
+	    self.addObject(food.Food(random.randint(0,100)*8,random.randint(0,75)*8, self.background)) 
             self.food_timer = 200
         
         for obj in self.gameObjects:
