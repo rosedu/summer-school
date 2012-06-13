@@ -3,7 +3,7 @@ import random
 import tetris
 
 from background import *
-from brick import *
+from piece import *
 from pygame.locals import *
 
 class GameException(Exception):
@@ -16,14 +16,14 @@ class Game(object):
     """
     Main class
     """
-    
+    start_flag = 0
+    start_rect = Rect(165, 180, 60, 30)
+    reset_rect = Rect(245, 180, 60, 30)
+
     def __init__(self, settings = Settings()):
         pygame.init()
         self.init_from_settings(settings)
         self.clock = pygame.time.Clock()
-	   self.start_flag = 0
-	   self.start_rect = Rect(165, 180, 60, 30)
-	   self.reset_rect = Rect(245, 180, 60, 30)
         self.bricks = []
         self.allsprites = pygame.sprite.RenderPlain(self.bricks)
 
@@ -47,12 +47,13 @@ class Game(object):
 	   screen.set_clip(settings.game_area)
         pygame.display.set_caption(settings.title)
         pygame.mouse.set_visible(settings.mouse_enabled)
-	   pygame.display.update()
 
         # Initializes background.
         background = pygame.Surface(self.screen.get_size())
         self.background = background.convert()
         self.background.fill(settings.background)
+
+	   pygame.display.update()
 
     def run(self):
         """
@@ -73,7 +74,10 @@ class Game(object):
 
         #Add new persons to rendered group
         self.allsprites = pygame.sprite.RenderPlain(self.bricks)
-    
+
+    p = Piece(randint(1, 10))
+    next_piece = Piece(randint(1, 10))    
+
     def game_tick(self):
         """
         Handle events and redraw scene
