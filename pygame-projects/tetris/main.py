@@ -11,6 +11,9 @@ from pygame.locals import *
 start_rect = Rect(165,180,60,30)
 reset_rect = Rect(245,180,60,30)
 
+#Aux variable
+aux = []
+
 #Class definitions
 class GameException(Exception):
     """
@@ -28,6 +31,7 @@ class Game(object):
 
     def __init__(self, settings = Settings()):
         pygame.init()
+        aux = settings
         self.init_from_settings(settings)
         self.clock = pygame.time.Clock()
         #self.bricks = []
@@ -85,6 +89,8 @@ class Game(object):
         Handle events and redraw scene
         """
         self.clock.tick(60)
+        
+        settings = aux
         
         #Check events.
         for event in pygame.event.get():
