@@ -5,6 +5,8 @@ import resources
 BASE_FALL_RATE = 2
 FALL_RATE_MULTIPLIER = 10
 
+current_id = 0
+
 class Brick(pygame.sprite.Sprite):
     """
     Movable brick with arrows
@@ -17,6 +19,9 @@ class Brick(pygame.sprite.Sprite):
         self.surface = surface
         self.image = copy.copy(image)
         self.image.covert()
+        
+        self.ID = current_id
+        current_id += 1
 
         screen = pygame.display.get_surface()
         self.rect = screen.get_rect()
