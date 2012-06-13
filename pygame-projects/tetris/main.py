@@ -1,8 +1,9 @@
 import pygame
 import random
 import tetris
-from background import Settings
 
+from background import *
+from brick import *
 from pygame.locals import *
 
 class GameException(Exception):
@@ -20,6 +21,8 @@ class Game(object):
         pygame.init()
         self.init_from_settings(settings)
         self.clock = pygame.time.Clock()
+        self.bricks = []
+        self.allsprites = pygame.sprite.RenderPlain(self.bricks)
 
     def init_from_settings(self, settings):
         """
@@ -76,6 +79,8 @@ class Game(object):
                     continue
                 elif event.key == pygame.K_RIGHT:
                     continue
+            elif event.type == MOUSEBUTTONDOWN:
+                self.random_spawn()
 
         #Update all sprites
         self.allsprites.update()
