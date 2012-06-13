@@ -73,13 +73,13 @@ class Brick(pygame.sprite.Sprite):
 
 class Redbrick(Brick):
     def ___init__(self, x, y, surface):
-        Brick.__init__(self, resources.images.redbrick, x, y, surface)
+        Brick.__init__(self, resources.load_image('redbrick'), x, y, surface)
 
 class Greenbrick(Brick):
     def __init__(self, x, y, surface):
-        Brick.__init__(self, resources.images.greenbrick, x, y, surface)
+        Brick.__init__(self, resources.load_image('greenbrick'), x, y, surface)
 
 class Bluebrick(Brick):
     def __init__(self, x, y, surface):
-        Brick.__init__(self, resources.images.bluebrick, x, y, surface)
+        Brick.__init__(self, resources.load_image('bluebrick'), x, y, surface)
 
