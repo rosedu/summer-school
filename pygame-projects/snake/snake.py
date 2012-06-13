@@ -51,6 +51,7 @@ class SnakePart(gameobject.GameObject):
             return True
             
     def collide(self, main, other):
-        main.score = main.score + 1 
+        if hasattr(other, "dead"):
+            main.score = main.score + 1 
 
 
