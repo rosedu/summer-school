@@ -25,7 +25,7 @@ class Settings(object):
         Initialize with default settings
         """
         # Size of the main window.
-        self.resolution = (300, 300)
+        self.resolution = (600, 600)
         # Backround color in Red Blue Green channels
         self.background = (0, 0, 0)
         # Mouse enabled
@@ -95,7 +95,7 @@ class Background(pygame.sprite.Sprite):
                 if pos == 1:
                     self.rect = pygame.draw.polygon(self.image, pygame.Color(200, 200, 200), ver)
                 else:
-                    self.rect = pygame.draw.polygon(self.image, pygame.Color(100, 100, 100), ver, 1)
+                    self.rect = pygame.draw.polygon(self.image, pygame.Color(30, 30, 30), ver, 1)
                 c = c+1
             r = r+1
 
@@ -142,9 +142,9 @@ class Background(pygame.sprite.Sprite):
 
 
 class Person(pygame.sprite.Sprite):
-    SIZE = 5
+    SIZE = 10
 
-    def __init__(self, x, y, surface):
+    def __init__(self, x, y, surface, size):
         super(Person, self).__init__()
         self.x = x
         self.y = y
@@ -152,22 +152,27 @@ class Person(pygame.sprite.Sprite):
 
         # Surface of the person object.
         # Has flags for alpha chanels
-        self.image = pygame.Surface((2 * Person.SIZE, 2 * Person.SIZE), flags = SRCALPHA)
+        #triangle = pygame.draw.polygon(picture, "black", [(size/2, size/2), (size/2, 0), (size/2, size.2)])
+        #self.image = pygame.transform.scale(pygame.image.load("photo.png"), (Person.SIZE, Person.SIZE), DestSurface = None)
+        self.image = pygame.Surface((size, size), flags = SRCALPHA)
         self.image.convert()
 
         self.selected = False
+        self.size = size
         self.set_color("yellow")
 
-        self.rect.midtop = (x, y)
+        self.rect.topleft = (x, y)
         self.new_x = 0
         self.new_y = 0
+        self.delta_x = -self.size
+        self.delta_y = 0
 
     def set_color(self, color):
         """
         Sets person's color
         """
-        radius = Person.SIZE
-        self.rect = pygame.draw.circle(self.image, pygame.Color(color), (radius, radius), radius)
+        self.rect = pygame.draw.circle(self.image, pygame.Color(color), (self.size/2, self.size/2), self.size/2)
+        self.rect = pygame.draw.polygon(self.image, pygame.Color("black"), [(self.size/2, self.size/2), (self.size, 0), (self.size, self.size)])
 
     def move(self, next_move):
         """
@@ -179,7 +184,24 @@ class Person(pygame.sprite.Sprite):
         """
         Updates graphical logic
         """
-               
+        
+        x = self.x - self.new_x
+        y = self.y - self.new_y
+        if y == 0 and x == 0:
+            x = self.delta_x
+            y = self.delta_y
+        else:
+            self.delta_x = x
+            self.delta_y = y
+        self.rect = pygame.draw.circle(self.image, pygame.Color("yellow"), (self.size/2, self.size/2), self.size/2)
+        if x == 0 and y == -self.size:
+            self.rect = pygame.draw.polygon(self.image, pygame.Color("black"), [(self.size/2, self.size/2), (self.size, self.size), (0, self.size)])
+        elif x == 0 and y == self.size:
+            self.rect = pygame.draw.polygon(self.image, pygame.Color("black"), [(self.size/2, self.size/2), (0, 0), (self.size, 0)])
+        elif x == -self.size and y == 0:
+            self.rect = pygame.draw.polygon(self.image, pygame.Color("black"), [(self.size/2, self.size/2), (self.size, 0), (self.size, self.size)])
+        elif x == self.size and y == 0:
+            self.rect = pygame.draw.polygon(self.image, pygame.Color("black"), [(self.size/2, self.size/2), (0, self.size), (0, 0)])
         self.x = self.new_x
         self.y = self.new_y
 
@@ -290,13 +312,13 @@ class Game(object):
         self.background = background.convert()
         self.background.fill(settings.background)
         
-        #Init pacman        
-        self.pacman = Person(0, 0, self.background)
-        self.sprites.append(self.pacman)
-
         #Init table
         self.table = Background(background, settings.resolution)
         self.sprites.append(self.table)
+        
+        #Init pacman        
+        self.pacman = Person(0, 0, self.background, self.table.blockSize)
+        self.sprites.append(self.pacman)
 
         
 
