@@ -79,8 +79,8 @@ class Game(object):
             except GameException:
                 return
 
-    p = Piece(randint(1, 10))
-    next_piece = Piece(randint(1, 10))    
+    p = Piece(randint(1, 4))
+    next_piece = Piece(randint(1, 4))    
 	
     def game_tick(self):
         """
@@ -148,7 +148,7 @@ class Game(object):
 				bricks[pos.top] += 1
 			game(grid, bricks)
 			p = next_piece
-			#	next_piece = Piece(randint(1, 10))
+			next_piece = Piece(randint(1, 4))
 			for g in grid:
 				for pos in g.starting_pos:
 					if pos.left == 65 and pos.top <= 5:
