@@ -137,8 +137,8 @@ class Background(pygame.sprite.Sprite):
 
         return (new_x*self.blockSize, new_y*self.blockSize)
 
-
-
+    def getNext(self, (x, y), (px, py)):
+        return (x, y)
 
 
 class Person(pygame.sprite.Sprite):
