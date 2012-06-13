@@ -1,7 +1,7 @@
 import pygame
 import random
 
-directions  = { "start": (0, 0), "left": (-1, 0), "right": (1, 0), "down": (0, -1), "up": (0, 1) }
+directions  = { "start": (0, 0), "left": (-1, 0), "right": (1, 0), "down": (0, 1), "up": (0, -1) }
 
 from pygame.locals import *
 
@@ -78,6 +78,26 @@ class Background(pygame.sprite.Sprite):
                     self.rect = pygame.draw.polygon(self.image, pygame.Color(100, 100, 100), ver, 1)
                 c = c+1
             r = r+1
+
+    def isValid(self, (x, y), d):
+        rel_x = x / self.blockSize
+        rel_y = y / self.blockSize
+
+        new_x = rel_x + d[0]
+        new_y = rel_y + d[1] 
+
+        if self.matrix[new_y][new_x] == 0:
+            return True
+        return False
+
+    def getActualXY(self, (x, y), d):
+        new_x = x + d[0]*self.blockSize
+        new_y = y + d[1]*self.blockSize
+        return (new_x, new_y)
+
+
+
+
 
 class Person(pygame.sprite.Sprite):
     SIZE = 10
@@ -253,8 +273,8 @@ class Game(object):
         self.sprites.append(self.pacman)
 
         #Init table
-        table = Background(background, settings.resolution)
-        self.sprites.append(table)
+        self.table = Background(background, settings.resolution)
+        self.sprites.append(self.table)
 
         
 
@@ -292,28 +312,24 @@ class Game(object):
             elif event.type == KEYUP:
                 if event.key == K_DOWN:
                     direction = directions['down']
-                    if table.isValid((pacman.x, pacman.y), direction):
-                        x, y = table.getActualXY((pacman.x, pacman.y), direction)
-                        person.move((x, y))
-                    print direction
+                    if self.table.isValid((self.pacman.x, self.pacman.y), direction):
+                        x, y = self.table.getActualXY((self.pacman.x, self.pacman.y), direction)
+                        self.pacman.move((x, y))
                 elif event.key == K_UP:
                     direction = directions["up"]
-                    if table.isValid((pacman.x, pacman.y), direction):
-                        x, y = table.getActualXY((pacman.x, pacman.y), direction)
-                        person.move((x, y))
-                    print direction
+                    if self.table.isValid((self.pacman.x, self.pacman.y), direction):
+                        x, y = self.table.getActualXY((self.pacman.x, self.pacman.y), direction)
+                        self.pacman.move((x, y))
                 elif event.key == K_LEFT:
                     direction = directions["left"]
-                    if table.isValid((pacman.x, pacman.y), direction):
-                        x, y = table.getActualXY((pacman.x, pacman.y), direction)
-                        person.move((x, y))
-                    print direction
+                    if self.table.isValid((self.pacman.x, self.pacman.y), direction):
+                        x, y = self.table.getActualXY((self.pacman.x, self.pacman.y), direction)
+                        self.pacman.move((x, y))
                 elif event.key == K_RIGHT:
                     direction = directions["right"]
-                    if table.isValid((pacman.x, pacman.y), direction):
-                        x, y = table.getActualXY((pacman.x, pacman.y), direction)
-                        person.move((x, y))
-                    print direction
+                    if self.table.isValid((self.pacman.x, self.pacman.y), direction):
+                        x, y = self.table.getActualXY((self.pacman.x, self.pacman.y), direction)
+                        self.pacman.move((x, y))
                 continue
             elif event.type == MOUSEBUTTONUP:
                 continue
