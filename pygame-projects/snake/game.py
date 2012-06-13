@@ -6,7 +6,6 @@ from pygame.locals import *
 class GameException(Exception):
     pass
 
-
 class Settings(object):
     def __init__(self):
         self.resolution = ( 800, 600)
@@ -42,5 +41,15 @@ class Game(object):
                 return
 
     def tick(self):
-        
-
+        self.clock.tick(60)
+        for event in pygame.event.get():
+            if event.type == Quit:
+                raise GameException
+            elif event.type == MOUSEBUTTONUP
+                continue
+            elif event.type == KEYDOWN
+                handle_key(event.key.name)
+    self.allsprites.update()
+    self.screen.blit(self.background,(0,0))
+    self.allsprites.draw(self.screen)
+    pygame.display.flip()
