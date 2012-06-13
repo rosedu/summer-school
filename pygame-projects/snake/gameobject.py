@@ -14,4 +14,5 @@ class GameObject(pygame.sprite.Sprite):
     def getDistance(self, other):
         return abs(self.x-other.x) + abs(self.y - other.y)
 
-        
+    def collide(self, main, other):    
+        pass

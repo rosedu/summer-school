@@ -26,8 +26,14 @@ class SnakePart(gameobject.GameObject):
     def moveTo(self,dire):
             y = self.y
             x = self.x
-            if abs(self.lastDirection - dire) == 1 and dire==2 and self.lastDirection==3:
-                return
+            if dire ==1 and self.lastDirection==2:
+                return False
+            if dire ==2 and self.lastDirection==1:
+                return False
+            if dire ==3 and self.lastDirection==4:
+                return False
+            if dire ==4 and self.lastDirection==3:
+                return False
             if dire == 1:
                 y = y-2*self.SIZE
             if dire == 2:
@@ -39,4 +45,5 @@ class SnakePart(gameobject.GameObject):
             self.y = y
             self.x = x
             self.lastDirection = dire
+            return True
 

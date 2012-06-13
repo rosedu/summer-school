@@ -1,6 +1,7 @@
 import pygame
 import random
 import snake
+import food
 
 from pygame.locals import *
 
@@ -20,7 +21,7 @@ class Game(object):
         self.loadSettings(settings)
         self.clock = pygame.time.Clock()
         self.snakeParts = [snake.SnakePart(400,300, self.background)]
-        self.gameObjects = [self.snakeParts[0]]
+        self.gameObjects = [self.snakeParts[0], food.Food(350,350,  self.background)]
         self.sprites = pygame.sprite.RenderPlain(self.gameObjects)
 
         self.move_timer = 0
@@ -34,6 +35,10 @@ class Game(object):
         self.background = background.convert()
         self.background.fill(settings.background)
 
+    def removeObject(self, obj):
+        self.gameObjects.remove(obj)
+        self.sprites.remove(obj)
+    
     def run(self):
         isRunning = True
         while True:
@@ -52,17 +57,13 @@ class Game(object):
                 raise GameException
             elif event.type == KEYDOWN:
                 if event.key == 273:
-                    self.snakeParts[0].moveTo(1)
-                    moved = True
+                    moved = self.snakeParts[0].moveTo(1)
                 if event.key == 274:
-                    self.snakeParts[0].moveTo(2)
-                    moved = True
+                    moved = self.snakeParts[0].moveTo(2)
                 if event.key == 276:
-                    self.snakeParts[0].moveTo(3)
-                    moved = True
+                    moved = self.snakeParts[0].moveTo(3)
                 if event.key == 275:
-                    self.snakeParts[0].moveTo(4)
-                    moved = True
+                    moved = self.snakeParts[0].moveTo(4)
         if not moved:
             self.move_timer = self.move_timer+1
             if self.move_timer == 10:
@@ -71,6 +72,12 @@ class Game(object):
         else:
             self.move_timer = 0
         
+        
+        for obj in self.gameObjects:
+                for obj2 in self.gameObjects:
+                        if obj != obj2 and obj.rect.colliderect(obj2):
+                            obj.collide(self, obj2)
+                            obj2.collide(self, obj)
         
         self.sprites.update()
         self.screen.blit(self.background,(0,0))
