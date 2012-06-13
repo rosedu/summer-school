@@ -36,6 +36,26 @@ class Game(object):
         for event in pygame.event.get():
                 if event.type == QUIT:
                        raise GameException
+        for i in range(20):
+            x = i * 50
+            y = (i + 1) * 50
+            pygame.draw.rect(self.background, pygame.color.Color("grey"),
+                        (0, x, 50, y), 0)
+            pygame.draw.rect(self.background, pygame.color.Color("black"),
+                        (0, x, 50, y), 3)
+            pygame.draw.rect(self.background, pygame.color.Color("grey"),
+                        (x, 0, y, 50), 0)
+            pygame.draw.rect(self.background, pygame.color.Color("black"),
+                        (x, 0, y, 50), 3)
+            pygame.draw.rect(self.background, pygame.color.Color("grey"),
+                        (950, x, 1000, y), 0)
+            pygame.draw.rect(self.background, pygame.color.Color("black"),
+                        (950, x, 1000, y), 3)
+            pygame.draw.rect(self.background, pygame.color.Color("grey"),
+                        (x, 950, y, 1000), 0)
+            pygame.draw.rect(self.background, pygame.color.Color("black"),
+                        (x, 950, y, 1000), 3)
         self.screen.blit(self.background, (0,0))
      #  self.allsprites.draw(self.screen)
         pygame.display.flip()
+
