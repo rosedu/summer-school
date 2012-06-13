@@ -132,7 +132,7 @@ class Game(object):
 
 		# New brick falling		
 		time_passed = pygame.time.get_ticks()
-		if (p.going_down):
+		if (p.falling):
 			screen.set_clip(187, 67, 97, 67)
 			screen.fill(colors[5])
 			for pos in next_piece.display_pos:
