@@ -25,7 +25,7 @@ class Settings(object):
         Initialize with default settings
         """
         # Size of the main window.
-        self.resolution = (400, 400)
+        self.resolution = (300, 300)
         # Backround color in Red Blue Green channels
         self.background = (0, 0, 0)
         # Mouse enabled
@@ -142,7 +142,7 @@ class Background(pygame.sprite.Sprite):
 
 
 class Person(pygame.sprite.Sprite):
-    SIZE = 10
+    SIZE = 5
 
     def __init__(self, x, y, surface):
         super(Person, self).__init__()
@@ -323,7 +323,7 @@ class Game(object):
         """
         Handle events and redraw scene
         """
-        self.clock.tick(5)
+        self.clock.tick(8)
 
         # Check events.
         for event in pygame.event.get():
