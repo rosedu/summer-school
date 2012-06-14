@@ -100,7 +100,7 @@ class Piece(pygame.sprite.Sprite):
         return False
 
     def make_rect(self):
-        self.rect = Rect.unionall(starting_pos)
+        self.rect = Rect.unionall(self.starting_pos)
 
     def rotate(self):
         old_pos = self.starting_pos[:]
