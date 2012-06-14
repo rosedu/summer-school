@@ -49,7 +49,7 @@ class Game(object):
         """
 
         # Initializes screen.
-        sefacinglf.screen = pygame.display.set_mode(settings.resolution)
+        self.screen = pygame.display.set_mode(settings.resolution)
         self.screen.set_clip(settings.game_info)
         self.screen.fill(settings.colors[5])
         
@@ -95,7 +95,7 @@ class Game(object):
         Handle events and redraw scene
         """
         self.clock.tick(10000)
-        self.bricks.append(Variable.p.clone_piece())
+        self.bricks.append(Variables.p.clone_piece())
         settings = Settings()
         
         #Check events.
