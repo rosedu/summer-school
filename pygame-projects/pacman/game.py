@@ -58,7 +58,7 @@ class Background(pygame.sprite.Sprite):
         self.blockSize = res / Background.SIZE
         self.generateBlocks()
         self.rect.topleft = (0, 0)
-		#self.move_ghost()
+        #self.move_ghost()
 
     def generateBlocks(self): 
         self.blocks = []
@@ -116,96 +116,121 @@ class Background(pygame.sprite.Sprite):
         return (new_x*self.blockSize, new_y*self.blockSize)
 
     def bfs(self, g, start):
-		queue, enqueued = deque([(None, start)]), set([start])
-		while queue:
-		    parent, n = queue.popleft()
-		    yield parent, n
-		    new = set(g[n]) - enqueued
-		    enqueued |= new
-		    queue.extend([(n, child) for child in new])
+        queue, enqueued = deque([(None, start)]), set([start])
+        while queue:
+            parent, n = queue.popleft()
+            yield parent, n
+            new = set(g[n]) - enqueued
+            enqueued |= new
+            queue.extend([(n, child) for child in new])
 
     def shortest_path(self, g, start, end):
-		parents = {}
-		for parent, child in self.bfs(g, start):
-			parents[child] = parent
-			if child == end:
-				revpath = [end]
-				while True:
-					parent = parents[child]
-					revpath.append(parent)
-					if parent == start:
-						break
-					child = parent
-				x = list(reversed(revpath))
-				if len(x) < 10:
-					return x[1]
-				else:
-					i, j = start
-					a = []
-					new_i = i + 1
-					new_j = j + 1
-					low_i = i - 1
-					low_j = j - 1
-					if(new_i == len(self.matrix)):
-						new_i = 0
-					if(low_i < 0):
-						low_i = len(self.matrix) - 1
-					if(new_j == len(self.matrix)):
-						new_j = 0
-					if(low_j < 0):
-						low_j = len(self.matrix) - 1
+        parents = {}
+        for parent, child in self.bfs(g, start):
+            parents[child] = parent
+            if child == end:
+                revpath = [end]
+                while True:
+                    parent = parents[child]
+                    revpath.append(parent)
+                    if parent == start:
+                        break
+                    child = parent
+                x = list(reversed(revpath))
+                if len(x) < 10:
+                    return x[1]
+                else:
+                    i, j = start
+                    a = []
+                    new_i = i + 1
+                    new_j = j + 1
+                    low_i = i - 1
+                    low_j = j - 1
+                    if(new_i == len(self.matrix)):
+                        new_i = 0
+                    if(low_i < 0):
+                        low_i = len(self.matrix) - 1
+                    if(new_j == len(self.matrix)):
+                        new_j = 0
+                    if(low_j < 0):
+                        low_j = len(self.matrix) - 1
 
-					if self.matrix[new_i][j] == 0:
-						a.append((new_i, j))
-					if self.matrix[i][new_j] == 0:
-						a.append((i, new_j))
-					if self.matrix[i][low_j] == 0:
-						a.append((i, low_j))
-					if self.matrix[low_i][j] == 0:
-						a.append((low_i, j))
-					return random.choice(a)
-				
-		return None # or raise appropriate exception
+                    if self.matrix[new_i][j] == 0:
+                        a.append((new_i, j))
+                    if self.matrix[i][new_j] == 0:
+                        a.append((i, new_j))
+                    if self.matrix[i][low_j] == 0:
+                        a.append((i, low_j))
+                    if self.matrix[low_i][j] == 0:
+                        a.append((low_i, j))
+                    return random.choice(a)
+                
+        return None # or raise appropriate exception
 
     def move_ghost(self, pacman_x, pacman_y, phantom_x, phantom_y):
-		count = {}
-		phantom_x = phantom_x / self.blockSize
-		phantom_y = phantom_y / self.blockSize		
-		pacman_x = pacman_x / self.blockSize
-		pacman_y = pacman_y / self.blockSize
-		for i in range(len(self.matrix)):
-		    for j in range(len(self.matrix)):
-		        if self.matrix[i][j] == 0:
-		            a = []
-		            new_i = i + 1
-		            new_j = j + 1
-		            low_i = i - 1
-		            low_j = j - 1
-		            if(new_i == len(self.matrix)):
-		                new_i = 0
-		            if(low_i < 0):
-		                low_i = len(self.matrix) - 1
-		            if(new_j == len(self.matrix)):
-		                new_j = 0
-		            if(low_j < 0):
-		                low_j = len(self.matrix) - 1
+        count = {}
+        phantom_x = phantom_x / self.blockSize
+        phantom_y = phantom_y / self.blockSize        
+        pacman_x = pacman_x / self.blockSize
+        pacman_y = pacman_y / self.blockSize
+        for i in range(len(self.matrix)):
+            for j in range(len(self.matrix)):
+                if self.matrix[i][j] == 0:
+                    a = []
+                    new_i = i + 1
+                    new_j = j + 1
+                    low_i = i - 1
+                    low_j = j - 1
+                    if(new_i == len(self.matrix)):
+                        new_i = 0
+                    if(low_i < 0):
+                        low_i = len(self.matrix) - 1
+                    if(new_j == len(self.matrix)):
+                        new_j = 0
+                    if(low_j < 0):
+                        low_j = len(self.matrix) - 1
 
-		            if self.matrix[new_i][j] == 0:
-		                a.append((new_i, j))
-		            if self.matrix[i][new_j] == 0:
-		                a.append((i, new_j))
-		            if self.matrix[i][low_j] == 0:
-		                a.append((i, low_j))
-		            if self.matrix[low_i][j] == 0:
-		                a.append((low_i, j))
-		            count[(i, j)] = a
+                    if self.matrix[new_i][j] == 0:
+                        a.append((new_i, j))
+                    if self.matrix[i][new_j] == 0:
+                        a.append((i, new_j))
+                    if self.matrix[i][low_j] == 0:
+                        a.append((i, low_j))
+                    if self.matrix[low_i][j] == 0:
+                        a.append((low_i, j))
+                    count[(i, j)] = a
 
-		phantom = (phantom_x, phantom_y)
-		pacman = (pacman_x, pacman_y)
-		x, y = self.shortest_path(count, phantom, pacman)
-		return (x * self.blockSize, y * self.blockSize)
+        phantom = (phantom_x, phantom_y)
+        pacman = (pacman_x, pacman_y)
+        x, y = self.shortest_path(count, phantom, pacman)
+        return (x * self.blockSize, y * self.blockSize)
+    
+    def move_rand(self, i, j):
+        a = []
+        i = i / self.blockSize
+        j = j / self.blockSize
+        new_i = i + 1
+        new_j = j + 1
+        low_i = i - 1
+        low_j = j - 1
+        if(new_i == len(self.matrix)):
+            new_i = 0
+        if(low_i < 0):
+            low_i = len(self.matrix) - 1
+        if(new_j == len(self.matrix)):
+            new_j = 0
+        if(low_j < 0):
+            low_j = len(self.matrix) - 1
 
-
+        if self.matrix[new_i][j] == 0:
+            a.append((new_i * self.blockSize, j * self.blockSize))
+        if self.matrix[i][new_j] == 0:
+            a.append((i * self.blockSize, new_j * self.blockSize))
+        if self.matrix[i][low_j] == 0:
+            a.append((i * self.blockSize, low_j * self.blockSize))
+        if self.matrix[low_i][j] == 0:
+            a.append((low_i * self.blockSize, j * self.blockSize))
+        return a
 
 class Food(pygame.sprite.Sprite):
 
@@ -403,24 +428,24 @@ class Phantom(pygame.sprite.Sprite):
         y = self.size * 1 / 2
         self.rect = pygame.draw.circle(self.image, color, (x, y), radius)
 
-	    #Draw rectangle part of phantom
-        vertex = [	(0, self.size * 1 / 2),
-			        (self.size, self.size * 1 / 2),
+        #Draw rectangle part of phantom
+        vertex = [    (0, self.size * 1 / 2),
+                    (self.size, self.size * 1 / 2),
                     (self.size, self.size * 3.5 / 5),
-			        (0, self.size * 3.5 / 5) ]
+                    (0, self.size * 3.5 / 5) ]
         self.rect = pygame.draw.polygon(self.image, color, vertex)
 
-        vertex = [	(0, self.size * 3.5 / 5),
-			        (self.size, self.size * 3.5 / 5),
+        vertex = [    (0, self.size * 3.5 / 5),
+                    (self.size, self.size * 3.5 / 5),
                     (self.size, self.size - 1),
-			        (0, self.size-1) ]
+                    (0, self.size-1) ]
         self.rect = pygame.draw.polygon(self.image, pygame.Color('black'), vertex)
 
         #Draw triangle parts of phantom
         for i in range(4):
-            vertex = [	(self.size * i / 4, self.size * 3.5 / 5),
-			            (self.size * (i + 1) / 4, self.size * 3.5 / 5),
-			            (self.size * (i + 0.5) / 4, self.size - 1) ]
+            vertex = [    (self.size * i / 4, self.size * 3.5 / 5),
+                        (self.size * (i + 1) / 4, self.size * 3.5 / 5),
+                        (self.size * (i + 0.5) / 4, self.size - 1) ]
             self.rect = pygame.draw.polygon(self.image, color, vertex)
 
         #Draw eyes
@@ -612,8 +637,13 @@ class Game(object):
         # Ghost Movement
         #self.temp_dirg=directions[random.choice(('left','right','up'))]
         for i in range(4):
-			x, y = self.table.move_ghost(self.pacman.x, self.pacman.y, self.ghosts[i].x, self.ghosts[i].y)
-			self.ghosts[i].move((x, y))
+            t=random.choice(range(3))
+            if t is not 2:
+                x, y = self.table.move_ghost(self.pacman.x, self.pacman.y, self.ghosts[i].x, self.ghosts[i].y)
+            else:
+                a, b = self.ghosts[i].x, self.ghosts[i].y
+                x, y = random.choice(self.table.move_rand(a,b))
+            self.ghosts[i].move((x, y))
 
         # Update all sprites.
         # Calls update method for the sprites defined.
