@@ -16,6 +16,7 @@ class Piece(pygame.sprite.Sprite):
             image = image from file'''
         super(Piece, self).__init__()
         
+        self.rect = None
         self.type = None
         self.falling = True
         self.state = 1
@@ -98,6 +99,9 @@ class Piece(pygame.sprite.Sprite):
             return True
         return False
 
+    def make_rect(self):
+        self.rect = Rect.unionall(starting_pos)
+
     def rotate(self):
         old_pos = self.starting_pos[:]
         # type 'I' can rotate in 2 ways
@@ -140,3 +144,4 @@ class Piece(pygame.sprite.Sprite):
                         return
                 self.state = 1
                 return
+
