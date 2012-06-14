@@ -206,7 +206,7 @@ class Person(pygame.sprite.Sprite):
             vertex = [(cenx, ceny), (1, 1), (self.size-1, 1)]
         elif x < 0 and y == 0: # goes right
             vertex = [(cenx, ceny), (self.size-1, 1), (self.size-1, self.size-1)]
-        elif x > 0 and y == 0: #goes left
+        elif x > 0and y == 0: #goes left
             vertex = [(cenx, ceny), (1, self.size-1), (1, 1)]
         
         self.rect = pygame.draw.circle(self.image, pygame.Color("yellow"), (cenx, ceny), radius)
