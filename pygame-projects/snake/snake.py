@@ -8,7 +8,7 @@ class SnakePart(gameobject.GameObject):
     def __init__(self, x, y, surface):
         super(SnakePart, self).__init__(x, y, surface)
         self.lastDirection = 1
-
+	self.isHead= False
         self.SIZE = gameobject.GameObject.SIZE
         self.image = pygame.Surface((2*self.SIZE, 2*self.SIZE), flags = SRCALPHA)
         self.image.convert()
@@ -25,6 +25,8 @@ class SnakePart(gameobject.GameObject):
     def moveTo(self,dire):
             y = self.y
             x = self.x
+	    self.lastx = x
+	    self.lasty = y
             if dire ==1 and self.lastDirection==2:
                 return False
             if dire ==2 and self.lastDirection==1:
@@ -51,7 +53,8 @@ class SnakePart(gameobject.GameObject):
             return True
             
     def collide(self, main, other):
-        if hasattr(other, "dead"):
-            main.score = main.score + 1 
+        if hasattr(other, "dead") and self.isHead == True :
+            main.score = main.score + 1
+	    main.addsnakepart(self)
 
 

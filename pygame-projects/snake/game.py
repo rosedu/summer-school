@@ -23,6 +23,7 @@ class Game(object):
         self.loadSettings(settings)
         self.clock = pygame.time.Clock()
         self.snakeParts = [snake.SnakePart(400,300, self.background)]
+        self.snakeParts[0].isHead = True
         self.gameObjects = [self.snakeParts[0]]
 	
 	for i in range(0,820,20):
@@ -51,6 +52,7 @@ class Game(object):
             return
         self.gameObjects.append(obj)
         self.sprites.add(obj)
+
     
     
     def removeObject(self, obj):
@@ -64,7 +66,7 @@ class Game(object):
 	self.screen.blit(s,(20,20))
 	pygame.display.flip()
 	pygame.event.pump()
-    
+
     def run(self):
         isRunning = True
         while True:
@@ -74,10 +76,22 @@ class Game(object):
                     return
             except GameException:
                 return
+    def addsnakepart(self,snk):
+	    news=snake.SnakePart(snk.lastx , snk.lasty ,self.background)
+	    self.snakeParts.append(news)
+	    self.addObject(news)
+
+    def moveAllSnakeParts(self):
+        ls=len(self.snakeParts)
+        ll= range(ls)
+        for i in ll:
+            if i==ls:
+                continue
+            self.snakeParts[ls-i-1].moveTo(self.snakeParts[ls-i-2].lastDirection)
 
     def tick(self):
         self.clock.tick(60)
-	self.scoreshow()
+        self.scoreshow()
         moved = False
         for event in pygame.event.get():
             if event.type == QUIT:
@@ -94,21 +108,26 @@ class Game(object):
         if not moved:
             self.move_timer = self.move_timer+1
             if self.move_timer == 10:
-                self.snakeParts[0].moveTo(self.snakeParts[0].lastDirection)
                 self.move_timer = 0
+                self.moveAllSnakeParts()
+                self.snakeParts[0].moveTo(self.snakeParts[0].lastDirection)
+                
+                      
         else:
             self.move_timer = 0
-            
+            self.moveAllSnakeParts()
+
         self.food_timer = self.food_timer - 1
+
         if self.food_timer == 0:
-	        self.addObject(food.Food(random.randint(0,100)*8,random.randint(0,75)*8, self.background)) 
-	        self.food_timer = random.randint(100,200)
-        
+            self.addObject(food.Food(random.randint(0,100)*8,random.randint(0,75)*8, self.background)) 
+            self.food_timer = random.randint(100,200)
+       
         for obj in self.gameObjects:
-                for obj2 in self.gameObjects:
-                        if obj != obj2 and obj.rect.colliderect(obj2):
-                            obj.collide(self, obj2)
-                            obj2.collide(self, obj)
+            for obj2 in self.gameObjects:
+                if obj != obj2 and obj.rect.colliderect(obj2):
+                    obj.collide(self, obj2)
+                   # obj2.collide(self, obj)
         
         toRemove = []
         for obj in self.gameObjects:
@@ -117,7 +136,7 @@ class Game(object):
                         toRemove.append(obj)
         for obj in toRemove:
             self.removeObject(obj)            
-                                     
+                                 
         self.sprites.update()
         self.screen.blit(self.background,(0,0))
         self.sprites.draw(self.screen)
