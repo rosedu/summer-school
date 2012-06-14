@@ -163,7 +163,7 @@ class Game(object):
 						start_flag = 0
 						self.screen.blit(settings.game_over, (30, 50))
 						pygame.display.update()
-		update()
+		settings.update()
 
         #Update all sprites
         #self.allsprites.update()
