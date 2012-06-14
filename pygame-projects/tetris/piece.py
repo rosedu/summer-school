@@ -108,6 +108,7 @@ class Piece(pygame.sprite.Sprite):
         p.starting_pos = starting
         p.display_pos = display
         p.counter = count
+       return p
     
     def rotate(self):
         old_pos = self.starting_pos[:]
