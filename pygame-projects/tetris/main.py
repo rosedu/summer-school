@@ -49,7 +49,7 @@ class Game(object):
         """
 
         # Initializes screen.
-        self.screen = pygame.display.set_mode(settings.resolution)
+        sefacinglf.screen = pygame.display.set_mode(settings.resolution)
         self.screen.set_clip(settings.game_info)
         self.screen.fill(settings.colors[5])
         
@@ -95,7 +95,7 @@ class Game(object):
         Handle events and redraw scene
         """
         self.clock.tick(10000)
-        self.bricks.append(Variables.p)
+        self.bricks.append(Variable.p.clone_piece())
         settings = Settings()
         
         #Check events.
@@ -157,6 +157,7 @@ class Game(object):
                 Settings.bricks[pos.top] += 1
             settings.game(settings.grid, Settings.bricks, self.screen)
             Variables.p = Variables.next_piece
+            self.bricks.append(Variables.p.clone_piece())
             Variables.next_piece = Piece(randint(1, 4))
             for g in settings.grid:
                 for pos in g.starting_pos:
@@ -167,6 +168,9 @@ class Game(object):
         settings.update(self.screen)
 
         #Update all sprites
+        for brick in self.bricks:
+            for pos in brick.display_pos:
+                self.screen.blit(brick.image, pos)
         self.allsprites.update()
 
         #Redraw.
