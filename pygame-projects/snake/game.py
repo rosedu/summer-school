@@ -24,7 +24,8 @@ class Game(object):
         self.score = 0
         self.loadSettings(settings)
         self.clock = pygame.time.Clock()
-        self.snakeParts = [snake.SnakePart(400,300, self.background)]
+        self.snakeParts = [snake.SnakePart(400,300,
+        self.background,"red")]
         self.snakeParts[0].isHead = True
         self.gameObjects = [self.snakeParts[0]]
 	
@@ -99,20 +100,15 @@ class Game(object):
         self.addObject(news)
 
     def moveAllSnakeParts(self):
-        #print "inainte de for"
         ls=len(self.snakeParts)
-        #ll= range(ls-1,0,-1)
-        #for i in ll:
-        #    self.snakeParts[i].moveTo(self.snakeParts[i-1].lldir)
-            #print "in for"
-            #if self.snakeParts[i-1].lastDirection == 1
-            #    self.snakeParts[i].moveTo(
         for i in range(1,ls):
-            if self.snakeParts[i].x == self.snakeParts[0].lastx and  self.snakeParts[i].y == self.snakeParts[0].lasty:
-                self.snakeParts[i].moveTo(self.snakeParts[0].lastDirection)
+            if self.snakeParts[i].x == self.snakeParts[i-1].lastx and self.snakeParts[i].y == self.snakeParts[i-1].lasty :
+                self.snakeParts[i].moveTo(self.snakeParts[i-1].lastDirection)
             else:
                 self.snakeParts[i].moveTo(self.snakeParts[i-1].lldir)
-            #print i
+            #if self.snakeParts[i-1].lastDirection == 2:
+            #    self.snakeParts[i].moveTo(2)
+            #    self.snakeParts[i].ign = False
 
     def tick(self):
         self.clock.tick(60)

@@ -5,7 +5,7 @@ from pygame.locals import *
 
 class SnakePart(gameobject.GameObject):
     
-    def __init__(self, x, y, surface):
+    def __init__(self, x, y, surface, color="green"):
         super(SnakePart, self).__init__(x, y, surface)
         self.lastDirection = 1
 	self.isHead= False
@@ -15,7 +15,7 @@ class SnakePart(gameobject.GameObject):
 	self.ign = True 
        
         self.rect = pygame.draw.circle(self.image,
-                pygame.Color("green"),
+                pygame.Color(color),
                 (self.SIZE,self.SIZE), self.SIZE)
         self.rect.midtop  = (x, y)
     
