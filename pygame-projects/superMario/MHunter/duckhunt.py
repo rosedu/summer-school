@@ -32,7 +32,7 @@ while ok == 0:
     screen.fill(black)
     #pygame.mouse.set_visible(False)
 
-    screen.blit(pygame.image.load("bg1.jpg"), (0, 0))
+    screen.blit(pygame.image.load("./res/bg1.jpg"), (0, 0))
     pygame.display.update()
     for event in pygame.event.get():
         if event.type == MOUSEBUTTONDOWN:
@@ -61,8 +61,8 @@ while True:
     screen.fill(black)
     pygame.mouse.set_visible(False)
 
-    screen.blit(pygame.image.load("background.jpg"), (0, 0))
-    screen.blit(pygame.image.load("score.gif"), (750, 10))
+    screen.blit(pygame.image.load("./res/background.jpg"), (0, 0))
+    screen.blit(pygame.image.load("./res/score.gif"), (750, 10))
     screen.blit(pygame.font.SysFont("tahoma", 40).render(str(points), True, black), (800, 10))
 
     # target
@@ -75,17 +75,17 @@ while True:
 
     # duck animation
     if x_duck%3 == 0 or x_duck%4 == 0 or x_duck%5 == 0:
-        screen.blit(pygame.image.load("greenduck2.gif"), (x_duck * speed, y_duck))
+        screen.blit(pygame.image.load("./res/greenduck2.gif"), (x_duck * speed, y_duck))
     else:
-	screen.blit(pygame.image.load("greenduck3.gif"), (x_duck * speed, y_duck))
+	screen.blit(pygame.image.load("./res/greenduck3.gif"), (x_duck * speed, y_duck))
 
     if exit:
         x_duck = -50
         y_duck = -50
-        screen.blit(pygame.image.load("dog.gif"), (400, 300))
+        screen.blit(pygame.image.load("./res/dog.gif"), (400, 300))
 	screen.blit(pygame.font.SysFont("arial", 60).render("LOOOSER!", True, (0, 255, 0)), (300, 200))
 
     # set crosshair
-    screen.blit(pygame.image.load("crosshair.gif").convert(), position)
+    screen.blit(pygame.image.load("./res/crosshair.gif").convert(), position)
 
     pygame.display.update()
