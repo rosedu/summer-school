@@ -24,8 +24,8 @@ class SnakePart(gameobject.GameObject):
 
     def moveTo(self,dire):
             if self.ign == True:
-		self.ign = False
-		return
+	    	self.ign = False
+	    	return
             y = self.y
             x = self.x
 	    self.lastx = x

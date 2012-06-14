@@ -96,7 +96,7 @@ class Game(object):
             if self.snakeParts[i].x == self.snakeParts[0].lastx and  self.snakeParts[i].y == self.snakeParts[0].lasty:
                 self.snakeParts[i].moveTo(self.snakeParts[0].lastDirection)
             else:
-                self.snakeParts[i].moveTo(self.snakeParts[0].lldir)
+                self.snakeParts[i].moveTo(self.snakeParts[i-1].lldir)
             #print i
 
     def tick(self):
