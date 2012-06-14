@@ -26,3 +26,4 @@ class Wall(gameobject.GameObject):
             main.scoreshow(150,260,"Press escape to exit")
             main.waitForPlayerToPressKey()
             main.removeObject(other)
+        

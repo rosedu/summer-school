@@ -62,4 +62,9 @@ class SnakePart(gameobject.GameObject):
             main.score = main.score + 1
 	    main.addsnakepart()
 
+        #main.addsnakepart()
+        if isinstance(other,SnakePart):
+            print "nu"
+        else:
+            print "da"
 

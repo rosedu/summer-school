@@ -99,6 +99,7 @@ class Game(object):
         self.snakeParts.append(news)
         self.addObject(news)
 
+
     def moveAllSnakeParts(self):
         ls=len(self.snakeParts)
         for i in range(1,ls):
