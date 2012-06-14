@@ -14,7 +14,7 @@ pygame.display.init()
 start_rect = Rect(165,180,60,30)
 reset_rect = Rect(245,180,60,30)
 start_flag = 0
-colors = [(255, 255, 255),	(100, 100, 100), (255,   0,   0), (  0, 255,   0),(  0,   0, 255), (  0, 153, 153), (  0,   0,   0)]
+colors = [(255, 255, 255),    (100, 100, 100), (255,   0,   0), (  0, 255,   0),(  0,   0, 255), (  0, 153, 153), (  0,   0,   0)]
 
 #Variable class
 class Variables(object):
@@ -89,7 +89,7 @@ class Game(object):
 
     Variables.p = Piece(randint(1, 4))
     Variables.next_piece = Piece(randint(1, 4))    
-	
+    
     def game_tick(self):
         """
         Handle events and redraw scene
@@ -117,53 +117,54 @@ class Game(object):
                     settings.move_sound.play()
             elif event.type == MOUSEBUTTONDOWN:
                 if pygame.mouse.get_pressed()[0]:
-				 if start_rect.collidepoint(event.pos):
-					settings.click_sound.play()
-					if self.start_flag == 1:
-						self.start_flag = 0
-						self.screen.set_clip(settings.game_info)
-						self.screen.blit(settings.pause_text, (171, 188))
-					else:
-						self.start_flag = 1
-						self.screen.set_clip(settings.game_info)
-						self.screen.blit(settings.pause_text, (171, 188))
-				 if reset_rect.collidepoint(event.pos):
-					settings.click_sound.play()
-					self.start_flag = 0
-					self.screen.set_clip(settings.game_area)
-					self.screen.fill(colors[6])
-					self.screen.set_clip(settings.game_info)
-					self.screen.blit(settings.start_text, (171, 188))
-					#self.screen.display.update()
-					settings.lines = 0
-					settings.grid = []
+                 if start_rect.collidepoint(event.pos):
+                    settings.click_sound.play()
+                    if self.start_flag == 1:
+                        self.start_flag = 0
+                        self.screen.set_clip(settings.game_info)
+                        self.screen.blit(settings.pause_text, (171, 188))
+                    else:
+                        self.start_flag = 1
+                        self.screen.set_clip(settings.game_info)
+                        self.screen.blit(settings.pause_text, (171, 188))
+                 if reset_rect.collidepoint(event.pos):
+                    settings.click_sound.play()
+                    self.start_flag = 0
+                    self.screen.set_clip(settings.game_area)
+                    self.screen.fill(colors[6])
+                    self.screen.set_clip(settings.game_info)
+                    self.screen.blit(settings.start_text, (171, 188))
+                    #self.screen.display.update()
+                    pygame.display.update()
+                    settings.lines = 0
+                    settings.grid = []
 
-		# New brick falling		
-		time_passed = pygame.time.get_ticks()
-		if (Variables.p.falling):
-			self.screen.set_clip(187, 67, 97, 67)
-			self.screen.fill(colors[5])
-			for pos in Variables.next_piece.display_pos:
-				self.screen.blit(Variables.next_piece.image, pos)
-			Variables.p.update(time_passed, settings.grid, settings.speed)
-			self.screen.set_clip(settings.game_area)
-			self.screen.fill(colors[5])
-			for pos in Variables.p.starting_pos:
-				self.screen.blit(Variables.p.image, pos)
-		else:
-			settings.grid.append(Variables.p)
-			for pos in Variables.p.starting_pos:
-				bricks[pos.top] += 1
-			game(setiings.grid, bricks)
-			Variables.p = Variables.next_piece
-			Variables.next_piece = Piece(randint(1, 4))
-			for g in settings.grid:
-				for pos in g.starting_pos:
-					if pos.left == 65 and pos.top <= 5:
-						start_flag = 0
-						self.screen.blit(settings.game_over, (30, 50))
-						pygame.display.update()
-		settings.update(self.screen)
+        # New brick falling        
+        time_passed = pygame.time.get_ticks()
+        if (Variables.p.falling):
+            self.screen.set_clip(187, 67, 97, 67)
+            self.screen.fill(colors[5])
+            for pos in Variables.next_piece.display_pos:
+                self.screen.blit(Variables.next_piece.image, pos)
+            Variables.p.update(time_passed, settings.grid, settings.speed)
+            self.screen.set_clip(settings.game_area)
+            self.screen.fill(colors[5])
+            for pos in Variables.p.starting_pos:
+                self.screen.blit(Variables.p.image, pos)
+        else:
+            settings.grid.append(Variables.p)
+            for pos in Variables.p.starting_pos:
+                bricks[pos.top] += 1
+            game(setiings.grid, bricks)
+            Variables.p = Variables.next_piece
+            Variables.next_piece = Piece(randint(1, 4))
+            for g in settings.grid:
+                for pos in g.starting_pos:
+                    if pos.left == 65 and pos.top <= 5:
+                        start_flag = 0
+                        self.screen.blit(settings.game_over, (30, 50))
+                        pygame.display.update()
+        settings.update(self.screen)
 
         #Update all sprites
         #self.allsprites.update()
