@@ -37,20 +37,17 @@ class Piece(pygame.sprite.Sprite):
             self.type = 'I'
         
         if type_of_piece == 2: #S
-            self.image = pygame.image.load(os.path.join('pix',
-                    'redblock.gif')).convert()
+            self.image = pygame.image.load(os.path.join('pix', 'redblock.gif')).convert()
             self.starting_pos = [Rect(95,-10,15,15), Rect(80,-10,15,15), Rect(80,5,15,15), Rect(65,5,15,15)]
             self.display_pos = [Rect(245,95,15,15), Rect(230,95,15,15), Rect(230,110,15,15), Rect(215,110,15,15)]
             self.type = 'S'
         if type_of_piece == 3: #Z
-            self.image = pygame.image.load(os.path.join('pix',
-                    'greenblock.gif')).convert()
+            self.image = pygame.image.load(os.path.join('pix', 'greenblock.gif')).convert()
             self.starting_pos = [Rect(65,-10,15,15), Rect(80,-10,15,15), Rect(80,5,15,15), Rect(95,5,15,15)]
             self.display_pos = [Rect(215,95,15,15), Rect(230,95,15,15), Rect(230,110,15,15), Rect(245,110,15,15)]
             self.type = 'Z'
         if type_of_piece == 4: #T 
-            self.image = pygame.image.load(os.path.join('pix',
-                    'purpleblock.gif')).convert()
+            self.image = pygame.image.load(os.path.join('pix', 'purpleblock.gif')).convert()
             self.starting_pos = [Rect(80,-10,15,15), Rect(65,5,15,15), Rect(80,5,15,15), Rect(95,5,15,15)]
             self.display_pos = [Rect(230,95,15,15), Rect(215,110,15,15), Rect(230,110,15,15), Rect(245,110,15,15)]
             self.type = 'T'
@@ -186,6 +183,7 @@ class Piece(pygame.sprite.Sprite):
                         return
                 self.state = 4
                 return
+
             if self.state == 4:
                 self.starting_pos[0] = Rect(self.starting_pos[2].left, self.starting_pos[2].top-15, 15, 15)
                 self.starting_pos[1] = Rect(self.starting_pos[2].left-15, self.starting_pos[2].top, 15, 15)
@@ -196,3 +194,22 @@ class Piece(pygame.sprite.Sprite):
                         return
                 self.state = 1
                 return
+        if self.type == 'Z':
+            if self.state == 1:
+                self.starting_pos[0] = Rect(self.starting_pos[1].left, self.starting_pos[1].top-15, 15, 15)
+                self.starting_pos[2] = Rect(self.starting_pos[1].left-15, self.starting_pos[1].top, 15, 15)
+                self.starting_pos[3] = Rect(self.starting_pos[1].left-15, self.starting_pos[1].top+15, 15, 15)
+                for pos in self.starting_pos:
+                    if self.not_ok(pos, old_pos):
+                        return
+                self.state = 2
+                return
+            if self.state == 2:
+               self.starting_pos[0] = Rect(self.starting_pos[1].left-15, self.starting_pos[1].top, 15, 15)
+               self.starting_pos[2] = Rect(self.starting_pos[1].left, self.starting_pos[1].top+15, 15, 15)
+               self.starting_pos[3] = Rect(self.starting_pos[1].left+15, self.starting_pos[1].top+15, 15, 15)
+               for pos in self.starting_pos:
+                   if self.not_ok(pos, old_pos):
+                       return
+               self.state = 1
+               return
