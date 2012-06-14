@@ -154,8 +154,8 @@ class Game(object):
         else:
             settings.grid.append(Variables.p)
             for pos in Variables.p.starting_pos:
-                bricks[pos.top] += 1
-            game(setiings.grid, bricks)
+                Settings.bricks[pos.top] += 1
+            game(setiings.grid, Settings.bricks)
             Variables.p = Variables.next_piece
             Variables.next_piece = Piece(randint(1, 4))
             for g in settings.grid:
