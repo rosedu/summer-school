@@ -128,13 +128,8 @@ def dumbmenu(screen, menu, x_pos = 100, y_pos = 100, font = None,
 	cursorpos = 0
 	renderWithChars = False
 	for i in menu:
-		if renderWithChars == False:
-			text =  myfont.render(str(cursorpos + 1)+".  " + i,
+		text =  myfont.render(i,
 				True, fgcolor)
-		else:
-			text =  myfont.render(chr(char)+".  " + i,
-				True, fgcolor)
-			char += 1
 		textrect = text.get_rect()
 		textrect = textrect.move(x_pos, 
 		           (size // distance * cursorpos) + y_pos)
@@ -149,8 +144,8 @@ def dumbmenu(screen, menu, x_pos = 100, y_pos = 100, font = None,
 	cursorpos = 0
 	cursor = myfont.render(">", True, cursorcolor)
 	cursorrect = cursor.get_rect()
-	cursorrect = cursorrect.move(x_pos - (size // distance),
-	             (size // distance * cursorpos) + y_pos)
+	cursorrect = cursorrect.move(x_pos + 200,
+	             (size // distance * cursorpos) - y_pos)
 
 	# The whole While-loop takes care to show the Cursor, move the
 	# Cursor and getting the Keys (1-9 and A-Z) to work...
@@ -165,8 +160,8 @@ def dumbmenu(screen, menu, x_pos = 100, y_pos = 100, font = None,
 			screen.blit(filler, fillerrect)
 			pygame.display.update(cursorrect)
 			cursorrect = cursor.get_rect()
-			cursorrect = cursorrect.move(x_pos - (size // distance),
-			             (size // distance * cursorpos) + y_pos)
+			cursorrect = cursorrect.move(x_pos - 30,
+			             (size // distance * cursorpos) + y_pos - 4)
 			screen.blit(cursor, cursorrect)
 			pygame.display.update(cursorrect)
 			ArrowPressed = False

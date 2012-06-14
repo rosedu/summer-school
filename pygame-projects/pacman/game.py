@@ -204,6 +204,41 @@ class Background(pygame.sprite.Sprite):
 
 
 
+class Food(pygame.sprite.Sprite):
+
+    def __init__(self, x, y, surface, size):
+        super(Food, self).__init__()
+        self.x = x
+        self.y = y
+        self.surface = surface
+
+        # Surface of the person object.
+        # Has flags for alpha chanels
+        self.image = pygame.Surface((size, size), flags = SRCALPHA)
+        self.image.convert()
+
+        self.size = size
+        self.set_color(pygame.Color(130, 70, 0))
+
+        self.rect.topleft = (x, y)
+
+
+    def set_color(self, color):
+        """
+        Sets person's color
+        """
+        
+        x = self.size/2
+        y = self.size/2
+        radius = self.size/4
+        self.rect = pygame.draw.circle(self.image, color, (x, y), radius)
+        
+    
+    def update(self):
+        """
+        Updates graphical logic
+        """
+
 
 class Person(pygame.sprite.Sprite):
 
@@ -431,7 +466,6 @@ class Game(object):
         """
         Init game from Settings object
         """
-        self.sprites = []
 
         # Init screen.
         self.screen = pygame.display.set_mode(self.settings.resolution)
@@ -442,28 +476,36 @@ class Game(object):
         self.background = background.convert()
         self.background.fill(self.settings.background)
         
+        
         #Init table
         self.table = Background(background, self.settings.resolution)
-        self.sprites.append(self.table)
+        self.tableSprite = pygame.sprite.RenderPlain(self.table)
+
+        # Init food
+        self.foods = []
+        self.foodsSprite = []
+        for i in range(Background.SIZE):
+            for j in range(Background.SIZE):
+                if self.table.matrix[i][j] == 0:
+                    x = i * self.table.blockSize
+                    y = j * self.table.blockSize
+                    self.foods.append(Food(x, y, self.background, self.table.blockSize))
+        self.foodsSprite = pygame.sprite.RenderPlain(self.foods)
         
         #Init pacman        
         x = Background.SIZE / 2 * self.table.blockSize
         self.pacman = Person(x, x, self.background, self.table.blockSize)
-        self.sprites.append(self.pacman)
+        self.pacmanSprite = pygame.sprite.RenderPlain(self.pacman)
 
         #Init ghosts
         self.ghosts=[]
-        
+        self.ghostsSprite = []
         self.ghosts.append(Phantom(0,0,self.background,self.table.blockSize, pygame.Color(0, 50, 250)))
-        self.sprites.append(self.ghosts[0])
         self.ghosts.append(Phantom(0,770,self.background,self.table.blockSize, (250, 50, 100)))
-        self.sprites.append(self.ghosts[1])
         self.ghosts.append(Phantom(770,770,self.background,self.table.blockSize, (0, 200, 0)))
-        self.sprites.append(self.ghosts[2])
         self.ghosts.append(Phantom(770,0,self.background,self.table.blockSize, (150, 150, 150)))
-        self.sprites.append(self.ghosts[3])
+        self.ghostsSprite = pygame.sprite.RenderPlain(self.ghosts)
 
-        self.allsprites = pygame.sprite.RenderPlain(self.sprites)
 
         self.direction = directions['start']
         self.temp_direction = directions['start']
@@ -550,10 +592,19 @@ class Game(object):
         x, y = self.table.getActualXY((self.pacman.x, self.pacman.y), self.direction)
         self.pacman.move((x, y))
 
+        #Food eat
+        for f in self.foods:
+            if self.pacman.x == f.x and self.pacman.y == f.y:
+                f.set_color(pygame.Color("black"))
+                self.foods.remove(f)
+
         #Game Over
         for i in range(4):
             if (self.pacman.x == self.ghosts[i].x) and (self.pacman.y == self.ghosts[i].y) :
                 return False
+
+        if len(self.foods) == 0:
+            return False
 
         # Ghost Movement
         #self.temp_dirg=directions[random.choice(('left','right','up'))]
@@ -563,11 +614,15 @@ class Game(object):
 
         # Update all sprites.
         # Calls update method for the sprites defined.
-        self.allsprites.update()
+        self.pacmanSprite.update()
+        self.ghostsSprite.update()
 
         # Redraw.
         self.screen.blit(self.background, (0, 0))
-        self.allsprites.draw(self.screen)
+        self.tableSprite.draw(self.screen)
+        self.foodsSprite.draw(self.screen)
+        self.pacmanSprite.draw(self.screen)
+        self.ghostsSprite.draw(self.screen)
         pygame.display.flip()
 
         return True
