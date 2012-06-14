@@ -118,4 +118,4 @@ class Settings(object):
                     g.starting_pos = [pos for pos in g.starting_pos if pos != k]
                 bricks[k] = 0
                 grid = [g for g in grid if len(g.starting_pos) > 0]
-                move_down(k, grid, bricks, screen)
+                self.move_down(k, grid, bricks, screen)

@@ -146,11 +146,12 @@ class Game(object):
             self.screen.fill(colors[5])
             for pos in Variables.next_piece.display_pos:
                 self.screen.blit(Variables.next_piece.image, pos)
-#            Variables.p.update(time_passed, settings.grid, settings.speed)
+            Variables.p.update(time_passed, settings.grid, settings.speed)
             self.screen.set_clip(settings.game_area)
             self.screen.fill(colors[5])
-            for pos in Variables.p.starting_pos:
-                self.screen.blit(Variables.p.image.make_rect(), pos)
+            Variables.p.make_rect()
+            Variables.p.rect = pos
+                
         else:
             settings.grid.append(Variables.p)
             for pos in Variables.p.starting_pos:
