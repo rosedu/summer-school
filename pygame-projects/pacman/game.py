@@ -28,8 +28,6 @@ class Settings(object):
         self.resolution = (800, 800)
         # Backround color in Red Blue Green channels
         self.background = (0, 0, 0)
-        # Mouse enabled
-        self.mouse_enabled = True
         # Title
         self.title = "PacMan"
 
@@ -230,16 +228,6 @@ class Person(pygame.sprite.Sprite):
         self.y = self.new_y
         self.rect.topleft = (self.x, self.y)
 
-    def clicked(self, pos):
-        """
-        Logic if object is clicked
-        """
-
-        # Get absolute position.
-        abs_rect = self.rect.move(self.image.get_abs_offset())
-        if abs_rect.contains(pos, (1, 1)):
-            return True
-        return False
 
 class Fantoma(pygame.sprite.Sprite):
     
@@ -263,10 +251,8 @@ class Fantoma(pygame.sprite.Sprite):
      
         # Surface of the person object.
         # Has flags for alpha chanels
-        self.image = pygame.Surface((2 * Person.SIZE, 2 * Person.SIZE), flags = SRCALPHA)
+        self.image = pygame.Surface((self.size, self.size), flags = SRCALPHA)
         self.image.convert()
-
-        self.selected = False
         self.set_color("blue")
 
         self.rect.topleft = (x, y)
@@ -275,7 +261,7 @@ class Fantoma(pygame.sprite.Sprite):
         """
         Sets person's color
         """
-        radius = Person.SIZE
+        radius = self.size/2
         self.rect = pygame.draw.circle(self.image, pygame.Color(color), (radius, radius), radius)
 
     def move(self, next_move):
@@ -309,8 +295,8 @@ class Game(object):
         self.direction = directions['start']
         self.temp_direction = directions['start']
 
-        self.dirg = directions['down']
-        self.temp_dirg = directions['right']
+        self.dirg = directions['up']
+        self.temp_dirg = directions['up']
 
     def init_from_settings(self, settings):
         """
@@ -320,7 +306,6 @@ class Game(object):
         # Init screen.
         self.screen = pygame.display.set_mode(settings.resolution)
         pygame.display.set_caption(settings.title)
-        pygame.mouse.set_visible(settings.mouse_enabled)
         
         # Init background.
         background = pygame.Surface(self.screen.get_size())
@@ -349,15 +334,6 @@ class Game(object):
             except GameException:
                 return
 
-    def spawn_random_person(self):
-        w, h = self.screen.get_size()
-        x = random.randint(0, w)
-        y = random.randint(0, h)
-        self.persons.append(Person(x, y, self.background))
-
-        # Add new persons to rendered group
-        self.allsprites = pygame.sprite.RenderPlain(self.persons)
-
     def game_tick(self):
         """
         Handle events and redraw scene
@@ -369,7 +345,6 @@ class Game(object):
             if event.type == QUIT:
                 raise GameException
             elif event.type == KEYUP:
-                #self.direction = directions['start']
                 continue
             elif event.type == KEYDOWN:
                 if event.key == K_DOWN:
@@ -382,15 +357,22 @@ class Game(object):
                     self.temp_direction = directions["right"]
                 continue
 
+
+        # Pacman movement
         if self.table.isValid((self.pacman.x, self.pacman.y), self.temp_direction):
             self.direction = self.temp_direction
         else:
             if not(self.table.isValid((self.pacman.x, self.pacman.y), self.direction)):
                 self.direction = directions['start']
             self.temp_direction = self.direction
+            
+        x, y = self.table.getActualXY((self.pacman.x, self.pacman.y), self.direction)
+        self.pacman.move((x, y))
 
-       #Ghost Movement
-#self.temp_dirg=directions[random.choice(('left','right','up'))]
+
+
+        # Ghost Movement
+        #self.temp_dirg=directions[random.choice(('left','right','up'))]
         self.temp_dirg=directions[self.table.find(self.pacman.x, self.pacman.y,
                                                   self.ghost.x, self.ghost.y)]
         if self.table.isValid((self.ghost.x, self.ghost.y), self.temp_dirg):
@@ -399,10 +381,6 @@ class Game(object):
             if not(self.table.isValid((self.ghost.x, self.ghost.y), self.dirg)):
                 self.dirg = directions['up']
             self.temp_dirg = self.dirg
-
-
-        x, y = self.table.getActualXY((self.pacman.x, self.pacman.y), self.direction)
-        self.pacman.move((x, y))
         
         x, y = self.table.getActualXY((self.ghost.x, self.ghost.y), self.dirg)
         self.ghost.move((x, y))
@@ -410,7 +388,6 @@ class Game(object):
 
         # Update all sprites.
         # Calls update method for the sprites defined.
-
         self.allsprites.update()
 
         # Redraw.
