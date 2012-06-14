@@ -94,7 +94,7 @@ class Game(object):
         """
         Handle events and redraw scene
         """
-        self.clock.tick(60)
+        self.clock.tick(10000)
         
         settings = Settings()
         
