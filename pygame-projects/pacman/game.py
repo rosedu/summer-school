@@ -1,5 +1,7 @@
 import pygame
 import random
+import rungame as rg
+import dumbmenu as dm
 
 directions  = { "start": (0, 0), "left": (-1, 0), "right": (1, 0), "down": (0, 1), "up": (0, -1) }
 
@@ -321,7 +323,8 @@ class Game(object):
         self.sprites.append(self.table)
         
         #Init pacman        
-        self.pacman = Person(0, 0, self.background, self.table.blockSize)
+        x = Background.SIZE / 2 * self.table.blockSize
+        self.pacman = Person(x, x, self.background, self.table.blockSize)
         self.sprites.append(self.pacman)
 
         #Init ghosts
@@ -336,6 +339,41 @@ class Game(object):
         self.ghosts.append(Fantoma(770,0,self.background,self.table.blockSize))
         self.sprites.append(self.ghosts[3])
 
+    
+    def reset(self):
+        red   = 255,  0,  0
+        green =   0,255,  0
+        blred   = 255,  0,  0
+        green =   0,255,  0
+        blue  =   0,  0,255
+
+
+        size = width, height = 340,240	
+        screen = pygame.display.set_mode(size)
+        screen.fill(blue)
+        pygame.display.update()
+        pygame.key.set_repeat(500,30)
+
+        choose = dm.dumbmenu(screen, [
+                        'Start Game',
+                        'Options',
+                        'Manual',
+                        'Show Highscore',
+                        'Quit Game'], 64,64,None,32,1.4,green,red)
+
+        if choose == 0:
+            rg.main()
+            print "You choose 'Start Game'."
+        elif choose == 1:
+            print "You choose 'Options'."
+        elif choose == 2:
+            print "You choose 'Manual'."
+        elif choose == 3:
+            print "You choose 'Show Highscore'."
+        elif choose == 4:
+             print "You choose 'Quit Game'."
+        pygame.quit()
+        exit()
 
 
     def run(self):
@@ -405,7 +443,12 @@ class Game(object):
                     self.ghosts[i].y), self.dirg[i])
             self.ghosts[i].move((x, y))
 
-
+        #Game Over
+        for i in range(4):
+            if (self.pacman.x == self.ghosts[i].x) and (self.pacman.x ==
+            self.ghosts[i].y) :
+                    self.reset()
+                    print 'TATATATAATA'
         # Update all sprites.
         # Calls update method for the sprites defined.
         self.allsprites.update()
