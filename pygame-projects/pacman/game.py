@@ -445,7 +445,7 @@ class Game(object):
 
         #Game Over
         for i in range(4):
-            if (self.pacman.x == self.ghosts[i].x) and (self.pacman.x ==
+            if (self.pacman.x == self.ghosts[i].x) and (self.pacman.y ==
             self.ghosts[i].y) :
                     self.reset()
                     print 'TATATATAATA'
