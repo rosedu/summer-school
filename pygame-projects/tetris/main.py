@@ -131,7 +131,6 @@ class Game(object):
                     self.screen.fill(colors[6])
                     self.screen.set_clip(settings.game_info)
                     self.screen.blit(settings.start_text, (171, 188))
-                    #self.screen.display.update()
                     pygame.display.update()
                     settings.lines = 0
                     settings.grid = []
