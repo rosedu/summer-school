@@ -508,9 +508,12 @@ class Game(object):
         """
         while True:
             try:
-                self.game_tick()
+                if not(self.game_tick()):
+                    break;
             except GameException:
                 return
+
+        self.show_menu()
 
     def game_tick(self):
         """
@@ -547,7 +550,10 @@ class Game(object):
         x, y = self.table.getActualXY((self.pacman.x, self.pacman.y), self.direction)
         self.pacman.move((x, y))
 
-
+        #Game Over
+        for i in range(4):
+            if (self.pacman.x == self.ghosts[i].x) and (self.pacman.y == self.ghosts[i].y) :
+                return False
 
         # Ghost Movement
         #self.temp_dirg=directions[random.choice(('left','right','up'))]
@@ -555,10 +561,6 @@ class Game(object):
 			x, y = self.table.move_ghost(self.pacman.x, self.pacman.y, self.ghosts[i].x, self.ghosts[i].y)
 			self.ghosts[i].move((x, y))
 
-        #Game Over
-        for i in range(4):
-            if (self.pacman.x == self.ghosts[i].x) and (self.pacman.y == self.ghosts[i].y) :
-                    self.show_menu()
         # Update all sprites.
         # Calls update method for the sprites defined.
         self.allsprites.update()
@@ -567,5 +569,7 @@ class Game(object):
         self.screen.blit(self.background, (0, 0))
         self.allsprites.draw(self.screen)
         pygame.display.flip()
+
+        return True
 
 
