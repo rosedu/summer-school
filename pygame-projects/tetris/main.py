@@ -40,8 +40,6 @@ class Game(object):
         self.init_from_settings(settings)
         self.clock = pygame.time.Clock()
         self.start_flag = 0
-        self.bricks = []
-        self.allsprites = pygame.sprite.RenderPlain(self.bricks)
 
     def init_from_settings(self, settings):
         """
@@ -94,11 +92,7 @@ class Game(object):
         """
         Handle events and redraw scene
         """
-        self.clock.tick(10000)
-        self.bricks.append(Variables.p.clone_piece(Variables.p.state,
-                Variables.p.type, Variables.p.starting_pos,
-                Variables.p.display_pos, Variables.p.counter,
-                Variables.p.image))
+        self.clock.tick(60)
         settings = Settings()
         
         #Check events.
@@ -160,10 +154,6 @@ class Game(object):
                 Settings.bricks[pos.top] += 1
             settings.game(settings.grid, Settings.bricks, self.screen)
             Variables.p = Variables.next_piece
-            self.bricks.append(Variables.p.clone_piece(Variables.p.state,
-                    Variables.p.type, Variables.p.starting_pos,
-                    Variables.p.display_pos, Variables.p.counter,
-                    Variables.p.image))
             Variables.next_piece = Piece(randint(1, 4))
             for g in settings.grid:
                 for pos in g.starting_pos:
@@ -172,14 +162,3 @@ class Game(object):
                         self.screen.blit(settings.game_over, (30, 50))
                         pygame.display.update()
         settings.update(self.screen)
-
-        #Update all sprites
-        for brick in self.bricks:
-            for pos in brick.display_pos:
-                self.screen.blit(brick.image, pos)
-        self.allsprites.update()
-
-        #Redraw.
-        self.screen.blit(self.background, (0,0))
-        self.allsprites.draw(self.screen)
-        pygame.display.flip()
