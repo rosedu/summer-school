@@ -100,8 +100,15 @@ class Piece(pygame.sprite.Sprite):
         return False
 
     def make_rect(self):
-            self.rect = self.display_pos[0].unionall(self.display_pos[1:3])
-
+        self.rect = self.display_pos[0].unionall(self.display_pos[1:3])
+    
+    def clone_piece(self, state, type_as_nr, starting, display, count):
+        p = Piece(type_as_nr)
+        p.state = state
+        p.starting_pos = starting
+        p.display_pos = display
+        p.counter = count
+    
     def rotate(self):
         old_pos = self.starting_pos[:]
         # type 'I' can rotate in 2 ways
