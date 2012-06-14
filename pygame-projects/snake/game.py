@@ -76,18 +76,28 @@ class Game(object):
                     return
             except GameException:
                 return
-    def addsnakepart(self,snk):
-	    news=snake.SnakePart(snk.lastx , snk.lasty ,self.background)
-	    self.snakeParts.append(news)
-	    self.addObject(news)
+    def addsnakepart(self):
+        size=self.snakeParts[0].SIZE
+        snk=self.snakeParts[len(self.snakeParts)-1]
+        news = snake.SnakePart(snk.x,snk.y,self.background)
+        self.snakeParts.append(news)
+        self.addObject(news)
 
     def moveAllSnakeParts(self):
+        #print "inainte de for"
         ls=len(self.snakeParts)
-        ll= range(ls)
-        for i in ll:
-            if i==ls:
-                continue
-            self.snakeParts[ls-i-1].moveTo(self.snakeParts[ls-i-2].lastDirection)
+        #ll= range(ls-1,0,-1)
+        #for i in ll:
+        #    self.snakeParts[i].moveTo(self.snakeParts[i-1].lldir)
+            #print "in for"
+            #if self.snakeParts[i-1].lastDirection == 1
+            #    self.snakeParts[i].moveTo(
+        for i in range(1,ls):
+            if self.snakeParts[i].x == self.snakeParts[0].lastx and  self.snakeParts[i].y == self.snakeParts[0].lasty:
+                self.snakeParts[i].moveTo(self.snakeParts[0].lastDirection)
+            else:
+                self.snakeParts[i].moveTo(self.snakeParts[0].lldir)
+            #print i
 
     def tick(self):
         self.clock.tick(60)
