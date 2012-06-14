@@ -106,9 +106,6 @@ class Game(object):
                 self.snakeParts[i].moveTo(self.snakeParts[i-1].lastDirection)
             else:
                 self.snakeParts[i].moveTo(self.snakeParts[i-1].lldir)
-            #if self.snakeParts[i-1].lastDirection == 2:
-            #    self.snakeParts[i].moveTo(2)
-            #    self.snakeParts[i].ign = False
 
     def tick(self):
         self.clock.tick(60)

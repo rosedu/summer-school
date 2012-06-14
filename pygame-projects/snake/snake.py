@@ -8,11 +8,11 @@ class SnakePart(gameobject.GameObject):
     def __init__(self, x, y, surface, color="green"):
         super(SnakePart, self).__init__(x, y, surface)
         self.lastDirection = 1
-	self.isHead= False
+        self.isHead= False
         self.SIZE = gameobject.GameObject.SIZE
         self.image = pygame.Surface((2*self.SIZE, 2*self.SIZE), flags = SRCALPHA)
         self.image.convert()
-	self.ign = True 
+        self.ign = True 
        
         self.rect = pygame.draw.circle(self.image,
                 pygame.Color(color),
