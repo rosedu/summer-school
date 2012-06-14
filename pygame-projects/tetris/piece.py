@@ -15,7 +15,7 @@ class Piece(pygame.sprite.Sprite):
         ''' (x, y) = initialpos
             image = image from file'''
         super(Piece, self).__init__()
-        
+
         self.rect = None
         self.type = None
         self.falling = True
@@ -102,13 +102,15 @@ class Piece(pygame.sprite.Sprite):
     def make_rect(self):
         self.rect = self.display_pos[0].unionall(self.display_pos[1:3])
     
-    def clone_piece(self, state, type_as_nr, starting, display, count):
+    def clone_piece(self, state, type_as_nr, starting, display, count,
+                    img):
         p = Piece(type_as_nr)
         p.state = state
         p.starting_pos = starting
         p.display_pos = display
         p.counter = count
-       return p
+        p.image = img
+        return p
     
     def rotate(self):
         old_pos = self.starting_pos[:]
