@@ -32,13 +32,13 @@ class Settings(object):
         # Title
         self.title = "Tetris"
        
-        self.colors = [(255, 255, 255),        # WHITE
-                       (100, 100, 100),     # GRAY
-                        (255,   0,   0),     # RED
-                        (  0, 255,   0),     # BLUE
-                        (  0,   0, 255),     # GREEN
-                       (  0, 153, 153),        # TURQUOISE
-                        (  0,   0,   0)]        # BLACK
+        self.colors = [(255, 255, 255),         # WHITE
+                       (100, 100, 100),         # GRAY
+                       (255,   0,   0),         # RED
+                       (  0, 255,   0),         # BLUE
+                       (  0,   0, 255),         # GREEN
+                       (  0, 153, 153),         # TURQUOISE
+                       (  0,   0,   0)]         # BLACK
                         
        
         # Font size
