@@ -95,7 +95,9 @@ class Game(object):
         Handle events and redraw scene
         """
         self.clock.tick(10000)
-        self.bricks.append(Variables.p.clone_piece())
+        self.bricks.append(Variables.p.clone_piece(Variables.p.state,
+                Variables.p.type, Variables.p.starting_pos,
+                Variables.p.display_pos, Variables.p.counter))
         settings = Settings()
         
         #Check events.
@@ -157,7 +159,9 @@ class Game(object):
                 Settings.bricks[pos.top] += 1
             settings.game(settings.grid, Settings.bricks, self.screen)
             Variables.p = Variables.next_piece
-            self.bricks.append(Variables.p.clone_piece())
+            self.bricks.append(Variables.p.clone_piece(Variables.p.state,
+                    Variables.p.type, Variables.p.starting_pos,
+                    Variables.p.display_pos, Variables.p.counter))
             Variables.next_piece = Piece(randint(1, 4))
             for g in settings.grid:
                 for pos in g.starting_pos:
