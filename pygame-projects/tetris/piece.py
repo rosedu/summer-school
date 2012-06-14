@@ -29,24 +29,27 @@ class Piece(pygame.sprite.Sprite):
         Sets the brick's color
         """
         if type_of_piece == 1: #I
-            self.image = pygame.image.load(os.path.join('data','tealbrick.png')).convert()
+            self.image = pygame.image.load(os.path.join('pix','orangeblock.gif')).convert()
             self.starting_pos = [Rect(50,-10,15,15),
 			    Rect(65,-10,15,15), Rect(80,-10,15,15), Rect(95, -10, 15, 15)]
             self.display_pos = [Rect(200,95,15,15), Rect(215,95,15,15), Rect(230,95,15,15), Rect(245, 95, 15, 15)]
             self.type = 'I'
         
         if type_of_piece == 2: #S
-            self.image = pygame.image.load(os.path.join('data', 'redbrick.png')).convert()
+            self.image = pygame.image.load(os.path.join('pix',
+                    'redblock.gif')).convert()
             self.starting_pos = [Rect(95,-10,15,15), Rect(80,-10,15,15), Rect(80,5,15,15), Rect(65,5,15,15)]
             self.display_pos = [Rect(245,95,15,15), Rect(230,95,15,15), Rect(230,110,15,15), Rect(215,110,15,15)]
             self.type = 'S'
         if type_of_piece == 3: #Z
-            self.image = pygame.image.load(os.path.join('data', 'greenbrick.png')).convert()
+            self.image = pygame.image.load(os.path.join('pix',
+                    'greenblock.gif')).convert()
             self.starting_pos = [Rect(65,-10,15,15), Rect(80,-10,15,15), Rect(80,5,15,15), Rect(95,5,15,15)]
             self.display_pos = [Rect(215,95,15,15), Rect(230,95,15,15), Rect(230,110,15,15), Rect(245,110,15,15)]
             self.type = 'Z'
         if type_of_piece == 4: #T 
-            self.image = pygame.image.load(os.path.join('data', 'purplebrick.png')).convert()
+            self.image = pygame.image.load(os.path.join('pix',
+                    'purpleblock.gif')).convert()
             self.starting_pos = [Rect(80,-10,15,15), Rect(65,5,15,15), Rect(80,5,15,15), Rect(95,5,15,15)]
             self.display_pos = [Rect(230,95,15,15), Rect(215,110,15,15), Rect(230,110,15,15), Rect(245,110,15,15)]
             self.type = 'T'
@@ -76,7 +79,7 @@ class Piece(pygame.sprite.Sprite):
                     if pos.right == ii.left and pos.top == ii.top:
                         return      
         for pos in self.starting_pos:
-            pos.right +=15
+                pos.right +=15
         
     def move_left(self, grid):
         for pos in self.starting_pos:

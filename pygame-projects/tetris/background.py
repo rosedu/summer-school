@@ -49,9 +49,9 @@ class Settings(object):
                         
        
         # Font size
-        self.my_font40 = pygame.font.SysFont(None, 40)
-        self.my_font30 = pygame.font.SysFont(None, 30)
+        self.my_font25 = pygame.font.SysFont(None, 25)
         self.my_font20 = pygame.font.SysFont(None, 20)
+        self.my_font15 = pygame.font.SysFont(None, 15)
         
         # Text in the right side of the board 
         self.help_text1 = my_font15.render('Rules:', True, self.colors[6], self.colors[5])
@@ -59,8 +59,8 @@ class Settings(object):
         self.help_text3 = my_font15.render('Up key to rotate blocks.', True, self.colors[6], self.colors[5])
         self.start_text = my_font20.render('START', True, self.colors[6], self.colors[5])
         self.reset_text = my_font20.render('RESET', True, self.colors[6], self.colors[5])
-        self.pause_text = my_font25.render('PAUSE', True, self.colors[6], self.colors[5])
-        self.my_font30.set_bold(True)
+        self.pause_text = my_font20.render('PAUSE', True, self.colors[6], self.colors[5])
+        self.my_font20.set_bold(True)
         self.game_over = my_font20.render('NO BEER FOR YOU TODAY', True, self.colors[6], self.colors[5])
 
         # Setting sounds
@@ -81,7 +81,7 @@ class Settings(object):
 
     def update(self, screen):
         screen.set_clip(Settings.game_info)
-        line_text = my_font30.render('Lines Number:' + str(Settings.lines), True, self.colors[6], self.colors[5])
+        line_text = my_font25.render('Lines Number:' + str(Settings.lines), True, self.colors[6], self.colors[5])
         screen.blit(line_text, (165, 10))
         screen.set_clip(Settings.game_area)
         for g in self.grid:
