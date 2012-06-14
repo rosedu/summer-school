@@ -197,9 +197,6 @@ class Game(object):
                 elif event.key == K_LEFT and self.map[top/48][(left-12)/48] == 0 and self.map[(bottom-1)/48][(left-12)/48] == 0:
                     direction = 4
                 elif event.key == K_SPACE and self.map[self.player_y][self.player_x] == 0:
-                    print "bomba "
-                    print self.player_x 
-                    print self.player_y
                     self.map[self.player_y][self.player_x] = 3
                     bomb = Bomb(self.player_x*48,self.player_y*48)
                     bomb.draw(self.screen)
@@ -210,7 +207,6 @@ class Game(object):
         self.player_y = self.player.rect.centery/48
         for bomb in self.bombs:
             bomb.clock_tick()
-            print bomb.ttl
             if bomb.ttl < 0:
                 self.bombs.remove(bomb)
                 bomb.erase(self.screen, self.background)
