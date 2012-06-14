@@ -97,7 +97,7 @@ class Settings(object):
                     pos.top += 15
                     bricks[pos.top] += 1
         screen.fill(self.colors[5])
-        self.update()
+        self.update(screen)
         pygame.time.wait(30)
         self.game(grid, bricks)
 
