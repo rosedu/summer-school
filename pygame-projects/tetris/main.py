@@ -7,10 +7,17 @@ from background import *
 from piece import *
 from pygame.locals import *
 
+#Initializations
+pygame.display.init()
+
 #Constants
 start_rect = Rect(165,180,60,30)
 reset_rect = Rect(245,180,60,30)
 start_flag = 0
+
+#Variable class
+class Variables(object):
+    p
 
 #Class definitions
 class GameException(Exception):
@@ -79,8 +86,8 @@ class Game(object):
             except GameException:
                 return
 
-    p = Piece(randint(1, 4))
-    next_piece = Piece(randint(1, 4))    
+    Variables.p = Piece(randint(1, 4))
+    Variables.next_piece = Piece(randint(1, 4))    
 	
     def game_tick(self):
         """
