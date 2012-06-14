@@ -19,4 +19,7 @@ class Wall(gameobject.GameObject):
 		self.rect.midtop = (x,y)
 
 	def collide(self,main,other):
+		main.scoreshow(200,200,"You Loose!!!")
+		main.scoreshow(150,260,"Press escape to exit")
+		main.waitForPlayerToPressKey()
 		main.removeObject(other)

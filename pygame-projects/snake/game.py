@@ -3,6 +3,8 @@ import random
 import snake
 import food
 import wall
+import text
+import sys
 
 from pygame.locals import *
 
@@ -37,7 +39,11 @@ class Game(object):
         self.score = 0
         self.food_timer = random.randint(100,200)
 
-
+     
+    def terminate(self):
+        pygame.quit()
+        sys.exit()
+    
     def loadSettings(self, settings):
         self.screen = pygame.display.set_mode(settings.resolution)
         pygame.display.set_caption(settings.title)
@@ -53,17 +59,26 @@ class Game(object):
         self.gameObjects.append(obj)
         self.sprites.add(obj)
 
+    def waitForPlayerToPressKey(self):
+	while True:
+		for event in pygame.event.get():
+			if event.type == QUIT:
+				self.terminate()
+			if event.type == KEYDOWN:
+				if event.key == K_ESCAPE: 
+					self.terminate()
+			return
     
     
     def removeObject(self, obj):
         self.gameObjects.remove(obj)
         self.sprites.remove(obj)
     
-    def scoreshow(self):
+    def scoreshow(self,x,y,text):
 	font=pygame.font.SysFont("Times New Roman",50)
-	s=font.render(str(self.score),True,(0,0,0))
+	s=font.render(str(text),True,(0,0,0))
 	s.get_flags()
-	self.screen.blit(s,(20,20))
+	self.screen.blit(s,(x,y))
 	pygame.display.flip()
 	pygame.event.pump()
 
@@ -101,7 +116,6 @@ class Game(object):
 
     def tick(self):
         self.clock.tick(60)
-        self.scoreshow()
         moved = False
         for event in pygame.event.get():
             if event.type == QUIT:
@@ -145,9 +159,13 @@ class Game(object):
                     if obj.dead:
                         toRemove.append(obj)
         for obj in toRemove:
-            self.removeObject(obj)            
-                                 
+            self.removeObject(obj)   
+         
+        self.drawThing = text.draw(20,20, self.background, self.score)
+        self.rdrawThing = pygame.sprite.RenderPlain(self.drawThing) 
+                            
         self.sprites.update()
         self.screen.blit(self.background,(0,0))
+        self.rdrawThing.draw(self.screen)
         self.sprites.draw(self.screen)
         pygame.display.flip()
