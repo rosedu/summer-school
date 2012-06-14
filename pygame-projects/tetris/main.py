@@ -105,15 +105,15 @@ class Game(object):
             elif event.type == KEYDOWN:
                 #Keyboard events
                 if event.key == pygame.K_UP:
-                    p.rotate()
+                    Variables.p.rotate()
                     settings.rotate_sound.play()
                 elif event.key == pygame.K_DOWN:
                     pass
                 elif event.key == pygame.K_LEFT:
-                    p.move_left(settings.grid)
+                    Variables.p.move_left(settings.grid)
                     settings.move_sound.play()
                 elif event.key == pygame.K_RIGHT:
-                    p.move_right(settings.grid)
+                    Variables.p.move_right(settings.grid)
                     settings.move_sound.play()
             elif event.type == MOUSEBUTTONDOWN:
                 if pygame.mouse.get_pressed()[0]:
@@ -134,7 +134,7 @@ class Game(object):
 					self.screen.fill(colors[6])
 					self.screen.set_clip(settings.game_info)
 					self.screen.blit(settings.start_text, (171, 188))
-					self.screen.display.update()
+					#self.screen.display.update()
 					settings.lines = 0
 					settings.grid = []
 
@@ -151,13 +151,13 @@ class Game(object):
 			for pos in Variables.p.starting_pos:
 				self.screen.blit(Variables.p.image, pos)
 		else:
-			grid.append(Variables.p)
+			settings.grid.append(Variables.p)
 			for pos in Variables.p.starting_pos:
 				bricks[pos.top] += 1
-			game(grid, bricks)
+			game(setiings.grid, bricks)
 			Variables.p = Variables.next_piece
 			Variables.next_piece = Piece(randint(1, 4))
-			for g in grid:
+			for g in settings.grid:
 				for pos in g.starting_pos:
 					if pos.left == 65 and pos.top <= 5:
 						start_flag = 0
