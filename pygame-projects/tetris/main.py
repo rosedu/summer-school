@@ -14,10 +14,11 @@ pygame.display.init()
 start_rect = Rect(165,180,60,30)
 reset_rect = Rect(245,180,60,30)
 start_flag = 0
+colors = [(255, 255, 255),	(100, 100, 100), (255,   0,   0), (  0, 255,   0),(  0,   0, 255), (  0, 153, 153), (  0,   0,   0)]
 
 #Variable class
 class Variables(object):
-    p
+    p = None
 
 #Class definitions
 class GameException(Exception):
@@ -139,28 +140,28 @@ class Game(object):
 
 		# New brick falling		
 		time_passed = pygame.time.get_ticks()
-		if (p.falling):
-			screen.set_clip(187, 67, 97, 67)
-			screen.fill(colors[5])
-			for pos in next_piece.display_pos:
-				screen.blit(next_piece.image, pos)
-			p.update(time_passed, grid, speed)
-			screen.set_clip(settings.game_area)
-			screen.fill(colors[5])
-			for pos in p.starting_pos:
-				screen.blit(p.image, pos)
+		if (Variables.p.falling):
+			self.screen.set_clip(187, 67, 97, 67)
+			self.screen.fill(colors[5])
+			for pos in Variables.next_piece.display_pos:
+				self.screen.blit(Variables.next_piece.image, pos)
+			Variables.p.update(time_passed, settings.grid, settings.speed)
+			self.screen.set_clip(settings.game_area)
+			self.screen.fill(colors[5])
+			for pos in Variables.p.starting_pos:
+				self.screen.blit(Variables.p.image, pos)
 		else:
-			grid.append(p)
-			for pos in p.starting_pos:
+			grid.append(Variables.p)
+			for pos in Variables.p.starting_pos:
 				bricks[pos.top] += 1
 			game(grid, bricks)
-			p = next_piece
-			next_piece = Piece(randint(1, 4))
+			Variables.p = Variables.next_piece
+			Variables.next_piece = Piece(randint(1, 4))
 			for g in grid:
 				for pos in g.starting_pos:
 					if pos.left == 65 and pos.top <= 5:
 						start_flag = 0
-						screen.blit(settings.game_over, (30, 50))
+						self.screen.blit(settings.game_over, (30, 50))
 						pygame.display.update()
 		update()
 
