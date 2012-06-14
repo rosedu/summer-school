@@ -53,14 +53,14 @@ class Settings(object):
 		self.my_font20 = pygame.font.SysFont(None, 20)
 		
 		# Text in the right side of the board 
-		self.help_text1 = my_font20.render('Rules:', True, colors[6], colors[5])
-		self.help_text2 = my_font20.render('Left and Right keys to move.', True, colors[6], colors[5])
-		self.help_text3 = my_font20.render('Up key to rotate blocks.', True, colors[6], colors[5])
-		self.start_text = my_font30.render('START GAME', True, colors[6], colors[5])
-		self.reset_text = my_font30.render('RESET GAME', True, colors[6], colors[5])
-		self.pause_text = my_font40.render('PAUSE FOR BEER', True, colors[6], colors[5])
+		self.help_text1 = my_font15.render('Rules:', True, colors[6], colors[5])
+		self.help_text2 = my_font15.render('Left and Right keys to move.', True, colors[6], colors[5])
+		self.help_text3 = my_font15.render('Up key to rotate blocks.', True, colors[6], colors[5])
+		self.start_text = my_font20.render('START', True, colors[6], colors[5])
+		self.reset_text = my_font20.render('RESET', True, colors[6], colors[5])
+		self.pause_text = my_font25.render('PAUSE', True, colors[6], colors[5])
 		self.my_font30.set_bold(True)
-		self.game_over = my_font30.render('NO BEER FOR YOU TODAY', True, colors[6], colors[5])
+		self.game_over = my_font20.render('NO BEER FOR YOU TODAY', True, colors[6], colors[5])
 
 		# Setting sounds
 		self.click_sound = pygame.mixer.Sound(os.path.join('sounds', 'click.wav'))
@@ -74,9 +74,9 @@ class Settings(object):
 		bricks = {290:0, 275:0, 260:0, 245:0, 230:0, 215:0, 200:0, 185:0, 170:0, 155:0, 
                   140:0, 125:0, 110:0, 95:0, 80:0, 65:0, 50:0, 35:0, 20:0, 5:0}
 
-		self.start_text = my_font20.render('START', True, colors[1], colors[0])
-		self.reset_text = my_font20.render('RESET', True, colors[1], colors[0])
-		self.pause_text = my_font20.render('PAUSE', True, colors[1], colors[0])
+		#self.start_text = my_font20.render('START', True, colors[1], colors[0])
+		#self.reset_text = my_font20.render('RESET', True, colors[1], colors[0])
+		#self.pause_text = my_font20.render('PAUSE', True, colors[1], colors[0])
 
 	def update():
 		screen.set_clip(game_info)
