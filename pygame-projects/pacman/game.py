@@ -139,24 +139,7 @@ class Background(pygame.sprite.Sprite):
 
         return (new_x*self.blockSize, new_y*self.blockSize)
 
-    def getNext(self, (x, y), (px, py)):
-        return (x, y)
-    
-    def find(self, x, y, px, py):
-        t1 = x - px
-        t2 = y - py
-        if abs(t1) > abs(t2):
-            if t1 > 0 :
-              return 'right'
-            else :
-              return 'left'
-        else :
-            if t2 > 0 :
-              return 'up'
-            else :
-              return 'down'
-
-	def bfs(self, g, start):
+    def bfs(self, g, start):
 		queue, enqueued = deque([(None, start)]), set([start])
 		while queue:
 		    parent, n = queue.popleft()
@@ -165,9 +148,9 @@ class Background(pygame.sprite.Sprite):
 		    enqueued |= new
 		    queue.extend([(n, child) for child in new])
 
-	def shortest_path(self, g, start, end):
+    def shortest_path(self, g, start, end):
 		parents = {}
-		for parent, child in bfs(g, start):
+		for parent, child in self.bfs(g, start):
 		    parents[child] = parent
 		    if child == end:
 		        revpath = [end]
@@ -181,15 +164,15 @@ class Background(pygame.sprite.Sprite):
 		        return x[1]
 		return None # or raise appropriate exception
 
-	def move_ghost(self, pacman_x, pacman_y, phantom_x, phantom_y):
+    def move_ghost(self, pacman_x, pacman_y, phantom_x, phantom_y):
 		count = {}
 		phantom_x = phantom_x / self.blockSize
 		phantom_y = phantom_y / self.blockSize		
 		pacman_x = pacman_x / self.blockSize
 		pacman_y = pacman_y / self.blockSize
-		for i in range(self.len(matrix)):
-		    for j in range(self.len(matrix)):
-		        if matrix[i][j] == 0:
+		for i in range(len(self.matrix)):
+		    for j in range(len(self.matrix)):
+		        if self.matrix[i][j] == 0:
 		            a = []
 		            new_i = i + 1
 		            new_j = j + 1
@@ -204,19 +187,23 @@ class Background(pygame.sprite.Sprite):
 		            if(low_j < 0):
 		                low_j = len(self.matrix) - 1
 
-		            if matrix[new_i][j] == 0:
+		            if self.matrix[new_i][j] == 0:
 		                a.append((new_i, j))
-		            if matrix[i][new_j] == 0:
+		            if self.matrix[i][new_j] == 0:
 		                a.append((i, new_j))
-		            if matrix[i][low_j] == 0:
+		            if self.matrix[i][low_j] == 0:
 		                a.append((i, low_j))
-		            if matrix[low_i][j] == 0:
+		            if self.matrix[low_i][j] == 0:
 		                a.append((low_i, j))
 		            count[(i, j)] = a
+
 		phantom = (phantom_x, phantom_y)
 		pacman = (pacman_x, pacman_y)
-		x, y = shortest_path(count, phantom, pacman)
-		return (x * self.blockSize, y * blockSize)
+		x, y = self.shortest_path(count, phantom, pacman)
+		return (x * self.blockSize, y * self.blockSize)
+
+
+
 
 class Person(pygame.sprite.Sprite):
 
@@ -432,39 +419,31 @@ class Game(object):
 
     def __init__(self, settings = Settings()):
         pygame.init()
-        self.sprites = []
-
-        self.init_from_settings(settings)
+        self.settings = settings
+        
         self.clock = pygame.time.Clock()
 
-        self.allsprites = pygame.sprite.RenderPlain(self.sprites)
+        self.show_menu()
 
-        self.direction = directions['start']
-        self.temp_direction = directions['start']
-
-
-        self.dirg =[]
-        self.temp_dirg = []
-        for i in range(4):
-            self.dirg.append(random.choice(['up','down','left','right']))
-            self.temp_dirg.append(random.choice(['up','down','left','right']))
+        
     
-    def init_from_settings(self, settings):
+    def init_game(self):
         """
         Init game from Settings object
         """
+        self.sprites = []
 
         # Init screen.
-        self.screen = pygame.display.set_mode(settings.resolution)
-        pygame.display.set_caption(settings.title)
+        self.screen = pygame.display.set_mode(self.settings.resolution)
+        pygame.display.set_caption(self.settings.title)
         
         # Init background.
         background = pygame.Surface(self.screen.get_size())
         self.background = background.convert()
-        self.background.fill(settings.background)
+        self.background.fill(self.settings.background)
         
         #Init table
-        self.table = Background(background, settings.resolution)
+        self.table = Background(background, self.settings.resolution)
         self.sprites.append(self.table)
         
         #Init pacman        
@@ -484,41 +463,43 @@ class Game(object):
         self.ghosts.append(Phantom(770,0,self.background,self.table.blockSize, (150, 150, 150)))
         self.sprites.append(self.ghosts[3])
 
+        self.allsprites = pygame.sprite.RenderPlain(self.sprites)
+
+        self.direction = directions['start']
+        self.temp_direction = directions['start']
+
+        self.dirg =[]
+        self.temp_dirg = []
+        for i in range(4):
+            self.dirg.append(random.choice(['up','down','left','right']))
+            self.temp_dirg.append(random.choice(['up','down','left','right']))
+
+        self.run()
+
     
-    def reset(self):
-        red   = 255,  0,  0
-        green =   0,255,  0
-        blred   = 255,  0,  0
-        green =   0,255,  0
-        blue  =   0,  0,255
+    def show_menu(self):
+        letters = 250, 250, 0
+        cursor = 250, 250, 0
 
 
-        size = width, height = 340,240	
+        size = width, height = self.settings.resolution
         screen = pygame.display.set_mode(size)
-        screen.fill(blue)
+        screen.fill(self.settings.background)
         pygame.display.update()
         pygame.key.set_repeat(500,30)
 
+        x = self.settings.resolution[0] / 2 - 80
+        y = self.settings.resolution[1] / 2 - 100
+
         choose = dm.dumbmenu(screen, [
                         'Start Game',
-                        'Options',
-                        'Manual',
-                        'Show Highscore',
-                        'Quit Game'], 64,64,None,32,1.4,green,red)
+                        'Quit Game'], x, y, 'Verdana', 32, 0.5, letters, cursor)
 
         if choose == 0:
-            rg.main()
-            print "You choose 'Start Game'."
+            self.init_game()
         elif choose == 1:
-            print "You choose 'Options'."
-        elif choose == 2:
-            print "You choose 'Manual'."
-        elif choose == 3:
-            print "You choose 'Show Highscore'."
-        elif choose == 4:
-             print "You choose 'Quit Game'."
-        pygame.quit()
-        exit()
+            pygame.quit()
+            exit()
 
 
     def run(self):
@@ -576,10 +557,8 @@ class Game(object):
 
         #Game Over
         for i in range(4):
-            if (self.pacman.x == self.ghosts[i].x) and (self.pacman.y ==
-            self.ghosts[i].y) :
-                    self.reset()
-                    print 'TATATATAATA'
+            if (self.pacman.x == self.ghosts[i].x) and (self.pacman.y == self.ghosts[i].y) :
+                    self.show_menu()
         # Update all sprites.
         # Calls update method for the sprites defined.
         self.allsprites.update()
