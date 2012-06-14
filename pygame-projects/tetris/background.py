@@ -93,7 +93,7 @@ class Settings(object):
         for k in sorted_keys:
             if (bricks[k] == 10):
                 Settings.lines += 1
-                Settings.speed -= 10
+                Settings.speed -= 5
                 for g in grid:
                     for pos in g.starting_pos:
                         if pos.top == k:
