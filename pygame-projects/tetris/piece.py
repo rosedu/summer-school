@@ -15,8 +15,6 @@ class Piece(pygame.sprite.Sprite):
         ''' (x, y) = initialpos
             image = image from file'''
         super(Piece, self).__init__()
-        #self.ID = current_id
-        #current_id += 1
         
         self.type = None
         self.falling = True
