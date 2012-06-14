@@ -295,9 +295,13 @@ class Game(object):
         self.direction = directions['start']
         self.temp_direction = directions['start']
 
-        self.dirg = directions['up']
-        self.temp_dirg = directions['up']
 
+        self.dirg =[]
+        self.temp_dirg = []
+        for i in range(4):
+            self.dirg.append(random.choice(['up','down','left','right']))
+            self.temp_dirg.append(random.choice(['up','down','left','right']))
+    
     def init_from_settings(self, settings):
         """
         Init game from Settings object
@@ -320,9 +324,19 @@ class Game(object):
         self.pacman = Person(0, 0, self.background, self.table.blockSize)
         self.sprites.append(self.pacman)
 
-        #Init ghost
-        self.ghost = Fantoma(0,0,self.background,self.table.blockSize)
-        self.sprites.append(self.ghost)
+        #Init ghosts
+        self.ghosts=[]
+        
+        self.ghosts.append(Fantoma(0,0,self.background,self.table.blockSize))
+        self.sprites.append(self.ghosts[0])
+        self.ghosts.append(Fantoma(0,770,self.background,self.table.blockSize))
+        self.sprites.append(self.ghosts[1])
+        self.ghosts.append(Fantoma(770,770,self.background,self.table.blockSize))
+        self.sprites.append(self.ghosts[2])
+        self.ghosts.append(Fantoma(770,0,self.background,self.table.blockSize))
+        self.sprites.append(self.ghosts[3])
+
+
 
     def run(self):
         """
@@ -373,17 +387,23 @@ class Game(object):
 
         # Ghost Movement
         #self.temp_dirg=directions[random.choice(('left','right','up'))]
-        self.temp_dirg=directions[self.table.find(self.pacman.x, self.pacman.y,
-                                                  self.ghost.x, self.ghost.y)]
-        if self.table.isValid((self.ghost.x, self.ghost.y), self.temp_dirg):
-            self.dirg = self.temp_dirg
-        else:
-            if not(self.table.isValid((self.ghost.x, self.ghost.y), self.dirg)):
-                self.dirg = directions['up']
-            self.temp_dirg = self.dirg
+        for i in range(4):
+            self.temp_dirg[i]=directions[self.table.find(self.pacman.x, self.pacman.y,
+                                                  self.ghosts[i].x,
+                                                  self.ghosts[i].y)]
+            if self.table.isValid((self.ghosts[i].x, self.ghosts[i].y),
+                        self.temp_dirg[i]):
+                self.dirg[i] = self.temp_dirg[i]
+            else:
+                if not(self.table.isValid((self.ghosts[i].x,
+                        self.ghosts[i].y),
+                        self.dirg[i])):
+                    self.dirg[i] = directions['up']
+                self.temp_dirg[i] = self.dirg[i]
         
-        x, y = self.table.getActualXY((self.ghost.x, self.ghost.y), self.dirg)
-        self.ghost.move((x, y))
+            x, y = self.table.getActualXY((self.ghosts[i].x,
+                    self.ghosts[i].y), self.dirg[i])
+            self.ghosts[i].move((x, y))
 
 
         # Update all sprites.
