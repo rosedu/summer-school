@@ -117,18 +117,18 @@ class Piece(pygame.sprite.Sprite):
         # type 'I' can rotate in 2 ways
         if self.type == 'I':
             if self.state == 1:
-                self.starting_pos[0] = Rect(self.starting_pos[2].left, self.starting_pos[2].top-2*15,15,15)
-                self.starting_pos[1] = Rect(self.starting_pos[2].left, self.starting_pos[2].top-15,15,15)
-                self.starting_pos[3] = Rect(self.starting_pos[2].left, self.starting_pos[2].top+15,15,15)
+                self.starting_pos[0] = Rect(self.starting_pos[2].left, self.starting_pos[2].top-30, 15, 15)
+                self.starting_pos[1] = Rect(self.starting_pos[2].left, self.starting_pos[2].top-15, 15, 15)
+                self.starting_pos[3] = Rect(self.starting_pos[2].left, self.starting_pos[2].top+15, 15, 15)
                 for pos in self.starting_pos:
                     if self.not_ok(pos, old_pos):
                         return
                 self.state = 2
                 return
             if self.state == 2:
-                self.starting_pos[0] = Rect(self.starting_pos[2].left-2*15, self.starting_pos[2].top,15,15)
-                self.starting_pos[1] = Rect(self.starting_pos[2].left-15, self.starting_pos[2].top,15,15)
-                self.starting_pos[3] = Rect(self.starting_pos[2].left+15, self.starting_pos[2].top,15,15)
+                self.starting_pos[0] = Rect(self.starting_pos[2].left-30, self.starting_pos[2].top, 15, 15)
+                self.starting_pos[1] = Rect(self.starting_pos[2].left-15, self.starting_pos[2].top, 15, 15)
+                self.starting_pos[3] = Rect(self.starting_pos[2].left+15, self.starting_pos[2].top, 15, 15)
                 for pos in self.starting_pos:
                     if self.not_ok(pos, old_pos):
                         return
@@ -137,21 +137,62 @@ class Piece(pygame.sprite.Sprite):
         # type 'S' rotations
         if self.type == 'S':
             if self.state == 1:
-                self.starting_pos[0] = Rect(self.starting_pos[1].left, self.starting_pos[1].top-15,15,15)
-                self.starting_pos[2] = Rect(self.starting_pos[1].left+15, self.starting_pos[1].top,15,15)
-                self.starting_pos[3] = Rect(self.starting_pos[1].left+15, self.starting_pos[1].top+15,15,15)
+                self.starting_pos[0] = Rect(self.starting_pos[1].left, self.starting_pos[1].top-15, 15, 15)
+                self.starting_pos[2] = Rect(self.starting_pos[1].left+15, self.starting_pos[1].top, 15, 15)
+                self.starting_pos[3] = Rect(self.starting_pos[1].left+15, self.starting_pos[1].top+15, 15, 15)
                 for pos in self.starting_pos:
                     if self.not_ok(pos, old_pos):
                         return
                 self.state = 2
                 return
             if self.state == 2:
-                self.starting_pos[0] = Rect(self.starting_pos[1].left+15, self.starting_pos[1].top,15,15)
-                self.starting_pos[2] = Rect(self.starting_pos[1].left, self.starting_pos[1].top+15,15,15)
-                self.starting_pos[3] = Rect(self.starting_pos[1].left-15, self.starting_pos[1].top+15,15,15)
+                self.starting_pos[0] = Rect(self.starting_pos[1].left+15, self.starting_pos[1].top, 15, 15)
+                self.starting_pos[2] = Rect(self.starting_pos[1].left, self.starting_pos[1].top+15, 15, 15)
+                self.starting_pos[3] = Rect(self.starting_pos[1].left-15, self.starting_pos[1].top+15, 15, 15)
                 for pos in self.starting_pos:
                     if self.not_ok(pos, old_pos):
                         return
                 self.state = 1
                 return
+        if self.type == 'T':
+            if self.state == 1:
+                self.starting_pos[0] = Rect(self.starting_pos[2].left+15, self.starting_pos[2].top, 15, 15)
+                self.starting_pos[1] = Rect(self.starting_pos[2].left, self.starting_pos[2].top-15, 15, 15)
+                self.starting_pos[3] = Rect(self.starting_pos[2].left, self.starting_pos[2].top+15, 15, 15)
+                
+                for pos in self.starting_pos:
+                    if self.not_ok(pos, old_pos):
+                        return
+                self.state = 2
+                return
 
+            if self.state == 2:
+                self.starting_pos[0] = Rect(self.starting_pos[2].left, self.starting_pos[2].top+15, 15, 15)
+                self.starting_pos[1] = Rect(self.starting_pos[2].left+15, self.starting_pos[2].top, 15, 15)
+                self.starting_pos[3] = Rect(self.starting_pos[2].left-15, self.starting_pos[2].top, 15, 15)
+                
+                for pos in self.starting_pos:
+                    if self.not_ok(pos, old_pos):
+                        return
+                self.state = 3
+                return
+            if self.state == 3:
+                self.starting_pos[0] = Rect(self.starting_pos[2].left-15, self.starting_pos[2].top, 15, 15)
+                self.starting_pos[1] = Rect(self.starting_pos[2].left, self.starting_pos[2].top+15, 15, 15)
+                self.starting_pos[3] = Rect(self.starting_pos[2].left, self.starting_pos[2].top-15, 15, 15)
+                
+                for pos in self.starting_pos:
+                    if self.not_ok(pos, old_pos):
+                        return
+                self.state = 4
+                return
+            if self.state == 4:
+                self.starting_pos[0] = Rect(self.starting_pos[2].left, self.starting_pos[2].top-15, 15, 15)
+                self.starting_pos[1] = Rect(self.starting_pos[2].left-15, self.starting_pos[2].top, 15, 15)
+                self.starting_pos[3] = Rect(self.starting_pos[2].left+15, self.starting_pos[2].top, 15, 15)
+                
+                for pos in self.starting_pos:
+                    if self.not_ok(pos, old_pos):
+                        return
+                self.state = 1
+                return
