@@ -96,6 +96,10 @@ class Game(object):
         settings = Settings()
         
         while True:
+
+            #Reset grid and other settings
+            
+
             #Check events.
             for event in pygame.event.get():
                 if event.type == QUIT:
