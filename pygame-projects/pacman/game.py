@@ -2,6 +2,7 @@ import pygame
 import random
 import rungame as rg
 import dumbmenu as dm
+from collections import deque
 
 directions  = { "start": (0, 0), "left": (-1, 0), "right": (1, 0), "down": (0, 1), "up": (0, -1) }
 
@@ -81,6 +82,7 @@ class Background(pygame.sprite.Sprite):
         self.blockSize = res / Background.SIZE
         self.generateBlocks()
         self.rect.topleft = (0, 0)
+		#self.move_ghost()
 
     def generateBlocks(self): 
         self.blocks = []
@@ -153,6 +155,68 @@ class Background(pygame.sprite.Sprite):
               return 'up'
             else :
               return 'down'
+
+	def bfs(self, g, start):
+		queue, enqueued = deque([(None, start)]), set([start])
+		while queue:
+		    parent, n = queue.popleft()
+		    yield parent, n
+		    new = set(g[n]) - enqueued
+		    enqueued |= new
+		    queue.extend([(n, child) for child in new])
+
+	def shortest_path(self, g, start, end):
+		parents = {}
+		for parent, child in bfs(g, start):
+		    parents[child] = parent
+		    if child == end:
+		        revpath = [end]
+		        while True:
+		            parent = parents[child]
+		            revpath.append(parent)
+		            if parent == start:
+		                break
+		            child = parent
+		        x = list(reversed(revpath))
+		        return x[1]
+		return None # or raise appropriate exception
+
+	def move_ghost(self, pacman_x, pacman_y, phantom_x, phantom_y):
+		count = {}
+		phantom_x = phantom_x / self.blockSize
+		phantom_y = phantom_y / self.blockSize		
+		pacman_x = pacman_x / self.blockSize
+		pacman_y = pacman_y / self.blockSize
+		for i in range(self.len(matrix)):
+		    for j in range(self.len(matrix)):
+		        if matrix[i][j] == 0:
+		            a = []
+		            new_i = i + 1
+		            new_j = j + 1
+		            low_i = i - 1
+		            low_j = j - 1
+		            if(new_i == len(self.matrix)):
+		                new_i = 0
+		            if(low_i < 0):
+		                low_i = len(self.matrix) - 1
+		            if(new_j == len(self.matrix)):
+		                new_j = 0
+		            if(low_j < 0):
+		                low_j = len(self.matrix) - 1
+
+		            if matrix[new_i][j] == 0:
+		                a.append((new_i, j))
+		            if matrix[i][new_j] == 0:
+		                a.append((i, new_j))
+		            if matrix[i][low_j] == 0:
+		                a.append((i, low_j))
+		            if matrix[low_i][j] == 0:
+		                a.append((low_i, j))
+		            count[(i, j)] = a
+		phantom = (phantom_x, phantom_y)
+		pacman = (pacman_x, pacman_y)
+		x, y = shortest_path(count, phantom, pacman)
+		return (x * self.blockSize, y * blockSize)
 
 class Person(pygame.sprite.Sprite):
 
@@ -507,22 +571,8 @@ class Game(object):
         # Ghost Movement
         #self.temp_dirg=directions[random.choice(('left','right','up'))]
         for i in range(4):
-            self.temp_dirg[i]=directions[self.table.find(self.pacman.x, self.pacman.y,
-                                                  self.ghosts[i].x,
-                                                  self.ghosts[i].y)]
-            if self.table.isValid((self.ghosts[i].x, self.ghosts[i].y),
-                        self.temp_dirg[i]):
-                self.dirg[i] = self.temp_dirg[i]
-            else:
-                if not(self.table.isValid((self.ghosts[i].x,
-                        self.ghosts[i].y),
-                        self.dirg[i])):
-                    self.dirg[i] = directions['up']
-                self.temp_dirg[i] = self.dirg[i]
-        
-            x, y = self.table.getActualXY((self.ghosts[i].x,
-                    self.ghosts[i].y), self.dirg[i])
-            self.ghosts[i].move((x, y))
+			x, y = self.table.move_ghost(self.pacman.x, self.pacman.y, self.ghosts[i].x, self.ghosts[i].y)
+			self.ghosts[i].move((x, y))
 
         #Game Over
         for i in range(4):
