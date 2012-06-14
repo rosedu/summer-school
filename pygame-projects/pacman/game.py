@@ -177,15 +177,21 @@ class Person(pygame.sprite.Sprite):
         self.delta_x = -self.size
         self.delta_y = 0
 
+        self.frame = 0
+
     def set_color(self, color):
         """
         Sets person's color
         """
-
+        
         x = self.size/2
         y = self.size/2
         radius = self.size/2 - 1
         self.rect = pygame.draw.circle(self.image, pygame.Color(color), (x, y), radius)
+        x = self.size / 3 
+        y = self.size / 3
+        radius = self.size / 6
+        self.rect = pygame.draw.circle(self.image, pygame.Color("black"), (x, y), radius)
         self.rect = pygame.draw.polygon(self.image, pygame.Color("black"), [(x, y), (self.size - 1, 1), (self.size - 1, self.size - 1)])
         
     def move(self, next_move):
@@ -198,7 +204,10 @@ class Person(pygame.sprite.Sprite):
         """
         Updates graphical logic
         """
-        
+        self.frame = self.frame + 1
+        if(self.frame > 1):
+            self.frame = 0
+
         x = self.x - self.new_x
         y = self.y - self.new_y
         
@@ -212,18 +221,54 @@ class Person(pygame.sprite.Sprite):
             
         cenx = self.size/2
         ceny = self.size/2
+
         radius = self.size/2 - 1
-        if x == 0 and y < 0: # goes down
-            vertex = [(cenx, ceny), (self.size-1, self.size-1), (1, self.size-1)]
-        elif x == 0 and y > 0: # goes up
-            vertex = [(cenx, ceny), (1, 1), (self.size-1, 1)]
-        elif x < 0 and y == 0: # goes right
-            vertex = [(cenx, ceny), (self.size-1, 1), (self.size-1, self.size-1)]
-        elif x > 0 and y == 0: #goes left
-            vertex = [(cenx, ceny), (1, self.size-1), (1, 1)]
-        
+        eyerad = self.size/6
+
         self.rect = pygame.draw.circle(self.image, pygame.Color("yellow"), (cenx, ceny), radius)
-        self.rect = pygame.draw.polygon(self.image, pygame.Color("black"), vertex)
+
+
+        if self.frame == 0:
+            if x == 0 and (y == -self.size or y > self.size): # goes down
+                eyex = self.size / 3
+                eyey = self.size / 3 
+                vertex = [(cenx, ceny), (self.size-1, self.size-1), (1, self.size-1)]
+            elif x == 0 and (y == self.size or y < -self.size): # goes up
+                eyex = self.size / 3 
+                eyey = self.size * 2 / 3
+                vertex = [(cenx, ceny), (1, 1), (self.size-1, 1)]
+            elif (x == -self.size or x > self.size) and y == 0: # goes right
+                eyex = self.size / 3 
+                eyey = self.size / 3
+                vertex = [(cenx, ceny), (self.size-1, 1), (self.size-1, self.size-1)]
+            elif (x == self.size or x < -self.size) and y == 0: #goes left
+                eyex = self.size * 2 / 3 
+                eyey = self.size / 3
+                vertex = [(cenx, ceny), (1, self.size-1), (1, 1)]
+
+            self.rect = pygame.draw.polygon(self.image, pygame.Color("black"), vertex)
+            self.rect = pygame.draw.circle(self.image, pygame.Color("black"), (eyex, eyey), eyerad)
+        else:
+            if x == 0 and (y == -self.size or y > self.size): # goes down
+                eyex = self.size / 3
+                eyey = self.size / 3 
+                vertex = [(cenx, ceny), (cenx, self.size-1), (cenx, ceny)]
+            elif x == 0 and (y == self.size or y < -self.size): # goes up
+                eyex = self.size / 3 
+                eyey = self.size * 2 / 3
+                vertex = [(cenx, ceny), (cenx, 1), (cenx, ceny)]
+            elif (x == -self.size or x > self.size) and y == 0: # goes right
+                eyex = self.size / 3 
+                eyey = self.size / 3
+                vertex = [(cenx, ceny), (self.size, ceny), (cenx, ceny)]
+            elif (x == self.size or x < -self.size) and y == 0: #goes left
+                eyex = self.size * 2 / 3 
+                eyey = self.size / 3
+                vertex = [(cenx, ceny), (0, ceny), (cenx, ceny)]
+    
+            self.rect = pygame.draw.polygon(self.image, pygame.Color("black"), vertex, 2)
+            self.rect = pygame.draw.circle(self.image, pygame.Color("black"), (eyex, eyey), eyerad)
+        
             
             
         self.x = self.new_x
@@ -231,11 +276,11 @@ class Person(pygame.sprite.Sprite):
         self.rect.topleft = (self.x, self.y)
 
 
-class Fantoma(pygame.sprite.Sprite):
+class Phantom(pygame.sprite.Sprite):
     
     #random.seed()
-    def __init__(self,x,y,surface,size):
-        super(Fantoma,self).__init__()
+    def __init__(self,x,y,surface,size, color):
+        super(Phantom,self).__init__()
         self.x = x
         self.y = y
         self.size = size
@@ -255,7 +300,7 @@ class Fantoma(pygame.sprite.Sprite):
         # Has flags for alpha chanels
         self.image = pygame.Surface((self.size, self.size), flags = SRCALPHA)
         self.image.convert()
-        self.set_color("blue")
+        self.set_color(color)
 
         self.rect.topleft = (x, y)
 
@@ -263,8 +308,43 @@ class Fantoma(pygame.sprite.Sprite):
         """
         Sets person's color
         """
-        radius = self.size/2
-        self.rect = pygame.draw.circle(self.image, pygame.Color(color), (radius, radius), radius)
+        #Draw circle part of phantom
+        radius = self.size * 1 / 2
+        x = self.size * 1 / 2
+        y = self.size * 1 / 2
+        self.rect = pygame.draw.circle(self.image, color, (x, y), radius)
+
+	    #Draw rectangle part of phantom
+        vertex = [	(0, self.size * 1 / 2),
+			        (self.size, self.size * 1 / 2),
+                    (self.size, self.size * 3.5 / 5),
+			        (0, self.size * 3.5 / 5) ]
+        self.rect = pygame.draw.polygon(self.image, color, vertex)
+
+        vertex = [	(0, self.size * 3.5 / 5),
+			        (self.size, self.size * 3.5 / 5),
+                    (self.size, self.size - 1),
+			        (0, self.size-1) ]
+        self.rect = pygame.draw.polygon(self.image, pygame.Color('black'), vertex)
+
+        #Draw triangle parts of phantom
+        for i in range(4):
+            vertex = [	(self.size * i / 4, self.size * 3.5 / 5),
+			            (self.size * (i + 1) / 4, self.size * 3.5 / 5),
+			            (self.size * (i + 0.5) / 4, self.size - 1) ]
+            self.rect = pygame.draw.polygon(self.image, color, vertex)
+
+        #Draw eyes
+        radius = self.size * 1 / 6
+        radius2 = self.size * 1 / 8
+        x = self.size * 1 / 4
+        y = self.size * 1 / 2
+        self.rect = pygame.draw.circle(self.image, pygame.Color("white"), (x, y), radius)
+        self.rect = pygame.draw.circle(self.image, color, (x, y), radius2)
+        x = self.size * 3 / 4
+        self.rect = pygame.draw.circle(self.image, pygame.Color("white"), (x, y), radius)
+        self.rect = pygame.draw.circle(self.image, color, (x, y), radius2)
+        
 
     def move(self, next_move):
         """
@@ -274,7 +354,8 @@ class Fantoma(pygame.sprite.Sprite):
  
     def update(self):
         """
-        Updates graphical logic"""
+        Updates graphical logic
+        """
         self.x=self.new_x
         self.y=self.new_y
         self.rect.topleft = (self.x, self.y)
@@ -330,13 +411,13 @@ class Game(object):
         #Init ghosts
         self.ghosts=[]
         
-        self.ghosts.append(Fantoma(0,0,self.background,self.table.blockSize))
+        self.ghosts.append(Phantom(0,0,self.background,self.table.blockSize, pygame.Color(0, 50, 250)))
         self.sprites.append(self.ghosts[0])
-        self.ghosts.append(Fantoma(0,770,self.background,self.table.blockSize))
+        self.ghosts.append(Phantom(0,770,self.background,self.table.blockSize, (250, 50, 100)))
         self.sprites.append(self.ghosts[1])
-        self.ghosts.append(Fantoma(770,770,self.background,self.table.blockSize))
+        self.ghosts.append(Phantom(770,770,self.background,self.table.blockSize, (0, 200, 0)))
         self.sprites.append(self.ghosts[2])
-        self.ghosts.append(Fantoma(770,0,self.background,self.table.blockSize))
+        self.ghosts.append(Phantom(770,0,self.background,self.table.blockSize, (150, 150, 150)))
         self.sprites.append(self.ghosts[3])
 
     
