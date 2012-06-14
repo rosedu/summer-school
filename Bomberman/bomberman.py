@@ -82,7 +82,19 @@ class Bomb(Actor):
     def __init__(self,x,y):
         Actor.__init__(self,Img.bomb)
         self.rect.move_ip(x,y)
-        self.ttl = 5
+        self.ttl = 50
+
+    def clock_tick(self):
+        self.ttl = self.ttl - 1
+
+class Fire(Actor):
+    def __init__(self,x,y):
+        Actor.__init__(self,Img.fire)
+        self.rect.move_ip(x,y)
+        self.ttl = 10
+
+    def clock_tick(self):
+        self.ttl = self.ttl - 1
 
 class Game(object):
     global update_img
@@ -97,7 +109,7 @@ class Game(object):
                         [1,2,2,2,2,2,2,2,2,1],
                         [1,2,2,2,2,2,2,2,2,1],
                         [1,2,2,2,2,2,2,2,2,1],
-                        [1,2,2,2,2,2,2,2,2,2],
+                        [1,2,2,2,2,2,2,2,2,1],
                         [1,1,1,1,1,1,1,1,1,1]]
             self.init_from_settings(settings)
             self.clock = pygame.time.Clock()
@@ -118,7 +130,10 @@ class Game(object):
         Img.unbreakable_wall = load_image('zidind.png',1)
         Img.breakable_wall = load_image('ziddes.png',1)
         Img.bomb = load_image('bomba.png',1)
+        Img.fire = load_image('foc.png',1)
         self.walls = []
+        self.bombs = []
+        self.fires = []
         size = 10
         for i in range(size):
             for j in range(size):
@@ -170,11 +185,62 @@ class Game(object):
                     direction = 2
                 elif event.key == K_LEFT and self.map[top/48][(left-12)/48] == 0 and self.map[(bottom-1)/48][(left-12)/48] == 0:
                     direction = 4
-    
+                elif event.key == K_SPACE and self.map[self.player_y][self.player_x] == 0:
+                    print "bomba "
+                    print self.player_x 
+                    print self.player_y
+                    self.map[self.player_y][self.player_x] = 3
+                    bomb = Bomb(self.player_x*48,self.player_y*48)
+                    bomb.draw(self.screen)
+                    self.bombs.append(bomb)
+         
         self.player.move(direction)
         self.player_x = self.player.rect.centerx/48
         self.player_y = self.player.rect.centery/48
-        for elem in self.walls:
+        for bomb in self.bombs:
+            bomb.clock_tick()
+            print bomb.ttl
+            if bomb.ttl < 0:
+                self.bombs.remove(bomb)
+                bomb.erase(self.screen, self.background)
+                bomb_x = bomb.rect.top/48
+                bomb_y = bomb.rect.left/48
+                self.map[bomb_x][bomb_y] = 4
+                fire = Fire(bomb_y*48,bomb_x*48)
+                fire.draw(self.screen)
+                self.fires.append(fire)
+                if self.map[bomb_x+1][bomb_y] != 1:
+                    self.map[bomb_x+1][bomb_y] = 4
+                    fire = Fire(bomb_y*48,(bomb_x+1)*48)
+                    fire.draw(self.screen)
+                    self.fires.append(fire)
+                if self.map[bomb_x-1][bomb_y] != 1:
+                    self.map[bomb_x-1][bomb_y] = 4
+                    fire = Fire(bomb_y*48,(bomb_x-1)*48)
+                    fire.draw(self.screen)
+                    self.fires.append(fire)
+                if self.map[bomb_x][bomb_y+1] != 1:
+                    self.map[bomb_x][bomb_y+1] = 4
+                    fire = Fire((bomb_y+1)*48,bomb_x*48)
+                    fire.draw(self.screen)
+                    self.fires.append(fire)
+                if self.map[bomb_x][bomb_y-1] != 1:
+                    self.map[bomb_x][bomb_y-1] = 4
+                    fire = Fire((bomb_y-1)*48,bomb_x*48)
+                    fire.draw(self.screen)
+                    self.fires.append(fire)
+
+        for fire in self.fires:
+            fire.clock_tick()
+            if fire.ttl < 0:
+                self.fires.remove(fire)
+                fire.erase(self.screen, self.background)
+                self.map[fire.rect.top/48][fire.rect.left/48] = 0
+                for wall in self.walls:
+                    if wall.rect.top == fire.rect.top and wall.rect.left == fire.rect.left:
+                        self.walls.remove(wall)
+
+        for elem in self.walls + self.bombs + self.fires:
             elem.draw(self.screen) 
         self.player.draw(self.screen)             
         pygame.display.update(update_img)
