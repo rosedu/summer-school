@@ -79,7 +79,9 @@ class Hero(pygame.sprite.Sprite):
                 if self.tick == 10:
             	    self.image, self.other = self.other, self.image
             	    self.tick = 0
+            print World.rect
 
+	
 
 
         ## jumping:
@@ -89,8 +91,10 @@ class Hero(pygame.sprite.Sprite):
             elif self.airtick >= self.airtime * 1.5:
                 self.rect = self.rect.move((0,self.airspeed))
             self.airtick += 1
-            if self.airtick == self.airtime * 2.5:                
+            
+            if self.airtick == self.airtime * 0.5:                
                 self.jumping = 0
+            #self.rect.move_ip(0,-1)
 
 
     def face(self, direction):
