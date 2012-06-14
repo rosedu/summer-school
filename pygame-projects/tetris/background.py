@@ -99,7 +99,7 @@ class Settings(object):
         screen.fill(self.colors[5])
         self.update(screen)
         pygame.time.wait(30)
-        self.game(grid, bricks)
+        self.game(grid, bricks, screen)
 
     def game(self,grid, bricks, screen):
         sorted_keys = bricks.keys()
