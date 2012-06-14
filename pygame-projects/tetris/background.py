@@ -97,7 +97,7 @@ class Settings(object):
                     pos.top += 15
                     bricks[pos.top] += 1
         screen.fill(self.colors[5])
-        update()
+        self.update(scren)
         pygame.time.wait(30)
         game(grid, bricks)
 
@@ -112,10 +112,10 @@ class Settings(object):
                     for pos in g.starting_pos:
                         if pos.top == k:
                             pygame.draw.rect(screen, self.colors[6], pos, 0)
-                            tetris_sound.play()
+                            self.tetris_sound.play()
                             pygame.display.update()
                             pygame.time.wait(20)
                     g.starting_pos = [pos for pos in g.starting_pos if pos != k]
                 bricks[k] = 0
                 grid = [g for g in grid if len(g.starting_pos) > 0]
-                move_down(k, grid, bricks, screen)
+                self.move_down(k, grid, bricks, screen)
