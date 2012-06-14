@@ -21,6 +21,7 @@ class Piece(pygame.sprite.Sprite):
         self.type = None
         self.falling = True
         self.state = 1
+        self.counter = 0
 
         self.mode = 1  
         self.put_shape(type_of_piece)
