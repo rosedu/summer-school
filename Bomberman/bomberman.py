@@ -1,5 +1,7 @@
 import pygame,os.path
 import random
+import pygame.font
+import pygame.surface
 
 from pygame.locals import *
 
@@ -214,32 +216,44 @@ class Game(object):
                 bomb.erase(self.screen, self.background)
                 bomb_x = bomb.rect.top/48
                 bomb_y = bomb.rect.left/48
-                self.map[bomb_x][bomb_y] = 4
+                self.map[bomb_x][bomb_y] = 0
                 fire = Fire(bomb_y*48,bomb_x*48)
                 fire.draw(self.screen)
                 self.fires.append(fire)
                 if self.map[bomb_x+1][bomb_y] != 1:
-                    self.map[bomb_x+1][bomb_y] = 4
+                    self.map[bomb_x+1][bomb_y] = 0
                     fire = Fire(bomb_y*48,(bomb_x+1)*48)
                     fire.draw(self.screen)
                     self.fires.append(fire)
                 if self.map[bomb_x-1][bomb_y] != 1:
-                    self.map[bomb_x-1][bomb_y] = 4
+                    self.map[bomb_x-1][bomb_y] = 0
                     fire = Fire(bomb_y*48,(bomb_x-1)*48)
                     fire.draw(self.screen)
                     self.fires.append(fire)
                 if self.map[bomb_x][bomb_y+1] != 1:
-                    self.map[bomb_x][bomb_y+1] = 4
+                    self.map[bomb_x][bomb_y+1] = 0
                     fire = Fire((bomb_y+1)*48,bomb_x*48)
                     fire.draw(self.screen)
                     self.fires.append(fire)
                 if self.map[bomb_x][bomb_y-1] != 1:
-                    self.map[bomb_x][bomb_y-1] = 4
+                    self.map[bomb_x][bomb_y-1] = 0
                     fire = Fire((bomb_y-1)*48,bomb_x*48)
                     fire.draw(self.screen)
                     self.fires.append(fire)
 
         for fire in self.fires:
+            if fire.rect.top/48 == self.player_y and fire.rect.left/48 == self.player_x:
+                textFont = pygame.font.SysFont(None, 50)
+                image = textFont.render("GAME OVER", 1, (0, 0, 0))
+                a = pygame.sprite.Sprite()
+                a.image = image
+                a.rect = image.get_rect()
+                a.rect.center = ((300,250))
+                group = pygame.sprite.RenderUpdates(a)
+                rects = group.draw(self.screen)
+                pygame.display.update(rects)
+                pygame.time.wait(3000)
+                raise GameException
             fire.clock_tick()
             if fire.ttl < 0:
                 self.fires.remove(fire)
