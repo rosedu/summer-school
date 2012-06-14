@@ -69,7 +69,7 @@ class Settings(object):
 		self.tetris_sound = pygame.mixer.Sound(os.path.join('sounds', 'tetris.wav'))
 
 		# List of all bricks
-		grid = []
+		self.grid = []
 		# A dictionary in which we find the number of the bricks on a line
 		bricks = {290:0, 275:0, 260:0, 245:0, 230:0, 215:0, 200:0, 185:0, 170:0, 155:0, 
                   140:0, 125:0, 110:0, 95:0, 80:0, 65:0, 50:0, 35:0, 20:0, 5:0}
@@ -83,7 +83,7 @@ class Settings(object):
 		line_text = my_font30.render('Lines Number:' + str(lines), True, colors[6], colors[5])
 		screen.blit(line_text, (165, 10))
 		screen.set_clip(game_area)
-		for g in grid:
+		for g in self.grid:
 			for pos in g.starting_pos:
 				screen.blit(g.image, pos)
 		pygame.display.update()
