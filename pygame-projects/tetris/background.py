@@ -78,7 +78,7 @@ class Settings(object):
 		#self.reset_text = my_font20.render('RESET', True, colors[1], colors[0])
 		#self.pause_text = my_font20.render('PAUSE', True, colors[1], colors[0])
 
-	def update(self):
+	def update(self, screen):
 		screen.set_clip(game_info)
 		line_text = my_font30.render('Lines Number:' + str(lines), True, colors[6], colors[5])
 		screen.blit(line_text, (165, 10))
@@ -88,7 +88,7 @@ class Settings(object):
 				screen.blit(g.image, pos)
 		pygame.display.update()
 
-	def move_down(self,key, grid, bricks):
+	def move_down(self,key, grid, bricks, screen):
 		for g in grid:
 			for pos in g.starting_pos:
 				if (pos.top < key):
@@ -100,7 +100,7 @@ class Settings(object):
 		pygame.time.wait(30)
 		game(grid, bricks)
 
-	def game(self,grid, bricks):
+	def game(self,grid, bricks, screen):
 		sorted_keys = bricks.keys()
 		sorted_keys.sort(reverse = True)
 		for k in sorted_keys:
@@ -117,4 +117,4 @@ class Settings(object):
 					g.starting_pos = [pos for pos in g.starting_pos if pos != k]
 				bricks[k] = 0
 				grid = [g for g in grid if len(g.starting_pos) > 0]
-				move_down(k, grid, bricks)
+				move_down(k, grid, bricks, screen)
