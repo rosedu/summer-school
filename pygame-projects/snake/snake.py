@@ -63,8 +63,8 @@ class SnakePart(gameobject.GameObject):
 	    main.addsnakepart()
 
         #main.addsnakepart()
-        if isinstance(other,SnakePart):
-            print "nu"
-        else:
-            print "da"
+        #if isinstance(other,SnakePart):
+        #    print "nu"
+        #else:
+        #    print "da"
 
