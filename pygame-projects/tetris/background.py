@@ -7,13 +7,6 @@ from piece import *
 pygame.font.init()
 pygame.mixer.init()
 
-my_font50 = pygame.font.SysFont(None,50)
-my_font40 = pygame.font.SysFont(None,40)
-my_font30 = pygame.font.SysFont(None,30)
-my_font25 = pygame.font.SysFont(None,25)
-my_font20 = pygame.font.SysFont(None,20)
-my_font15 = pygame.font.SysFont(None,15)
-
 class Settings(object):
     """
     Game Settings class
@@ -54,14 +47,14 @@ class Settings(object):
         self.my_font15 = pygame.font.SysFont(None, 15)
         
         # Text in the right side of the board 
-        self.help_text1 = my_font15.render('Rules:', True, self.colors[6], self.colors[5])
-        self.help_text2 = my_font15.render('Left and Right keys to move.', True, self.colors[6], self.colors[5])
-        self.help_text3 = my_font15.render('Up key to rotate blocks.', True, self.colors[6], self.colors[5])
-        self.start_text = my_font20.render('START', True, self.colors[6], self.colors[5])
-        self.reset_text = my_font20.render('RESET', True, self.colors[6], self.colors[5])
-        self.pause_text = my_font20.render('PAUSE', True, self.colors[6], self.colors[5])
+        self.help_text1 = self.my_font15.render('Rules:', True, self.colors[6], self.colors[5])
+        self.help_text2 = self.my_font15.render('Left and Right keys to move.', True, self.colors[6], self.colors[5])
+        self.help_text3 = self.my_font15.render('Up key to rotate blocks.', True, self.colors[6], self.colors[5])
+        self.start_text = self.my_font20.render('START', True, self.colors[6], self.colors[5])
+        self.reset_text = self.my_font20.render('RESET', True, self.colors[6], self.colors[5])
+        self.pause_text = self.my_font20.render('PAUSE', True, self.colors[6], self.colors[5])
         self.my_font20.set_bold(True)
-        self.game_over = my_font20.render('NO BEER FOR YOU TODAY', True, self.colors[6], self.colors[5])
+        self.game_over = self.my_font15.render('NO BEER FOR YOU TODAY', True, self.colors[6], self.colors[5])
 
         # Setting sounds
         self.click_sound = pygame.mixer.Sound(os.path.join('sounds', 'click.wav'))
@@ -71,17 +64,10 @@ class Settings(object):
 
         # List of all bricks
         self.grid = []
-        # A dictionary in which we find the number of the bricks on a line
-
-
-
-        #self.start_text = my_font20.render('START', True, self.colors[1], self.colors[0])
-        #self.reset_text = my_font20.render('RESET', True, self.colors[1], self.colors[0])
-        #self.pause_text = my_font20.render('PAUSE', True, self.colors[1], self.colors[0])
-
+    
     def update(self, screen):
         screen.set_clip(Settings.game_info)
-        line_text = my_font25.render('Lines Number:' + str(Settings.lines), True, self.colors[6], self.colors[5])
+        line_text = self.my_font25.render('Lines Number:' + str(Settings.lines), True, self.colors[6], self.colors[5])
         screen.blit(line_text, (165, 10))
         screen.set_clip(Settings.game_area)
         for g in self.grid:
