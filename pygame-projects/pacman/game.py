@@ -151,17 +151,44 @@ class Background(pygame.sprite.Sprite):
     def shortest_path(self, g, start, end):
 		parents = {}
 		for parent, child in self.bfs(g, start):
-		    parents[child] = parent
-		    if child == end:
-		        revpath = [end]
-		        while True:
-		            parent = parents[child]
-		            revpath.append(parent)
-		            if parent == start:
-		                break
-		            child = parent
-		        x = list(reversed(revpath))
-		        return x[1]
+			parents[child] = parent
+			if child == end:
+				revpath = [end]
+				while True:
+					parent = parents[child]
+					revpath.append(parent)
+					if parent == start:
+						break
+					child = parent
+				x = list(reversed(revpath))
+				if len(x) < 10:
+					return x[1]
+				else:
+					i, j = start
+					a = []
+					new_i = i + 1
+					new_j = j + 1
+					low_i = i - 1
+					low_j = j - 1
+					if(new_i == len(self.matrix)):
+						new_i = 0
+					if(low_i < 0):
+						low_i = len(self.matrix) - 1
+					if(new_j == len(self.matrix)):
+						new_j = 0
+					if(low_j < 0):
+						low_j = len(self.matrix) - 1
+
+					if self.matrix[new_i][j] == 0:
+						a.append((new_i, j))
+					if self.matrix[i][new_j] == 0:
+						a.append((i, new_j))
+					if self.matrix[i][low_j] == 0:
+						a.append((i, low_j))
+					if self.matrix[low_i][j] == 0:
+						a.append((low_i, j))
+					return random.choice(a)
+				
 		return None # or raise appropriate exception
 
     def move_ghost(self, pacman_x, pacman_y, phantom_x, phantom_y):
