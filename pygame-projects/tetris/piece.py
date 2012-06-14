@@ -104,7 +104,7 @@ class Piece(pygame.sprite.Sprite):
                 self.starting_pos[1] = Rect(self.starting_pos[2].left, self.starting_pos[2].top-15,15,15)
                 self.starting_pos[3] = Rect(self.starting_pos[2].left, self.starting_pos[2].top+15,15,15)
                 for pos in self.starting_pos:
-                    if not_ok(pos, old_pos):
+                    if self.not_ok(pos, old_pos):
                         return
                 self.state = 2
                 return
@@ -113,7 +113,7 @@ class Piece(pygame.sprite.Sprite):
                 self.starting_pos[1] = Rect(self.starting_pos[2].left-15, self.starting_pos[2].top,15,15)
                 self.starting_pos[3] = Rect(self.starting_pos[2].left+15, self.starting_pos[2].top,15,15)
                 for pos in self.starting_pos:
-                    if not_ok(pos, old_pos):
+                    if self.not_ok(pos, old_pos):
                         return
                 self.state = 1
                 return

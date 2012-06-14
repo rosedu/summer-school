@@ -23,7 +23,9 @@ class Settings(object):
     box_display = Rect(185, 65, 100, 70)
     lines = 0
     speed = 300
-
+    bricks = {290:0, 275:0, 260:0, 245:0, 230:0, 215:0, 200:0, 185:0, 170:0, 155:0, 
+                  140:0, 125:0, 110:0, 95:0, 80:0, 65:0, 50:0, 35:0, 20:0, 5:0}
+    
     def __init__(self):
         """        
         Initialize with default settings
@@ -70,8 +72,8 @@ class Settings(object):
         # List of all bricks
         self.grid = []
         # A dictionary in which we find the number of the bricks on a line
-        bricks = {290:0, 275:0, 260:0, 245:0, 230:0, 215:0, 200:0, 185:0, 170:0, 155:0, 
-                  140:0, 125:0, 110:0, 95:0, 80:0, 65:0, 50:0, 35:0, 20:0, 5:0}
+
+
 
         #self.start_text = my_font20.render('START', True, self.colors[1], self.colors[0])
         #self.reset_text = my_font20.render('RESET', True, self.colors[1], self.colors[0])
@@ -105,7 +107,7 @@ class Settings(object):
         for k in sorted_keys:
             if (bricks[k] == 10):
                 Settings.lines += 1
-                speed -= 10
+                Settings.speed -= 10
                 for g in grid:
                     for pos in g.starting_pos:
                         if pos.top == k:
